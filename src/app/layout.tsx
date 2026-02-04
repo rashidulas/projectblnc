@@ -4,6 +4,7 @@ import './globals.css';
 import PermanentNavbar from '@/components/PermanentNavbar';
 import Footer from '@/components/Footer';
 import { CartProvider } from '@/context/CartContext';
+import PageTransitionProvider from '@/components/PageTransitionProvider';
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -25,9 +26,11 @@ export default function RootLayout({
     <html lang="en" className={plusJakarta.variable}>
       <body className="font-sans antialiased" suppressHydrationWarning>
         <CartProvider>
-          <PermanentNavbar />
-          <main className="pt-16">{children}</main>
-          <Footer />
+          <PageTransitionProvider>
+            <PermanentNavbar />
+            <main className="pt-16">{children}</main>
+            <Footer />
+          </PageTransitionProvider>
         </CartProvider>
       </body>
     </html>

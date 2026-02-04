@@ -1,4 +1,6 @@
-import Link from 'next/link';
+'use client';
+
+import TransitionLink from '@/components/TransitionLink';
 
 export default function NotFound() {
   return (
@@ -9,12 +11,12 @@ export default function NotFound() {
         <p className="text-neutral-600 mb-8">
           The page you're looking for doesn't exist or has been moved.
         </p>
-        <Link
+        <TransitionLink
           href="/"
           className="inline-block px-8 py-4 bg-black text-white rounded-md hover:opacity-90 transition-opacity font-medium"
         >
           Return Home
-        </Link>
+        </TransitionLink>
       </div>
     </div>
   );

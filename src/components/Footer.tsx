@@ -1,6 +1,6 @@
 'use client';
 
-import Link from "next/link";
+import TransitionLink from '@/components/TransitionLink';
 
 export default function Footer() {
   return (
@@ -47,19 +47,19 @@ export default function Footer() {
           <nav className="md:justify-self-end">
             <ul className="space-y-4 text-base font-medium text-neutral-800 md:text-lg">
               <li>
-                <Link href="/" className="hover:opacity-70">
+                <TransitionLink href="/" className="hover:opacity-70">
                   Home
-                </Link>
+                </TransitionLink>
               </li>
               <li>
-                <Link href="/products" className="hover:opacity-70">
+                <TransitionLink href="/products" className="hover:opacity-70">
                   Shop
-                </Link>
+                </TransitionLink>
               </li>
               <li>
-                <Link href="/about" className="hover:opacity-70">
+                <TransitionLink href="/about" className="hover:opacity-70">
                   About
-                </Link>
+                </TransitionLink>
               </li>
             </ul>
           </nav>

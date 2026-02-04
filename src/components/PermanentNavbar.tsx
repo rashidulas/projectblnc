@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import TransitionLink from '@/components/TransitionLink';
 import { ShoppingBag } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -73,12 +73,12 @@ export default function PermanentNavbar() {
         {/* Top bar - full width, longer feel with generous padding */}
         <div className="flex items-center justify-between w-full px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 h-16">
           {/* Left: VAER Logo */}
-          <Link 
+          <TransitionLink 
             href="/" 
             className="text-xl font-bold tracking-tighter text-neutral-800 hover:opacity-70 transition-opacity"
           >
             VAER
-          </Link>
+          </TransitionLink>
 
           {/* Right: Clock, Hamburger, Cart */}
           <div className="flex items-center gap-6">
@@ -125,31 +125,31 @@ export default function PermanentNavbar() {
               <nav className="py-12 md:py-16 flex flex-col items-center justify-center">
                 <ul className="space-y-4 md:space-y-6 text-center">
                   <li>
-                    <Link
+                    <TransitionLink
                       href="/"
                       onClick={() => setMenuOpen(false)}
                       className="text-lg md:text-xl text-neutral-500 hover:text-neutral-900 transition-colors block font-medium tracking-tight"
                     >
                       Home
-                    </Link>
+                    </TransitionLink>
                   </li>
                   <li>
-                    <Link
+                    <TransitionLink
                       href="/products"
                       onClick={() => setMenuOpen(false)}
                       className="text-lg md:text-xl text-neutral-900 hover:text-neutral-600 transition-colors block font-medium tracking-tight"
                     >
                       Shop
-                    </Link>
+                    </TransitionLink>
                   </li>
                   <li>
-                    <Link
+                    <TransitionLink
                       href="/about"
                       onClick={() => setMenuOpen(false)}
                       className="text-lg md:text-xl text-neutral-900 hover:text-neutral-600 transition-colors block font-medium tracking-tight"
                     >
                       About VAER
-                    </Link>
+                    </TransitionLink>
                   </li>
                 </ul>
               </nav>

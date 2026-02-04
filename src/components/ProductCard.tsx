@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import Link from 'next/link';
+import TransitionLink from '@/components/TransitionLink';
 import Image from 'next/image';
 import { Product } from '@/data/products';
 
@@ -48,7 +48,7 @@ export default function ProductCard({ product, editorial = false, showcase = fal
 
   if (showcase) {
     return (
-      <Link
+      <TransitionLink
         href={`/products/${product.slug}`}
         className="group block"
         onMouseEnter={handleMouseEnter}
@@ -82,13 +82,13 @@ export default function ProductCard({ product, editorial = false, showcase = fal
         <p className="text-[13px] text-neutral-600 font-normal leading-[1.5] line-clamp-2">
           {product.description}
         </p>
-      </Link>
+      </TransitionLink>
     );
   }
 
   if (editorial) {
     return (
-      <Link href={`/products/${product.slug}`} className="group block">
+      <TransitionLink href={`/products/${product.slug}`} className="group block">
         <div className="relative aspect-[3/4] bg-neutral-50 overflow-hidden mb-6">
           <Image
             src={product.images[0]}
@@ -106,12 +106,12 @@ export default function ProductCard({ product, editorial = false, showcase = fal
             {product.name}
           </h3>
         </div>
-      </Link>
+      </TransitionLink>
     );
   }
 
   return (
-    <Link href={`/products/${product.slug}`} className="group block">
+    <TransitionLink href={`/products/${product.slug}`} className="group block">
       <div className="relative aspect-square bg-neutral-50 overflow-hidden mb-4">
         <Image
           src={product.images[0]}
@@ -128,6 +128,6 @@ export default function ProductCard({ product, editorial = false, showcase = fal
         </h3>
         <p className="text-sm font-semibold">${product.price}</p>
       </div>
-    </Link>
+    </TransitionLink>
   );
 }
