@@ -9,7 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-inter)'],
+        sans: ['var(--font-plus-jakarta)', 'sans-serif'],
       },
       animation: {
         'slide-in': 'slide-in 0.3s ease-out',

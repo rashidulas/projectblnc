@@ -45,6 +45,9 @@ export default function Hero() {
   const gridOpacity = useTransform(scrollYProgress, [0.5, 0.8], [0, 1]);
   const gridY = useTransform(scrollYProgress, [0.5, 0.8], [100, 0]);
 
+  // Scroll indicator dot opacity
+  const scrollDotOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
   return (
     <>
       {/* Scroll Wrapper - h-[200vh] creates scroll room */}
@@ -56,6 +59,12 @@ export default function Hero() {
         {/* Sticky Container - Stays pinned while content scrolls */}
         <div className="sticky top-0 h-screen w-screen overflow-hidden flex items-center justify-center bg-white">
           
+          {/* Scroll indicator dot - right side, fades as you scroll */}
+          <motion.div
+            className="absolute right-6 top-1/2 -translate-y-1/2 z-40 w-2 h-2 rounded-full bg-neutral-400"
+            style={{ opacity: scrollDotOpacity }}
+          />
+
           {/* Hero Image - Shrinks from full-screen to contained */}
           <motion.div
             className="relative overflow-hidden"
@@ -67,7 +76,7 @@ export default function Hero() {
           >
             {/* Image with object-fit: cover */}
             <Image
-              src="/hero/color.png"
+              src="/hero/bnw.png"
               alt="Hero"
               fill
               priority
@@ -78,28 +87,30 @@ export default function Hero() {
               sizes="100vw"
             />
             
-            {/* Gradient overlay for smooth fade to white */}
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/30 pointer-events-none" />
+            {/* Bottom fade: image fades to white and blends into page (low opacity at bottom) */}
+            <div 
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: 'linear-gradient(to bottom, transparent 0%, transparent 40%, rgba(255,255,255,0.25) 55%, rgba(255,255,255,0.6) 72%, rgba(255,255,255,0.92) 88%, #ffffff 100%)',
+              }}
+            />
 
-            {/* Hero Text - Bottom Left, Fades Out on Scroll */}
+            {/* Hero Text - Bottom Left: line 1 then line 2, then paragraph */}
             <motion.div
-              className="absolute bottom-12 md:bottom-16 lg:bottom-20 left-6 md:left-10 lg:left-16 max-w-2xl z-10"
+              className="absolute bottom-14 md:bottom-20 lg:bottom-24 left-8 md:left-14 lg:left-20 max-w-2xl z-10"
               style={{
                 opacity: textOpacity,
                 y: textY,
               }}
             >
-              <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[0.95] tracking-tighter text-white drop-shadow-2xl mb-6">
+              <h1 className="text-[2.5rem] md:text-5xl lg:text-6xl xl:text-[4rem] font-bold leading-[1.1] tracking-[-0.02em] text-neutral-900">
                 Reshaping the Future.
-                <br />
-                <span className="text-white/95">
-                  Innovating, Disrupting,
-                  <br />
-                  Redefining.
-                </span>
               </h1>
-              <p className="text-sm md:text-base text-white/90 drop-shadow-lg leading-relaxed max-w-md">
-                A new era of luxury streetwear — minimal, bold, and built to feel timeless.
+              <h1 className="text-[2.5rem] md:text-5xl lg:text-6xl xl:text-[4rem] font-bold leading-[1.1] tracking-[-0.02em] text-neutral-900 mt-1 whitespace-nowrap">
+                Innovating, Disrupting, Redefining.
+              </h1>
+              <p className="mt-6 text-[15px] md:text-base text-neutral-600 leading-[1.6] max-w-lg font-normal">
+                Challenging conventions, breaking limits, and setting new standards through bold ideas and visionary design.
               </p>
             </motion.div>
           </motion.div>
@@ -162,17 +173,6 @@ export default function Hero() {
           </motion.div>
         </div>
       </div>
-
-      {/* GENESIS Section - Starts Immediately After Sticky Container */}
-      <section className="bg-white max-w-7xl mx-auto px-6 pt-8 pb-24 -mt-8">
-        <div className="mb-16 md:mb-20">
-          <h2 className="text-sm md:text-base tracking-[0.2em] text-neutral-900 font-medium uppercase">
-            GENESIS // DROP 001
-          </h2>
-        </div>
-
-        {/* This will be filled by the ProductGrid from page.tsx */}
-      </section>
     </>
   );
 }

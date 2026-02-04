@@ -2,10 +2,36 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Menu, X, ShoppingBag } from 'lucide-react';
+import { ShoppingBag } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import CartDrawer from './CartDrawer';
+
+// Custom hamburger: three lines, horizontal when closed, vertical when open
+function HamburgerIcon({ open }: { open: boolean }) {
+  return (
+    <div className="w-5 h-5 flex items-center justify-center">
+      <div
+        className={`flex gap-[5px] transition-transform duration-300 ease-out ${
+          open ? 'flex-row' : 'flex-col'
+        }`}
+      >
+        {[0, 1, 2].map((i) => (
+          <motion.span
+            key={i}
+            className="bg-neutral-700 rounded-full"
+            initial={false}
+            animate={{
+              width: open ? 3 : 20,
+              height: open ? 14 : 2,
+            }}
+            transition={{ duration: 0.25, ease: 'easeInOut' }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function PermanentNavbar() {
   const [currentTime, setCurrentTime] = useState('');
@@ -27,7 +53,6 @@ export default function PermanentNavbar() {
     return () => clearInterval(interval);
   }, []);
 
-  // Close menu when clicking outside
   useEffect(() => {
     if (menuOpen) {
       document.body.style.overflow = 'hidden';
@@ -38,141 +63,111 @@ export default function PermanentNavbar() {
 
   return (
     <>
-      {/* Fixed Navbar - z-[100] to stay above everything */}
-      <nav className="fixed top-0 left-0 w-full z-[100] bg-white/95 backdrop-blur-sm border-b-[0.5px] border-black/5">
-        {/* Navbar Content */}
-        <div className="flex items-center justify-between px-6 h-16">
-          {/* Left: Hamburger Menu */}
-          <button 
-            onClick={() => setMenuOpen(true)}
-            className="p-2 hover:opacity-70 transition-opacity text-black"
-            aria-label="Open menu"
-          >
-            <Menu className="w-5 h-5" />
-          </button>
-
-          {/* Center: VAER Logo */}
+      {/* Fixed Navbar - full width, white, subtle shadow underneath */}
+      <nav 
+        className="fixed top-0 left-0 w-full z-[100] bg-white"
+        style={{
+          boxShadow: '0 1px 0 rgba(0,0,0,0.06)',
+        }}
+      >
+        {/* Top bar - full width, longer feel with generous padding */}
+        <div className="flex items-center justify-between w-full px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 h-16">
+          {/* Left: VAER Logo */}
           <Link 
             href="/" 
-            className="absolute left-1/2 -translate-x-1/2 text-xl font-bold tracking-tighter text-black hover:opacity-70 transition-opacity"
+            className="text-xl font-bold tracking-tighter text-neutral-800 hover:opacity-70 transition-opacity"
           >
             VAER
           </Link>
 
-          {/* Right: Clock & Cart */}
-          <div className="flex items-center gap-4">
-            <div className="text-xs font-mono tracking-wider text-black/70">
+          {/* Right: Clock, Hamburger, Cart */}
+          <div className="flex items-center gap-6">
+            <div className="text-xs font-mono tracking-wider text-neutral-600">
               {currentTime}
             </div>
             
+            <button 
+              onClick={() => setMenuOpen((o) => !o)}
+              className="p-2 -mr-2 hover:opacity-70 transition-opacity text-neutral-800"
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            >
+              <HamburgerIcon open={menuOpen} />
+            </button>
+            
             <button
               onClick={openCart}
-              className="relative p-2 hover:opacity-70 transition-opacity text-black"
+              className="relative p-2 -mr-2 hover:opacity-70 transition-opacity text-neutral-800"
               aria-label="Open cart"
             >
               <ShoppingBag className="w-5 h-5" />
               {cartItemsCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-black text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                <span className="absolute -top-0.5 -right-0.5 bg-black text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full font-medium">
                   {cartItemsCount}
                 </span>
               )}
             </button>
           </div>
         </div>
-      </nav>
 
-      {/* Slide-out Menu */}
-      <AnimatePresence>
-        {menuOpen && (
-          <>
-            {/* Backdrop */}
+        {/* Full-width dropdown menu - light grey, shadow under */}
+        <AnimatePresence>
+          {menuOpen && (
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setMenuOpen(false)}
-              className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[110]"
-            />
-
-            {/* Menu Panel */}
-            <motion.div
-              initial={{ x: '-100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '-100%' }}
-              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="fixed top-0 left-0 h-full w-80 bg-white z-[120] shadow-2xl"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+              className="overflow-hidden bg-neutral-100/95"
+              style={{
+                boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
+              }}
             >
-              {/* Menu Header */}
-              <div className="flex items-center justify-between px-6 h-16 border-b border-neutral-200">
-                <span className="text-lg font-bold tracking-tight">Menu</span>
-                <button
-                  onClick={() => setMenuOpen(false)}
-                  className="p-2 hover:opacity-70 transition-opacity"
-                  aria-label="Close menu"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              {/* Menu Links */}
-              <nav className="p-6">
-                <ul className="space-y-6">
+              <nav className="py-12 md:py-16 flex flex-col items-center justify-center">
+                <ul className="space-y-4 md:space-y-6 text-center">
                   <li>
                     <Link
-                      href="/products"
+                      href="/"
                       onClick={() => setMenuOpen(false)}
-                      className="text-2xl font-medium tracking-tight hover:opacity-70 transition-opacity block"
+                      className="text-lg md:text-xl text-neutral-500 hover:text-neutral-900 transition-colors block font-medium tracking-tight"
                     >
-                      Products
+                      Home
                     </Link>
                   </li>
                   <li>
                     <Link
-                      href="/news"
+                      href="/products"
                       onClick={() => setMenuOpen(false)}
-                      className="text-2xl font-medium tracking-tight hover:opacity-70 transition-opacity block"
+                      className="text-lg md:text-xl text-neutral-900 hover:text-neutral-600 transition-colors block font-medium tracking-tight"
                     >
-                      News
+                      Shop
                     </Link>
                   </li>
                   <li>
                     <Link
                       href="/about"
                       onClick={() => setMenuOpen(false)}
-                      className="text-2xl font-medium tracking-tight hover:opacity-70 transition-opacity block"
+                      className="text-lg md:text-xl text-neutral-900 hover:text-neutral-600 transition-colors block font-medium tracking-tight"
                     >
-                      About
-                    </Link>
-                  </li>
-                </ul>
-
-                {/* Divider */}
-                <div className="my-8 border-t border-neutral-200" />
-
-                {/* Secondary Links */}
-                <ul className="space-y-4">
-                  <li>
-                    <Link
-                      href="/account"
-                      onClick={() => setMenuOpen(false)}
-                      className="text-sm text-neutral-600 hover:text-black transition-colors block"
-                    >
-                      Account
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/support"
-                      onClick={() => setMenuOpen(false)}
-                      className="text-sm text-neutral-600 hover:text-black transition-colors block"
-                    >
-                      Support
+                      About VAER
                     </Link>
                   </li>
                 </ul>
               </nav>
             </motion.div>
-          </>
+          )}
+        </AnimatePresence>
+      </nav>
+
+      {/* Backdrop when menu is open - click outside to close */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setMenuOpen(false)}
+            className="fixed inset-0 bg-black/10 z-[99]"
+          />
         )}
       </AnimatePresence>
 

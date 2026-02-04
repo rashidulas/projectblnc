@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import PermanentNavbar from '@/components/PermanentNavbar';
 import Footer from '@/components/Footer';
 import { CartProvider } from '@/context/CartContext';
 
-const inter = Inter({
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-plus-jakarta',
   display: 'swap',
 });
 
@@ -22,8 +22,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className="font-sans" suppressHydrationWarning>
+    <html lang="en" className={plusJakarta.variable}>
+      <body className="font-sans antialiased" suppressHydrationWarning>
         <CartProvider>
           <PermanentNavbar />
           <main className="pt-16">{children}</main>

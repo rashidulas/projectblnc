@@ -9,8 +9,13 @@ export default function Home() {
     <main className="bg-white overflow-x-hidden">
       <Hero />
 
-      {/* Featured Products - No gap needed, Hero section handles spacing */}
-      <section className="bg-white max-w-7xl mx-auto px-6 pb-24">
+      {/* Pull content up so it meets the hero - no empty space */}
+      <section className="bg-white max-w-7xl mx-auto px-6 pt-6 pb-24 -mt-[100vh]">
+        <div className="mb-12 md:mb-16">
+          <h2 className="text-sm md:text-base tracking-[0.2em] text-neutral-900 font-medium uppercase">
+            GENESIS // DROP 001
+          </h2>
+        </div>
         <ProductGrid products={featuredProducts} editorial />
       </section>
 
