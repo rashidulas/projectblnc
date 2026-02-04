@@ -17,6 +17,12 @@ export const metadata: Metadata = {
   description: 'Reshaping the Future. Innovating, Disrupting, Redefining.',
 };
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -28,7 +34,7 @@ export default function RootLayout({
         <CartProvider>
           <PageTransitionProvider>
             <PermanentNavbar />
-            <main className="pt-20">{children}</main>
+            <main className="pt-16 sm:pt-20">{children}</main>
             <Footer />
           </PageTransitionProvider>
         </CartProvider>

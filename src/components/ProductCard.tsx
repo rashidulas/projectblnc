@@ -54,7 +54,7 @@ export default function ProductCard({ product, editorial = false, showcase = fal
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <div className="relative aspect-[3/4] bg-neutral-100 overflow-hidden mb-5">
+        <div className="relative aspect-[3/4] bg-neutral-100 overflow-hidden mb-4 sm:mb-5">
           {imageList.map((src, i) => (
             <div
               key={src}
@@ -71,15 +71,15 @@ export default function ProductCard({ product, editorial = false, showcase = fal
             </div>
           ))}
         </div>
-        <div className="flex items-baseline justify-between gap-4 mb-1.5">
-          <h3 className="text-base md:text-lg font-semibold text-neutral-900 tracking-tight">
+        <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4 mb-1.5">
+          <h3 className="text-sm sm:text-base md:text-lg font-semibold text-neutral-900 tracking-tight">
             {product.name}
           </h3>
-          <span className="text-[13px] text-neutral-600 whitespace-nowrap font-normal">
+          <span className="text-xs sm:text-[13px] text-neutral-600 font-normal">
             from ${product.price} USD
           </span>
         </div>
-        <p className="text-[13px] text-neutral-600 font-normal leading-[1.5] line-clamp-2">
+        <p className="text-xs sm:text-[13px] text-neutral-600 font-normal leading-[1.5] line-clamp-2">
           {product.description}
         </p>
       </TransitionLink>

@@ -3,12 +3,24 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply bg-white text-neutral-900 antialiased overflow-x-hidden;
-  }
-  
   html {
     @apply overflow-x-hidden;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-white text-neutral-900 antialiased overflow-x-hidden;
+    /* Safe area for notched devices */
+    padding-left: env(safe-area-inset-left, 0);
+    padding-right: env(safe-area-inset-right, 0);
+  }
+
+  /* Larger touch targets on tap */
+  @media (hover: none) and (pointer: coarse) {
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
   }
 }
 

@@ -18,16 +18,16 @@ export default function ImageGallery({ images, modelImages, productName }: Image
   return (
     <div className="space-y-6">
       {/* Tab Buttons - Minimal Style */}
-      <div className="flex gap-3">
+      <div className="flex gap-2 sm:gap-3">
         <button
           onClick={() => {
             setActiveTab('product');
             setSelectedImage(0);
           }}
-          className={`px-5 py-2 text-xs font-medium tracking-wide transition-all border ${
+          className={`min-h-[44px] px-4 sm:px-5 py-2.5 sm:py-2 text-xs font-medium tracking-wide transition-all border ${
             activeTab === 'product'
               ? 'bg-black text-white border-black'
-              : 'bg-white text-neutral-600 border-neutral-300 hover:border-neutral-900'
+              : 'bg-white text-neutral-600 border-neutral-300 hover:border-neutral-900 active:bg-neutral-50'
           }`}
         >
           PRODUCT
@@ -37,10 +37,10 @@ export default function ImageGallery({ images, modelImages, productName }: Image
             setActiveTab('model');
             setSelectedImage(0);
           }}
-          className={`px-5 py-2 text-xs font-medium tracking-wide transition-all border ${
+          className={`min-h-[44px] px-4 sm:px-5 py-2.5 sm:py-2 text-xs font-medium tracking-wide transition-all border ${
             activeTab === 'model'
               ? 'bg-black text-white border-black'
-              : 'bg-white text-neutral-600 border-neutral-300 hover:border-neutral-900'
+              : 'bg-white text-neutral-600 border-neutral-300 hover:border-neutral-900 active:bg-neutral-50'
           }`}
         >
           MODEL
@@ -60,13 +60,13 @@ export default function ImageGallery({ images, modelImages, productName }: Image
       </div>
 
       {/* Thumbnails */}
-      <div className="grid grid-cols-4 gap-3">
+      <div className="grid grid-cols-4 gap-2 sm:gap-3">
         {currentImages.map((image, index) => (
           <button
             key={index}
             onClick={() => setSelectedImage(index)}
-            className={`relative aspect-square bg-neutral-50 overflow-hidden transition-all ${
-              selectedImage === index ? 'ring-2 ring-black ring-offset-2' : 'hover:opacity-80'
+            className={`relative aspect-square bg-neutral-50 overflow-hidden transition-all min-h-0 ${
+              selectedImage === index ? 'ring-2 ring-black ring-offset-2' : 'hover:opacity-80 active:opacity-90'
             }`}
           >
             <Image

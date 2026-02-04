@@ -46,10 +46,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
     .slice(0, 3);
 
   return (
-    <div className="min-h-screen pt-32 pb-24">
-      <div className="max-w-7xl mx-auto px-6">
+    <div className="min-h-screen pt-20 sm:pt-24 md:pt-32 pb-16 sm:pb-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Product Detail */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-32">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 mb-20 sm:mb-32">
           {/* Image Gallery */}
           <div>
             <ImageGallery
@@ -60,18 +60,18 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </div>
 
           {/* Product Info */}
-          <div className="lg:pl-12">
-            <div className="mb-8">
-              <p className="text-xs text-neutral-400 tracking-[0.15em] uppercase mb-3">
+          <div className="lg:pl-12 pt-6 lg:pt-0">
+            <div className="mb-6 sm:mb-8">
+              <p className="text-xs text-neutral-400 tracking-[0.15em] uppercase mb-2 sm:mb-3">
                 {product.category}
               </p>
-              <h1 className="text-3xl md:text-4xl font-semibold mb-6 tracking-tight">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold mb-4 sm:mb-6 tracking-tight">
                 {product.name}
               </h1>
-              <p className="text-2xl font-normal mb-8">${product.price}</p>
+              <p className="text-xl sm:text-2xl font-normal mb-6 sm:mb-8">${product.price}</p>
             </div>
 
-            <div className="mb-10">
+            <div className="mb-8 sm:mb-10">
               <p className="text-sm text-neutral-600 leading-relaxed">
                 {product.description}
               </p>
@@ -80,7 +80,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             <AddToCartButton product={product} />
 
             {/* Additional Info */}
-            <div className="mt-16 pt-12 border-t border-neutral-200 space-y-8">
+            <div className="mt-12 sm:mt-16 pt-8 sm:pt-12 border-t border-neutral-200 space-y-6 sm:space-y-8">
               <div>
                 <h3 className="text-xs font-semibold mb-3 tracking-wide uppercase text-neutral-900">Details</h3>
                 <ul className="text-sm text-neutral-500 space-y-2 leading-relaxed">
@@ -104,7 +104,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         {/* Related Products */}
         {relatedProducts.length > 0 && (
           <div>
-            <h2 className="text-2xl font-semibold mb-12 tracking-tight">You May Also Like</h2>
+            <h2 className="text-xl sm:text-2xl font-semibold mb-8 sm:mb-12 tracking-tight">You May Also Like</h2>
             <ProductGrid products={relatedProducts} />
           </div>
         )}

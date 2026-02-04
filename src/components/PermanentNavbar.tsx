@@ -71,24 +71,24 @@ export default function PermanentNavbar() {
         }}
       >
         {/* Top bar - full width, longer feel with generous padding */}
-        <div className="flex items-center justify-between w-full px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 h-20">
-          {/* Left: BLANC Logo */}
+        <div className="flex items-center justify-between w-full px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 h-16 sm:h-20 min-h-[3.5rem] sm:min-h-0">
+          {/* Left: BLANC Logo - touch-friendly */}
           <TransitionLink 
             href="/" 
-            className="text-2xl font-bold tracking-tighter text-neutral-800 hover:opacity-70 transition-opacity"
+            className="text-xl sm:text-2xl font-bold tracking-tighter text-neutral-800 hover:opacity-70 active:opacity-80 transition-opacity py-2 -my-2 min-h-[44px] flex items-center"
           >
             BLANC
           </TransitionLink>
 
-          {/* Right: Clock, Hamburger, Cart */}
-          <div className="flex items-center gap-6">
-            <div className="text-sm font-mono tracking-wider text-neutral-600">
+          {/* Right: Clock (hidden on very small), Hamburger, Cart - 44px min touch targets */}
+          <div className="flex items-center gap-2 sm:gap-6">
+            <div className="hidden sm:block text-xs sm:text-sm font-mono tracking-wider text-neutral-600 min-h-[44px] flex items-center">
               {currentTime}
             </div>
             
             <button 
               onClick={() => setMenuOpen((o) => !o)}
-              className="p-2 -mr-2 hover:opacity-70 transition-opacity text-neutral-800"
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center -mr-1 hover:opacity-70 active:opacity-80 transition-opacity text-neutral-800 rounded-md"
               aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             >
               <HamburgerIcon open={menuOpen} />
@@ -96,12 +96,12 @@ export default function PermanentNavbar() {
             
             <button
               onClick={openCart}
-              className="relative p-2 -mr-2 hover:opacity-70 transition-opacity text-neutral-800"
+              className="relative min-w-[44px] min-h-[44px] flex items-center justify-center -mr-1 hover:opacity-70 active:opacity-80 transition-opacity text-neutral-800 rounded-md"
               aria-label="Open cart"
             >
               <ShoppingBag className="w-6 h-6" />
               {cartItemsCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 bg-black text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full font-medium">
+                <span className="absolute top-1 right-1 sm:top-0.5 sm:right-0.5 bg-black text-white text-[10px] min-w-[18px] h-[18px] flex items-center justify-center rounded-full font-medium px-1">
                   {cartItemsCount}
                 </span>
               )}
@@ -122,13 +122,13 @@ export default function PermanentNavbar() {
                 boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
               }}
             >
-              <nav className="py-12 md:py-16 flex flex-col items-center justify-center">
-                <ul className="space-y-4 md:space-y-6 text-center">
+              <nav className="py-8 sm:py-12 md:py-16 flex flex-col items-center justify-center">
+                <ul className="space-y-2 sm:space-y-4 md:space-y-6 text-center">
                   <li>
                     <TransitionLink
                       href="/"
                       onClick={() => setMenuOpen(false)}
-                      className="text-lg md:text-xl text-neutral-500 hover:text-neutral-900 transition-colors block font-medium tracking-tight"
+                      className="text-lg md:text-xl text-neutral-500 hover:text-neutral-900 active:opacity-80 transition-colors block font-medium tracking-tight py-4 sm:py-3 min-h-[48px] sm:min-h-0 flex items-center justify-center"
                     >
                       Home
                     </TransitionLink>
@@ -137,7 +137,7 @@ export default function PermanentNavbar() {
                     <TransitionLink
                       href="/products"
                       onClick={() => setMenuOpen(false)}
-                      className="text-lg md:text-xl text-neutral-900 hover:text-neutral-600 transition-colors block font-medium tracking-tight"
+                      className="text-lg md:text-xl text-neutral-900 hover:text-neutral-600 active:opacity-80 transition-colors block font-medium tracking-tight py-4 sm:py-3 min-h-[48px] sm:min-h-0 flex items-center justify-center"
                     >
                       Shop
                     </TransitionLink>
@@ -146,7 +146,7 @@ export default function PermanentNavbar() {
                     <TransitionLink
                       href="/about"
                       onClick={() => setMenuOpen(false)}
-                      className="text-lg md:text-xl text-neutral-900 hover:text-neutral-600 transition-colors block font-medium tracking-tight"
+                      className="text-lg md:text-xl text-neutral-900 hover:text-neutral-600 active:opacity-80 transition-colors block font-medium tracking-tight py-4 sm:py-3 min-h-[48px] sm:min-h-0 flex items-center justify-center"
                     >
                       About BLANC
                     </TransitionLink>
