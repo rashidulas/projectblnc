@@ -30,7 +30,7 @@ export default function Footer() {
               <input
                 id="newsletter-email"
                 type="email"
-                placeholder="newsletter@vaertemplate.com"
+                placeholder="newsletter@blanctemplate.com"
                 className="w-full bg-transparent pb-3 text-base outline-none placeholder:text-neutral-500 border-b border-neutral-300 focus:border-neutral-600"
               />
 
@@ -70,7 +70,7 @@ export default function Footer() {
 
         {/* Bottom */}
         <div className="py-8 text-center text-sm text-neutral-600">
-          © {new Date().getFullYear()} VAER. All rights reserved.
+          © {new Date().getFullYear()} BLANC. All rights reserved.
         </div>
       </div>
     </footer>

@@ -72,12 +72,12 @@ export default function PermanentNavbar() {
       >
         {/* Top bar - full width, longer feel with generous padding */}
         <div className="flex items-center justify-between w-full px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 h-16">
-          {/* Left: VAER Logo */}
+          {/* Left: BLANC Logo */}
           <TransitionLink 
             href="/" 
             className="text-xl font-bold tracking-tighter text-neutral-800 hover:opacity-70 transition-opacity"
           >
-            VAER
+            BLANC
           </TransitionLink>
 
           {/* Right: Clock, Hamburger, Cart */}
@@ -148,7 +148,7 @@ export default function PermanentNavbar() {
                       onClick={() => setMenuOpen(false)}
                       className="text-lg md:text-xl text-neutral-900 hover:text-neutral-600 transition-colors block font-medium tracking-tight"
                     >
-                      About VAER
+                      About BLANC
                     </TransitionLink>
                   </li>
                 </ul>

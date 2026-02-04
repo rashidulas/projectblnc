@@ -9,7 +9,7 @@ export default function AboutPage() {
           Built for Expression.
         </h1>
         <p className="text-base md:text-lg text-neutral-700 leading-relaxed w-full">
-          At VAER, we merge form and function to craft timeless pieces that go beyond trends—born from purpose, driven by detail.
+          At BLANC, we merge form and function to craft timeless pieces that go beyond trends—born from purpose, driven by detail.
         </p>
       </section>
 
@@ -33,7 +33,7 @@ export default function AboutPage() {
         <div className="relative w-full aspect-[16/10] md:aspect-[21/9] overflow-hidden group">
           <Image
             src="/about/1.jpg"
-            alt="VAER"
+            alt="BLANC"
             fill
             className="object-cover grayscale transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, 1280px"
@@ -57,7 +57,7 @@ export default function AboutPage() {
         <div className="relative w-full aspect-[16/10] md:aspect-[21/9] overflow-hidden group">
           <Image
             src="/about/2.JPG"
-            alt="VAER"
+            alt="BLANC"
             fill
             className="object-cover grayscale transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, 1280px"
@@ -80,7 +80,7 @@ export default function AboutPage() {
         <div className="relative w-full aspect-[16/10] md:aspect-[21/9] overflow-hidden group">
           <Image
             src="/about/3.JPG"
-            alt="VAER"
+            alt="BLANC"
             fill
             className="object-cover grayscale transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, 1280px"

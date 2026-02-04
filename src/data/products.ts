@@ -14,11 +14,11 @@ export const products: Product[] = [
   // Hoodies
   {
     id: 'hoodie-01',
-    name: 'Essential Oversized Hoodie',
+    name: 'V1 Hoodie in Gunmetal Grey',
     slug: 'essential-oversized-hoodie',
     category: 'Hoodies',
     price: 185,
-    description: 'Premium heavyweight cotton blend hoodie with oversized fit. Featuring dropped shoulders, ribbed cuffs, and a kangaroo pocket. The minimalist design embodies modern streetwear aesthetics.',
+    description: 'The V1 Hoodie in Gunmetal Grey delivers a refined, understated look with premium heavyweight cotton and an oversized fit. Dropped shoulders, ribbed cuffs, and kangaroo pocket in a versatile grey that works with everything.',
     images: [
       '/products/hoodies/hoodie-01/DSC02427.JPG',
       '/products/hoodies/hoodie-01/DSC02430.JPG',
@@ -32,11 +32,11 @@ export const products: Product[] = [
   },
   {
     id: 'hoodie-02',
-    name: 'Archive Logo Hoodie',
+    name: 'V1 Hoodie in Carbon',
     slug: 'archive-logo-hoodie',
     category: 'Hoodies',
     price: 195,
-    description: 'Signature hoodie featuring subtle embroidered branding. Crafted from premium French terry with a brushed interior for ultimate comfort. Contemporary silhouette with refined details.',
+    description: 'The V1 Hoodie in Carbon brings a sharp, modern edge in a deep carbon tone. Premium French terry with brushed interior, subtle branding, and a contemporary silhouette built for everyday wear.',
     images: [
       '/models/hoodies/hoodie-02/DSC02519.JPG',
       '/models/hoodies/hoodie-02/DSC02521.JPG',
@@ -50,11 +50,11 @@ export const products: Product[] = [
   },
   {
     id: 'hoodie-03',
-    name: 'Technical Zip Hoodie',
+    name: 'V1 Hoodie in Rust',
     slug: 'technical-zip-hoodie',
     category: 'Hoodies',
     price: 215,
-    description: 'Performance-driven hoodie with full-length zip closure. Engineered with four-way stretch fabric and moisture-wicking properties. Features include adjustable drawstrings and concealed pockets.',
+    description: 'The V1 Hoodie in Rust offers a warm, distinctive look with a full-length zip and premium construction. Four-way stretch fabric, adjustable drawstrings, and concealed pockets in a standout rust finish.',
     images: [
       '/models/hoodies/hoodie-03/DSC02554.JPG',
       '/models/hoodies/hoodie-03/DSC02555.JPG',
@@ -69,11 +69,11 @@ export const products: Product[] = [
   // Pants
   {
     id: 'pant-01',
-    name: 'Carpenter Cargo Pants',
+    name: 'V1 Pants in Gunmetal',
     slug: 'carpenter-cargo-pants',
     category: 'Pants',
     price: 165,
-    description: 'Utilitarian cargo pants with a modern cut. Multiple pockets with snap closures, reinforced knees, and adjustable waist tabs. Made from durable cotton canvas with a lived-in feel.',
+    description: 'The V1 Pants in Gunmetal combine utility and style with a modern cut. Multiple pockets with snap closures, reinforced knees, and adjustable waist tabs in a durable gunmetal finish.',
     images: [
       '/models/pants/pant-01/DSC02554.JPG',
       '/models/pants/pant-01/DSC02555.JPG',
@@ -87,11 +87,11 @@ export const products: Product[] = [
   },
   {
     id: 'pant-02',
-    name: 'Tailored Track Pants',
+    name: 'V1 Pants in Carbon',
     slug: 'tailored-track-pants',
     category: 'Pants',
     price: 145,
-    description: 'Elevated track pants with a tailored aesthetic. Features include an elastic waistband with drawcord, side seam pockets, and tapered leg opening. Crafted from technical jersey fabric.',
+    description: 'The V1 Pants in Carbon deliver a clean, elevated look in deep carbon. Elastic waistband with drawcord, side seam pockets, and tapered leg in technical jersey for all-day comfort.',
     images: [
       '/models/hoodies/hoodie-02/DSC02521.JPG',
       '/models/hoodies/hoodie-02/DSC02522.JPG',
@@ -106,11 +106,11 @@ export const products: Product[] = [
   // T-Shirts
   {
     id: 'tshirt-01',
-    name: 'Core Oversized Tee',
+    name: 'V1 Sweats in Gunmetal Grey',
     slug: 'core-oversized-tee',
     category: 'T-Shirts',
     price: 85,
-    description: 'Essential oversized tee in premium heavyweight cotton. Features a relaxed fit with dropped shoulders and extended length. The perfect foundation piece for any wardrobe.',
+    description: 'The V1 Sweats in Gunmetal Grey offer a relaxed, versatile staple in premium heavyweight cotton. Dropped shoulders and extended length in a soft grey that layers with everything.',
     images: [
       '/models/tshirts/tshirt-01/DSC02494.JPG',
       '/models/tshirts/tshirt-01/DSC02498.JPG',
@@ -124,11 +124,11 @@ export const products: Product[] = [
   },
   {
     id: 'tshirt-02',
-    name: 'Graphic Print Tee',
+    name: 'V1 Sweats in Rust',
     slug: 'graphic-print-tee',
     category: 'T-Shirts',
     price: 95,
-    description: 'Statement tee featuring archive-inspired graphics. Constructed from soft-hand cotton with screen-printed details. Contemporary fit with reinforced neck ribbing and seamless shoulders.',
+    description: 'The V1 Sweats in Rust bring warmth and character in a standout rust tone. Soft-hand cotton, contemporary fit, and reinforced details for a piece that stands out without trying too hard.',
     images: [
       '/models/tshirts/tshirt-02/DSC02500.JPG',
       '/models/tshirts/tshirt-02/DSC02501.JPG',
