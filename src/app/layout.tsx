@@ -28,7 +28,7 @@ export default function RootLayout({
         <CartProvider>
           <PageTransitionProvider>
             <PermanentNavbar />
-            <main className="pt-16">{children}</main>
+            <main className="pt-20">{children}</main>
             <Footer />
           </PageTransitionProvider>
         </CartProvider>

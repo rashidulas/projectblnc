@@ -10,9 +10,9 @@ import CartDrawer from './CartDrawer';
 // Custom hamburger: three lines, horizontal when closed, vertical when open
 function HamburgerIcon({ open }: { open: boolean }) {
   return (
-    <div className="w-5 h-5 flex items-center justify-center">
+    <div className="w-6 h-6 flex items-center justify-center">
       <div
-        className={`flex gap-[5px] transition-transform duration-300 ease-out ${
+        className={`flex gap-[6px] transition-transform duration-300 ease-out ${
           open ? 'flex-row' : 'flex-col'
         }`}
       >
@@ -22,8 +22,8 @@ function HamburgerIcon({ open }: { open: boolean }) {
             className="bg-neutral-700 rounded-full"
             initial={false}
             animate={{
-              width: open ? 3 : 20,
-              height: open ? 14 : 2,
+              width: open ? 3.5 : 24,
+              height: open ? 16 : 2.5,
             }}
             transition={{ duration: 0.25, ease: 'easeInOut' }}
           />
@@ -71,18 +71,18 @@ export default function PermanentNavbar() {
         }}
       >
         {/* Top bar - full width, longer feel with generous padding */}
-        <div className="flex items-center justify-between w-full px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 h-16">
+        <div className="flex items-center justify-between w-full px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 h-20">
           {/* Left: BLANC Logo */}
           <TransitionLink 
             href="/" 
-            className="text-xl font-bold tracking-tighter text-neutral-800 hover:opacity-70 transition-opacity"
+            className="text-2xl font-bold tracking-tighter text-neutral-800 hover:opacity-70 transition-opacity"
           >
             BLANC
           </TransitionLink>
 
           {/* Right: Clock, Hamburger, Cart */}
           <div className="flex items-center gap-6">
-            <div className="text-xs font-mono tracking-wider text-neutral-600">
+            <div className="text-sm font-mono tracking-wider text-neutral-600">
               {currentTime}
             </div>
             
@@ -99,7 +99,7 @@ export default function PermanentNavbar() {
               className="relative p-2 -mr-2 hover:opacity-70 transition-opacity text-neutral-800"
               aria-label="Open cart"
             >
-              <ShoppingBag className="w-5 h-5" />
+              <ShoppingBag className="w-6 h-6" />
               {cartItemsCount > 0 && (
                 <span className="absolute -top-0.5 -right-0.5 bg-black text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full font-medium">
                   {cartItemsCount}
