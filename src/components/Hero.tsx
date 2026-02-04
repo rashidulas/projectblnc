@@ -1,12 +1,8 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
-import Link from 'next/link';
-import { Menu, ShoppingBag } from 'lucide-react';
-import { useCart } from '@/context/CartContext';
-import CartDrawer from './CartDrawer';
 
 // Product images for the reveal section
 const FEATURED_PRODUCTS = [
@@ -19,155 +15,57 @@ const FEATURED_PRODUCTS = [
 ];
 
 export default function Hero() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [currentTime, setCurrentTime] = useState('');
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  // Update clock every second
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      const hours = now.getHours().toString().padStart(2, '0');
-      const minutes = now.getMinutes().toString().padStart(2, '0');
-      const seconds = now.getSeconds().toString().padStart(2, '0');
-      setCurrentTime(`${hours}:${minutes}:${seconds}`);
-    };
-    
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const { openCart, cartItemsCount } = useCart();
-
-  // Scroll progress tracking for the hero section
+  // Track scroll progress of the entire scroll wrapper
   const { scrollYProgress } = useScroll({
-    target: containerRef,
+    target: scrollContainerRef,
     offset: ['start start', 'end start'],
   });
 
-  // Navbar background opacity - transparent to semi-transparent white
-  const navBgOpacity = useTransform(scrollYProgress, [0, 0.1, 0.3], [0, 0.5, 0.95]);
+  // Image transformations
+  // Width: 100vw → 90vw
+  const imageWidth = useTransform(scrollYProgress, [0, 1], ['100vw', '90vw']);
+  
+  // Height: 100vh → 60vh
+  const imageHeight = useTransform(scrollYProgress, [0, 1], ['100vh', '60vh']);
+  
+  // Border radius: 0px → 24px
+  const imageBorderRadius = useTransform(scrollYProgress, [0, 1], ['0px', '24px']);
 
-  // Image width transformation: 100vw → 80vw → max 1200px
-  const imageWidth = useTransform(
-    scrollYProgress,
-    [0, 0.5, 1],
-    ['100vw', '85vw', '1200px']
-  );
-  
-  // Image height transformation: 100vh → 500px
-  const imageHeight = useTransform(
-    scrollYProgress,
-    [0, 0.5, 1],
-    ['100vh', '70vh', '500px']
-  );
-  
-  // Border radius transformation: 0px → 24px
-  const imageBorderRadius = useTransform(
-    scrollYProgress,
-    [0, 0.5, 1],
-    ['0px', '16px', '24px']
-  );
-
-  // Vertical position - slight upward movement as it shrinks
-  const imageY = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  
-  // Hero text opacity fade: 1 → 0
-  const textOpacity = useTransform(scrollYProgress, [0, 0.2, 0.4], [1, 0.6, 0]);
-  const textY = useTransform(scrollYProgress, [0, 0.3], [0, -80]);
+  // Hero text animations - fade out and slide up
+  const textOpacity = useTransform(scrollYProgress, [0, 0.3, 0.5], [1, 0.5, 0]);
+  const textY = useTransform(scrollYProgress, [0, 0.5], [0, -50]);
 
   // Genesis section reveal
-  const genesisOpacity = useTransform(scrollYProgress, [0.4, 0.6, 0.8], [0, 1, 1]);
-  const genesisY = useTransform(scrollYProgress, [0.4, 0.7], [60, 0]);
+  const genesisOpacity = useTransform(scrollYProgress, [0.4, 0.6], [0, 1]);
+  const genesisY = useTransform(scrollYProgress, [0.4, 0.6], [40, 0]);
 
   // Product grid reveal
-  const gridOpacity = useTransform(scrollYProgress, [0.6, 0.8, 1], [0, 0.5, 1]);
-  const gridY = useTransform(scrollYProgress, [0.6, 0.9], [150, 0]);
+  const gridOpacity = useTransform(scrollYProgress, [0.5, 0.8], [0, 1]);
+  const gridY = useTransform(scrollYProgress, [0.5, 0.8], [100, 0]);
 
   return (
     <>
-      {/* Permanent Sticky Navbar - Fixed at Top */}
-      <nav className="fixed top-0 left-0 right-0 z-50">
-        {/* Dynamic background that fades in on scroll */}
-        <motion.div
-          className="absolute inset-0 bg-white backdrop-blur-md"
-          style={{ opacity: navBgOpacity }}
-        />
-        
-        {/* Thin Progress Bar */}
-        <motion.div
-          className="absolute top-0 left-0 right-0 h-[1px] bg-black origin-left"
-          style={{ scaleX: scrollYProgress }}
-        />
-        
-        {/* Navbar Content */}
-        <div className="relative flex items-center justify-between px-6 h-16">
-          {/* Left: Hamburger Menu */}
-          <button 
-            className="p-2 hover:opacity-70 transition-opacity text-black"
-            aria-label="Menu"
-          >
-            <Menu className="w-5 h-5" />
-          </button>
-
-          {/* Center: VAER Logo */}
-          <Link 
-            href="/" 
-            className="absolute left-1/2 -translate-x-1/2 text-xl font-bold tracking-tighter text-black"
-          >
-            VAER
-          </Link>
-
-          {/* Right: Clock & Cart */}
-          <div className="flex items-center gap-4">
-            <div className="text-xs font-mono tracking-wider text-black">
-              {currentTime}
-            </div>
-            
-            <button
-              onClick={openCart}
-              className="relative p-2 hover:opacity-70 transition-opacity text-black"
-              aria-label="Open cart"
-            >
-              <ShoppingBag className="w-5 h-5" />
-              {cartItemsCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-black text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-                  {cartItemsCount}
-                </span>
-              )}
-            </button>
-          </div>
-        </div>
-
-        {/* Subtle border that fades in */}
-        <motion.div
-          className="absolute bottom-0 left-0 right-0 h-[1px] bg-neutral-200"
-          style={{ opacity: navBgOpacity }}
-        />
-      </nav>
-      
-      <CartDrawer />
-
-      {/* Hero Section - Full Viewport, No Container Constraints */}
+      {/* Scroll Wrapper - h-[200vh] creates scroll room */}
       <div 
-        ref={containerRef} 
-        className="relative w-screen bg-white" 
-        style={{ height: '300vh', marginLeft: 'calc(-50vw + 50%)', width: '100vw' }}
+        ref={scrollContainerRef} 
+        className="relative w-full bg-white" 
+        style={{ height: '200vh' }}
       >
-        {/* Sticky Container - Centers the shrinking image */}
-        <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center bg-white">
+        {/* Sticky Container - Stays pinned while content scrolls */}
+        <div className="sticky top-0 h-screen w-screen overflow-hidden flex items-center justify-center bg-white">
           
-          {/* Hero Image Container with Scroll Transformations */}
+          {/* Hero Image - Shrinks from full-screen to contained */}
           <motion.div
             className="relative overflow-hidden"
             style={{
               width: imageWidth,
               height: imageHeight,
               borderRadius: imageBorderRadius,
-              y: imageY,
             }}
           >
-            {/* Next.js Image with Cover Fit */}
+            {/* Image with object-fit: cover */}
             <Image
               src="/hero/color.png"
               alt="Hero"
@@ -180,8 +78,8 @@ export default function Hero() {
               sizes="100vw"
             />
             
-            {/* Gradient Mask at Bottom for Smooth Fade to White */}
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/40 pointer-events-none" />
+            {/* Gradient overlay for smooth fade to white */}
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/30 pointer-events-none" />
 
             {/* Hero Text - Bottom Left, Fades Out on Scroll */}
             <motion.div
@@ -191,22 +89,22 @@ export default function Hero() {
                 y: textY,
               }}
             >
-              <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[0.95] tracking-tighter text-white drop-shadow-lg mb-6">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[0.95] tracking-tighter text-white drop-shadow-2xl mb-6">
                 Reshaping the Future.
                 <br />
-                <span className="text-white/90">
+                <span className="text-white/95">
                   Innovating, Disrupting,
                   <br />
                   Redefining.
                 </span>
               </h1>
-              <p className="text-sm md:text-base text-white/80 drop-shadow leading-relaxed max-w-md">
+              <p className="text-sm md:text-base text-white/90 drop-shadow-lg leading-relaxed max-w-md">
                 A new era of luxury streetwear — minimal, bold, and built to feel timeless.
               </p>
             </motion.div>
           </motion.div>
 
-          {/* Genesis Section - Reveals as Image Shrinks */}
+          {/* Genesis Section - Reveals in Center */}
           <motion.div
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 text-center pointer-events-none"
             style={{
@@ -241,12 +139,12 @@ export default function Hero() {
                   <motion.div
                     key={idx}
                     className="relative aspect-[3/4] overflow-hidden rounded-lg bg-neutral-100"
-                    initial={{ opacity: 0, y: 40 }}
+                    initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
+                    viewport={{ once: true, margin: "-50px" }}
                     transition={{ 
-                      delay: idx * 0.08,
-                      duration: 0.5,
+                      delay: idx * 0.05,
+                      duration: 0.4,
                       ease: [0.25, 0.1, 0.25, 1]
                     }}
                   >
@@ -264,6 +162,17 @@ export default function Hero() {
           </motion.div>
         </div>
       </div>
+
+      {/* GENESIS Section - Starts Immediately After Sticky Container */}
+      <section className="bg-white max-w-7xl mx-auto px-6 pt-8 pb-24 -mt-8">
+        <div className="mb-16 md:mb-20">
+          <h2 className="text-sm md:text-base tracking-[0.2em] text-neutral-900 font-medium uppercase">
+            GENESIS // DROP 001
+          </h2>
+        </div>
+
+        {/* This will be filled by the ProductGrid from page.tsx */}
+      </section>
     </>
   );
 }

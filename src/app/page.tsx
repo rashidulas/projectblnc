@@ -9,17 +9,8 @@ export default function Home() {
     <main className="bg-white overflow-x-hidden">
       <Hero />
 
-      {/* Handoff whitespace AFTER hero finishes revealing */}
-      <div className="h-24 md:h-32 bg-white" />
-
-      {/* GENESIS // DROP 001 Section */}
+      {/* Featured Products - No gap needed, Hero section handles spacing */}
       <section className="bg-white max-w-7xl mx-auto px-6 pb-24">
-        <div className="mb-16 md:mb-20">
-          <h2 className="text-sm md:text-base tracking-[0.2em] text-neutral-900 font-medium uppercase">
-            GENESIS // DROP 001
-          </h2>
-        </div>
-
         <ProductGrid products={featuredProducts} editorial />
       </section>
 

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import ConditionalNavbar from '@/components/ConditionalNavbar';
+import PermanentNavbar from '@/components/PermanentNavbar';
 import Footer from '@/components/Footer';
 import { CartProvider } from '@/context/CartContext';
 
@@ -25,8 +25,8 @@ export default function RootLayout({
     <html lang="en" className={inter.variable}>
       <body className="font-sans" suppressHydrationWarning>
         <CartProvider>
-          <ConditionalNavbar />
-          <main>{children}</main>
+          <PermanentNavbar />
+          <main className="pt-16">{children}</main>
           <Footer />
         </CartProvider>
       </body>
