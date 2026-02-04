@@ -6,7 +6,7 @@ export default function Home() {
   const featuredProducts = products.slice(0, 3);
 
   return (
-    <main className="bg-white">
+    <main className="bg-white overflow-x-hidden">
       <Hero />
 
       {/* Handoff whitespace AFTER hero finishes revealing */}

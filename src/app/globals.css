@@ -4,7 +4,11 @@
 
 @layer base {
   body {
-    @apply bg-white text-neutral-900 antialiased;
+    @apply bg-white text-neutral-900 antialiased overflow-x-hidden;
+  }
+  
+  html {
+    @apply overflow-x-hidden;
   }
 }
 
