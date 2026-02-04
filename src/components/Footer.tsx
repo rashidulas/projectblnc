@@ -31,7 +31,7 @@ export default function Footer() {
                 id="newsletter-email"
                 type="email"
                 placeholder="newsletter@blanctemplate.com"
-                className="w-full bg-transparent pb-3 text-base outline-none placeholder:text-neutral-500 border-b border-neutral-300 focus:border-neutral-600 min-h-[48px] sm:min-h-0"
+                className="font-description w-full bg-transparent pb-3 text-base outline-none placeholder:text-neutral-500 border-b border-neutral-300 focus:border-neutral-600 min-h-[48px] sm:min-h-0"
               />
 
               <button
@@ -47,17 +47,17 @@ export default function Footer() {
           <nav className="md:justify-self-end">
             <ul className="space-y-2 sm:space-y-4 text-base font-medium text-neutral-800 md:text-lg">
               <li>
-                <TransitionLink href="/" className="hover:opacity-70 active:opacity-80 block py-3 sm:py-0 sm:inline">
+                <TransitionLink href="/" className="font-description hover:opacity-70 active:opacity-80 block py-3 sm:py-0 sm:inline">
                   Home
                 </TransitionLink>
               </li>
               <li>
-                <TransitionLink href="/products" className="hover:opacity-70 active:opacity-80 block py-3 sm:py-0 sm:inline">
+                <TransitionLink href="/products" className="font-description hover:opacity-70 active:opacity-80 block py-3 sm:py-0 sm:inline">
                   Shop
                 </TransitionLink>
               </li>
               <li>
-                <TransitionLink href="/about" className="hover:opacity-70 active:opacity-80 block py-3 sm:py-0 sm:inline">
+                <TransitionLink href="/about" className="font-description hover:opacity-70 active:opacity-80 block py-3 sm:py-0 sm:inline">
                   About
                 </TransitionLink>
               </li>
@@ -69,7 +69,7 @@ export default function Footer() {
         <div className="mt-8 sm:mt-12 border-t border-neutral-200" />
 
         {/* Bottom */}
-        <div className="py-6 sm:py-8 text-center text-xs sm:text-sm text-neutral-600 px-2">
+        <div className="font-description py-6 sm:py-8 text-center text-xs sm:text-sm text-neutral-600 px-2">
           © {new Date().getFullYear()} BLANC. All rights reserved.
         </div>
       </div>

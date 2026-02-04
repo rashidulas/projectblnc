@@ -23,7 +23,7 @@ export default function Home() {
         <h2 className="text-left text-base sm:text-lg md:text-xl font-semibold tracking-tight text-neutral-900 uppercase mb-4 sm:mb-6 md:mb-8">
           Beyond Fashion
         </h2>
-        <p className="text-sm md:text-base text-neutral-600 leading-relaxed w-full mb-8 sm:mb-10 md:mb-14">
+        <p className="font-description text-sm md:text-base text-neutral-600 leading-relaxed w-full mb-8 sm:mb-10 md:mb-14">
           Materials engineered for longevity. Silhouettes crafted for motion. Every stitch, every detail, stripped of excess, built with intent. This is not about seasons—it&apos;s about permanence. Designed to outlast, created to redefine. We don&apos;t follow trends. We dismantle them. Each piece is designed with precision, built for movement, and crafted for those who shape the future. This is not fashion. This is evolution.
         </p>
         <div className="relative w-full aspect-[4/3] md:aspect-[16/10] max-h-[60vh] sm:max-h-[70vh] overflow-hidden">

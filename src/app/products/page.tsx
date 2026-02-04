@@ -11,7 +11,7 @@ export default function ProductsPage() {
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-neutral-900 mb-4 sm:mb-6">
           Designed for the Future
         </h1>
-        <p className="text-sm sm:text-base md:text-lg text-neutral-600 leading-relaxed max-w-2xl">
+        <p className="font-description text-sm sm:text-base md:text-lg text-neutral-600 leading-relaxed max-w-2xl">
           A selection of statement pieces that redefine style, precision, and innovation.
         </p>
       </section>
@@ -27,7 +27,7 @@ export default function ProductsPage() {
       </section>
 
       {/* Results count - minimal */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-12 sm:pb-16 text-center text-xs text-neutral-400 tracking-wide">
+      <div className="font-description max-w-7xl mx-auto px-4 sm:px-6 pb-12 sm:pb-16 text-center text-xs text-neutral-400 tracking-wide">
         {products.length} {products.length === 1 ? 'PRODUCT' : 'PRODUCTS'}
       </div>
     </div>

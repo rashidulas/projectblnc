@@ -82,7 +82,7 @@ export default function PermanentNavbar() {
 
           {/* Right: Clock (hidden on very small), Hamburger, Cart - 44px min touch targets */}
           <div className="flex items-center gap-2 sm:gap-6">
-            <div className="hidden sm:block text-xs sm:text-sm font-mono tracking-wider text-neutral-600 min-h-[44px] flex items-center">
+            <div className="font-description hidden sm:flex items-center justify-center text-xs sm:text-sm font-mono tracking-wider text-neutral-600 min-h-[44px] leading-none">
               {currentTime}
             </div>
             

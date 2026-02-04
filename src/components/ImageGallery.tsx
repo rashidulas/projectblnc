@@ -24,7 +24,7 @@ export default function ImageGallery({ images, modelImages, productName }: Image
             setActiveTab('product');
             setSelectedImage(0);
           }}
-          className={`min-h-[44px] px-4 sm:px-5 py-2.5 sm:py-2 text-xs font-medium tracking-wide transition-all border ${
+          className={`font-description min-h-[44px] px-4 sm:px-5 py-2.5 sm:py-2 text-xs font-medium tracking-wide transition-all border ${
             activeTab === 'product'
               ? 'bg-black text-white border-black'
               : 'bg-white text-neutral-600 border-neutral-300 hover:border-neutral-900 active:bg-neutral-50'
@@ -37,7 +37,7 @@ export default function ImageGallery({ images, modelImages, productName }: Image
             setActiveTab('model');
             setSelectedImage(0);
           }}
-          className={`min-h-[44px] px-4 sm:px-5 py-2.5 sm:py-2 text-xs font-medium tracking-wide transition-all border ${
+          className={`font-description min-h-[44px] px-4 sm:px-5 py-2.5 sm:py-2 text-xs font-medium tracking-wide transition-all border ${
             activeTab === 'model'
               ? 'bg-black text-white border-black'
               : 'bg-white text-neutral-600 border-neutral-300 hover:border-neutral-900 active:bg-neutral-50'

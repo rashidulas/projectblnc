@@ -8,7 +8,7 @@ export default function AboutPage() {
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-neutral-900 mb-4 sm:mb-6 md:mb-8">
           Built for Expression.
         </h1>
-        <p className="text-sm sm:text-base md:text-lg text-neutral-700 leading-relaxed w-full">
+        <p className="font-description text-sm sm:text-base md:text-lg text-neutral-700 leading-relaxed w-full">
           At BLANC, we merge form and function to craft timeless pieces that go beyond trends—born from purpose, driven by detail.
         </p>
       </section>
@@ -23,7 +23,7 @@ export default function AboutPage() {
         <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-neutral-900 mb-4 sm:mb-6 md:mb-8">
           The Rhythm of Movement
         </h2>
-        <p className="text-base md:text-lg text-neutral-700 leading-relaxed w-full">
+        <p className="font-description text-base md:text-lg text-neutral-700 leading-relaxed w-full">
           We exist in a world of motion. Each step, each shift, each blurred silhouette—an echo of change, a testament to evolution. In movement, we find purpose. In rhythm, we create identity. Our designs are built for those who refuse to stand still. Structured yet fluid, timeless yet in constant transformation. This is not just fashion—it&apos;s an extension of the body in motion.
         </p>
       </section>
@@ -35,7 +35,7 @@ export default function AboutPage() {
             src="/about/1.jpg"
             alt="BLANC"
             fill
-            className="object-cover grayscale transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:scale-105"
+            className="object-cover grayscale-0 md:grayscale transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, 1280px"
             priority
           />
@@ -47,7 +47,7 @@ export default function AboutPage() {
         <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-neutral-900 mb-4 sm:mb-6 md:mb-8">
           The Essence of Presence
         </h2>
-        <p className="text-base md:text-lg text-neutral-700 leading-relaxed w-full">
+        <p className="font-description text-base md:text-lg text-neutral-700 leading-relaxed w-full">
           Fashion is more than what you wear—it&apos;s how you exist within it. The way fabric drapes as you move, the way light catches texture, the way structure adapts to the body. Presence is not about being seen; it&apos;s about being felt. Every piece is an exploration of form and feeling, designed to frame motion, not restrict it. We strip away the unnecessary to reveal the essence. Precision, balance, intention—crafted for those who shape the present.
         </p>
       </section>
@@ -59,7 +59,7 @@ export default function AboutPage() {
             src="/about/2.JPG"
             alt="BLANC"
             fill
-            className="object-cover grayscale transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:scale-105"
+            className="object-cover grayscale-0 md:grayscale transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, 1280px"
           />
         </div>
@@ -70,7 +70,7 @@ export default function AboutPage() {
         <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-neutral-900 mb-4 sm:mb-6 md:mb-8">
           The Liberation of Expression
         </h2>
-        <p className="text-base md:text-lg text-neutral-700 leading-relaxed w-full">
+        <p className="font-description text-base md:text-lg text-neutral-700 leading-relaxed w-full">
           Unbound by convention, uninhibited by expectation—this is where movement becomes freedom. The pulse of creativity, the blur of expression, the unfiltered essence of individuality. Our pieces are a canvas for self-expression, a tool for those who move beyond the expected. In every fold, every silhouette, every detail—an invitation to redefine, disrupt, and reimagine.
         </p>
       </section>
@@ -82,7 +82,7 @@ export default function AboutPage() {
             src="/about/3.JPG"
             alt="BLANC"
             fill
-            className="object-cover grayscale transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:scale-105"
+            className="object-cover grayscale-0 md:grayscale transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, 1280px"
           />
         </div>

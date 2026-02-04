@@ -65,7 +65,7 @@ export default function Hero() {
           <h1 className="text-2xl sm:text-[2.5rem] md:text-5xl lg:text-6xl xl:text-[4rem] font-bold leading-[1.1] tracking-[-0.02em] text-neutral-900 mt-1 sm:whitespace-nowrap break-words">
             Innovating, Disrupting, Redefining.
           </h1>
-          <p className="mt-4 sm:mt-6 text-sm sm:text-[15px] md:text-base text-neutral-600 leading-[1.6] max-w-lg font-normal">
+          <p className="font-description mt-4 sm:mt-6 text-sm sm:text-[15px] md:text-base text-neutral-600 leading-[1.6] max-w-lg font-normal">
             Challenging conventions, breaking limits, and setting new standards through bold ideas and visionary design.
           </p>
         </motion.div>

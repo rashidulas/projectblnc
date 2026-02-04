@@ -65,7 +65,7 @@ export default function ProductCard({ product, editorial = false, showcase = fal
                 src={src}
                 alt={`${product.name} - ${i + 1}`}
                 fill
-                className="object-cover transition-all duration-500 ease-out grayscale group-hover:grayscale-0 group-hover:scale-105"
+                className="object-cover transition-all duration-500 ease-out grayscale-0 md:grayscale group-hover:grayscale-0 group-hover:scale-105"
                 sizes="(max-width: 768px) 100vw, 33vw"
               />
             </div>
@@ -75,11 +75,11 @@ export default function ProductCard({ product, editorial = false, showcase = fal
           <h3 className="text-sm sm:text-base md:text-lg font-semibold text-neutral-900 tracking-tight">
             {product.name}
           </h3>
-          <span className="text-xs sm:text-[13px] text-neutral-600 font-normal">
+          <span className="font-description text-xs sm:text-[13px] text-neutral-600 font-normal">
             from ${product.price} USD
           </span>
         </div>
-        <p className="text-xs sm:text-[13px] text-neutral-600 font-normal leading-[1.5] line-clamp-2">
+        <p className="font-description text-xs sm:text-[13px] text-neutral-600 font-normal leading-[1.5] line-clamp-2">
           {product.description}
         </p>
       </TransitionLink>
@@ -94,12 +94,12 @@ export default function ProductCard({ product, editorial = false, showcase = fal
             src={product.images[0]}
             alt={product.name}
             fill
-            className="object-cover transition-all duration-700 group-hover:scale-105 grayscale group-hover:grayscale-0"
+            className="object-cover transition-all duration-700 group-hover:scale-105 grayscale-0 md:grayscale group-hover:grayscale-0"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         </div>
         <div className="space-y-2">
-          <p className="text-xs text-neutral-400 tracking-[0.15em] uppercase">
+          <p className="font-description text-xs text-neutral-400 tracking-[0.15em] uppercase">
             {product.category}
           </p>
           <h3 className="text-sm font-normal text-neutral-900 tracking-wide">
@@ -122,11 +122,11 @@ export default function ProductCard({ product, editorial = false, showcase = fal
         />
       </div>
       <div className="space-y-1">
-        <p className="text-xs text-neutral-500 tracking-wide uppercase">{product.category}</p>
+        <p className="font-description text-xs text-neutral-500 tracking-wide uppercase">{product.category}</p>
         <h3 className="font-medium text-neutral-900 group-hover:text-neutral-600 transition-colors">
           {product.name}
         </h3>
-        <p className="text-sm font-semibold">${product.price}</p>
+        <p className="font-description text-sm font-semibold">${product.price}</p>
       </div>
     </TransitionLink>
   );

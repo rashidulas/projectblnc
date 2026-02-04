@@ -9,7 +9,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-plus-jakarta)', 'sans-serif'],
+        sans: ['Host Grotesk Variable', 'Host Grotesk', 'sans-serif'],
+        description: ['Manrope Variable', 'Manrope', 'sans-serif'],
       },
       animation: {
         'slide-in': 'slide-in 0.3s ease-out',

@@ -25,7 +25,7 @@ export default function AddToCartButton({ product }: AddToCartButtonProps) {
     <div className="space-y-8">
       {/* Size Selector */}
       <div>
-        <label className="block text-xs font-semibold mb-4 tracking-wide uppercase text-neutral-900">
+        <label className="font-description block text-xs font-semibold mb-4 tracking-wide uppercase text-neutral-900">
           Select Size
         </label>
         <div className="flex flex-wrap gap-2 sm:gap-3">
