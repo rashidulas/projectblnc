@@ -1,3 +1,6 @@
+'use client';
+
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Product } from '@/data/products';
@@ -5,9 +8,84 @@ import { Product } from '@/data/products';
 interface ProductCardProps {
   product: Product;
   editorial?: boolean;
+  /** Card layout: image, title + price row, description (screenshot style) */
+  showcase?: boolean;
 }
 
-export default function ProductCard({ product, editorial = false }: ProductCardProps) {
+const HOVER_CYCLE_MS = 2500;
+
+export default function ProductCard({ product, editorial = false, showcase = false }: ProductCardProps) {
+  const [hovered, setHovered] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const imageList = (product.modelImages?.length ? product.modelImages : product.images) || product.images;
+  const hasMultipleImages = imageList.length > 1;
+
+  useEffect(() => {
+    if (!hasMultipleImages || !hovered) return;
+    intervalRef.current = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % imageList.length);
+    }, HOVER_CYCLE_MS);
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [hovered, hasMultipleImages, imageList.length]);
+
+  const handleMouseEnter = () => {
+    setHovered(true);
+    setCurrentIndex(0);
+  };
+
+  const handleMouseLeave = () => {
+    setHovered(false);
+    setCurrentIndex(0);
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  };
+
+  if (showcase) {
+    return (
+      <Link
+        href={`/products/${product.slug}`}
+        className="group block"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <div className="relative aspect-[3/4] bg-neutral-100 overflow-hidden mb-5">
+          {imageList.map((src, i) => (
+            <div
+              key={src}
+              className="absolute inset-0 transition-opacity duration-500 ease-out"
+              style={{ opacity: i === currentIndex ? 1 : 0 }}
+            >
+              <Image
+                src={src}
+                alt={`${product.name} - ${i + 1}`}
+                fill
+                className="object-cover transition-all duration-500 ease-out grayscale group-hover:grayscale-0 group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, 33vw"
+              />
+            </div>
+          ))}
+        </div>
+        <div className="flex items-baseline justify-between gap-4 mb-1.5">
+          <h3 className="text-base md:text-lg font-semibold text-neutral-900 tracking-tight">
+            {product.name}
+          </h3>
+          <span className="text-[13px] text-neutral-600 whitespace-nowrap font-normal">
+            from ${product.price} USD
+          </span>
+        </div>
+        <p className="text-[13px] text-neutral-600 font-normal leading-[1.5] line-clamp-2">
+          {product.description}
+        </p>
+      </Link>
+    );
+  }
+
   if (editorial) {
     return (
       <Link href={`/products/${product.slug}`} className="group block">

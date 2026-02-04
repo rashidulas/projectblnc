@@ -1,107 +1,92 @@
+import Image from 'next/image';
+
 export default function AboutPage() {
   return (
-    <div className="min-h-screen pt-24 pb-16">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">About Project BLNC</h1>
-          <p className="text-xl text-neutral-600 leading-relaxed">
-            Redefining the boundaries of luxury streetwear through innovative
-            design and uncompromising quality.
-          </p>
+    <div className="min-h-screen bg-white">
+      {/* Built for Expression - top of page */}
+      <section className="max-w-7xl mx-auto px-6 pt-24 md:pt-28 pb-8 md:pb-10">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-neutral-900 mb-6 md:mb-8">
+          Built for Expression.
+        </h1>
+        <p className="text-base md:text-lg text-neutral-700 leading-relaxed w-full">
+          At VAER, we merge form and function to craft timeless pieces that go beyond trends—born from purpose, driven by detail.
+        </p>
+      </section>
+
+      {/* Horizontal line - full width covering the writing part */}
+      <section className="max-w-7xl mx-auto px-6">
+        <div className="h-px bg-neutral-200 w-full" />
+      </section>
+
+      {/* The Rhythm of Movement */}
+      <section className="max-w-7xl mx-auto px-6 py-12 md:py-16">
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-neutral-900 mb-6 md:mb-8">
+          The Rhythm of Movement
+        </h2>
+        <p className="text-base md:text-lg text-neutral-700 leading-relaxed w-full">
+          We exist in a world of motion. Each step, each shift, each blurred silhouette—an echo of change, a testament to evolution. In movement, we find purpose. In rhythm, we create identity. Our designs are built for those who refuse to stand still. Structured yet fluid, timeless yet in constant transformation. This is not just fashion—it&apos;s an extension of the body in motion.
+        </p>
+      </section>
+
+      {/* First picture - 1.jpg */}
+      <section className="max-w-7xl mx-auto px-6 py-8 md:py-12">
+        <div className="relative w-full aspect-[16/10] md:aspect-[21/9] overflow-hidden group">
+          <Image
+            src="/about/1.jpg"
+            alt="VAER"
+            fill
+            className="object-cover grayscale transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, 1280px"
+            priority
+          />
         </div>
+      </section>
 
-        {/* Story Section */}
-        <div className="space-y-12">
-          <section>
-            <h2 className="text-2xl font-bold mb-4">Our Story</h2>
-            <div className="space-y-4 text-neutral-600 leading-relaxed">
-              <p>
-                Project BLNC was born from a vision to create something different—a
-                brand that challenges conventions while honoring the fundamentals of
-                great design. We believe in the power of minimalism, the beauty of
-                clean lines, and the importance of quality over quantity.
-              </p>
-              <p>
-                Every piece we create is a testament to our commitment to excellence.
-                From the initial sketch to the final stitch, we obsess over every
-                detail, ensuring that our products not only look exceptional but
-                feel exceptional too.
-              </p>
-            </div>
-          </section>
+      {/* The Essence of Presence - on top of second pic */}
+      <section className="max-w-7xl mx-auto px-6 py-12 md:py-16">
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-neutral-900 mb-6 md:mb-8">
+          The Essence of Presence
+        </h2>
+        <p className="text-base md:text-lg text-neutral-700 leading-relaxed w-full">
+          Fashion is more than what you wear—it&apos;s how you exist within it. The way fabric drapes as you move, the way light catches texture, the way structure adapts to the body. Presence is not about being seen; it&apos;s about being felt. Every piece is an exploration of form and feeling, designed to frame motion, not restrict it. We strip away the unnecessary to reveal the essence. Precision, balance, intention—crafted for those who shape the present.
+        </p>
+      </section>
 
-          <section>
-            <h2 className="text-2xl font-bold mb-4">Our Philosophy</h2>
-            <div className="space-y-4 text-neutral-600 leading-relaxed">
-              <p>
-                We design for the modern individual—someone who values authenticity,
-                appreciates craftsmanship, and isn't afraid to stand out. Our
-                collections are intentionally limited, ensuring exclusivity and
-                reducing waste.
-              </p>
-              <p>
-                Balance is at the core of everything we do. It's in our name, it's
-                in our designs, and it's in our approach to business. We strive to
-                balance form and function, tradition and innovation, luxury and
-                accessibility.
-              </p>
-            </div>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold mb-4">Sustainability</h2>
-            <div className="space-y-4 text-neutral-600 leading-relaxed">
-              <p>
-                We're committed to making fashion more sustainable. Our made-to-order
-                model minimizes waste, and we carefully select materials that are
-                both high-quality and responsibly sourced. We believe that luxury
-                shouldn't come at the expense of our planet.
-              </p>
-            </div>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold mb-4">The Future</h2>
-            <div className="space-y-4 text-neutral-600 leading-relaxed">
-              <p>
-                This is just the beginning. As we grow, we remain committed to our
-                founding principles: quality, innovation, and integrity. We're
-                building more than a brand—we're building a movement.
-              </p>
-              <p>
-                Join us on this journey as we reshape the future of fashion, one
-                piece at a time.
-              </p>
-            </div>
-          </section>
+      {/* Second picture - 2.jpg */}
+      <section className="max-w-7xl mx-auto px-6 py-8 md:py-12">
+        <div className="relative w-full aspect-[16/10] md:aspect-[21/9] overflow-hidden group">
+          <Image
+            src="/about/2.JPG"
+            alt="VAER"
+            fill
+            className="object-cover grayscale transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, 1280px"
+          />
         </div>
+      </section>
 
-        {/* Values */}
-        <div className="mt-16 pt-16 border-t border-neutral-200">
-          <h2 className="text-2xl font-bold mb-8 text-center">Our Values</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <h3 className="text-lg font-semibold mb-2">Quality First</h3>
-              <p className="text-sm text-neutral-600">
-                Every piece is crafted with meticulous attention to detail
-              </p>
-            </div>
-            <div className="text-center">
-              <h3 className="text-lg font-semibold mb-2">Timeless Design</h3>
-              <p className="text-sm text-neutral-600">
-                Creating pieces that transcend trends and seasons
-              </p>
-            </div>
-            <div className="text-center">
-              <h3 className="text-lg font-semibold mb-2">Responsible Fashion</h3>
-              <p className="text-sm text-neutral-600">
-                Committed to sustainable practices and ethical production
-              </p>
-            </div>
-          </div>
+      {/* The Liberation of Expression - on top of 3rd pic */}
+      <section className="max-w-7xl mx-auto px-6 py-12 md:py-16">
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-neutral-900 mb-6 md:mb-8">
+          The Liberation of Expression
+        </h2>
+        <p className="text-base md:text-lg text-neutral-700 leading-relaxed w-full">
+          Unbound by convention, uninhibited by expectation—this is where movement becomes freedom. The pulse of creativity, the blur of expression, the unfiltered essence of individuality. Our pieces are a canvas for self-expression, a tool for those who move beyond the expected. In every fold, every silhouette, every detail—an invitation to redefine, disrupt, and reimagine.
+        </p>
+      </section>
+
+      {/* Third picture - 3.jpg */}
+      <section className="max-w-7xl mx-auto px-6 py-8 md:py-12 pb-24 md:pb-32">
+        <div className="relative w-full aspect-[16/10] md:aspect-[21/9] overflow-hidden group">
+          <Image
+            src="/about/3.JPG"
+            alt="VAER"
+            fill
+            className="object-cover grayscale transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, 1280px"
+          />
         </div>
-      </div>
+      </section>
     </div>
   );
 }
