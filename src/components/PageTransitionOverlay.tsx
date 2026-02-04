@@ -1,16 +1,15 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useRouter } from 'next/navigation';
 import { usePageTransition } from '@/context/PageTransitionContext';
 import { useEffect, useRef } from 'react';
 
-const DURATION = 0.4;
-const EASE = [0.25, 0.1, 0.25, 1];
+const COVER_DURATION = 0.22;
+const REVEAL_DURATION = 0.2;
+const EASE_OUT = [0.33, 1, 0.68, 1];
 
 export default function PageTransitionOverlay() {
-  const router = useRouter();
-  const { state, pendingHref, setRevealing, finishRevealing } = usePageTransition();
+  const { state, setRevealing, finishRevealing } = usePageTransition();
   const hasNavigatedRef = useRef(false);
 
   useEffect(() => {
@@ -30,21 +29,22 @@ export default function PageTransitionOverlay() {
   const isCovering = state === 'covering';
 
   const handleAnimationComplete = () => {
-    if (isCovering && pendingHref && !hasNavigatedRef.current) {
+    if (isCovering && !hasNavigatedRef.current) {
       hasNavigatedRef.current = true;
-      router.push(pendingHref);
       setRevealing();
     } else if (state === 'revealing') {
       finishRevealing();
     }
   };
 
+  const duration = isCovering ? COVER_DURATION : REVEAL_DURATION;
+
   return (
     <motion.div
       className="fixed inset-0 z-[9999] bg-white"
       initial={{ y: '-100%' }}
       animate={{ y: isCovering ? '0%' : '-100%' }}
-      transition={{ duration: DURATION, ease: EASE }}
+      transition={{ duration, ease: EASE_OUT }}
       onAnimationComplete={handleAnimationComplete}
       style={{ willChange: 'transform' }}
     />
