@@ -7,6 +7,8 @@ export interface Product {
   description: string;
   images: string[];
   modelImages: string[];
+  previewImage?: string;
+  video?: string;
   sizes: string[];
 }
 
@@ -25,9 +27,10 @@ export const products: Product[] = [
       '/products/hoodies/hoodie-01/DSC02431.JPG',
     ],
     modelImages: [
-      '/models/hoodies/hoodie-01/DSC02487.JPG',
-      '/models/hoodies/hoodie-01/DSC02488.JPG',
+      '/models/hoodies/hoodie-01/m1.png',
+      '/models/hoodies/hoodie-01/m2.png',
     ],
+    video: '/videos/hoodies/hoodie-01/g11.mp4',
     sizes: ['XS', 'S', 'M', 'L', 'XL'],
   },
   {
@@ -43,9 +46,10 @@ export const products: Product[] = [
       '/models/hoodies/hoodie-02/DSC02522.JPG',
     ],
     modelImages: [
-      '/models/hoodies/hoodie-02/DSC02535.JPG',
-      '/models/hoodies/hoodie-02/DSC02537.JPG',
+      '/models/hoodies/hoodie-02/b1.png',
+      '/models/hoodies/hoodie-02/b2.png',
     ],
+    video: '/videos/hoodies/hoodie-02/v11.mp4',
     sizes: ['XS', 'S', 'M', 'L', 'XL'],
   },
   {
@@ -61,9 +65,10 @@ export const products: Product[] = [
       '/models/hoodies/hoodie-03/DSC02558.JPG',
     ],
     modelImages: [
-      '/models/hoodies/hoodie-03/DSC02559.JPG',
-      '/models/hoodies/hoodie-01/DSC02489.JPG',
+      '/models/hoodies/hoodie-03/g1.png',
+      '/models/hoodies/hoodie-03/g2.png',
     ],
+    video: '/videos/hoodies/hoodie-03/m11.mp4',
     sizes: ['XS', 'S', 'M', 'L', 'XL'],
   },
   // Pants

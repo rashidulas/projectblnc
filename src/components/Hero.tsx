@@ -2,7 +2,6 @@
 
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import Image from 'next/image';
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -12,9 +11,9 @@ export default function Hero() {
     offset: ['start start', 'end start'],
   });
 
-  // Image: smooth scale down and slight move up as user scrolls
-  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 0.92]);
-  const imageY = useTransform(scrollYProgress, [0, 1], [0, -30]);
+  // Video: smooth scale down and slight move up as user scrolls
+  const videoScale = useTransform(scrollYProgress, [0, 1], [1, 0.92]);
+  const videoY = useTransform(scrollYProgress, [0, 1], [0, -30]);
 
   // Text: smooth fade out and slide up
   const textOpacity = useTransform(scrollYProgress, [0, 0.4, 0.6], [1, 0.5, 0]);
@@ -23,23 +22,23 @@ export default function Hero() {
   return (
     <div ref={containerRef} className="relative w-full bg-white" style={{ height: '150vh' }}>
       <div className="sticky top-0 h-screen w-full overflow-hidden bg-white">
-        {/* Hero Image - transforms on scroll */}
+        {/* Hero Video - transforms on scroll */}
         <motion.div
           className="absolute inset-0"
           style={{
-            scale: imageScale,
-            y: imageY,
+            scale: videoScale,
+            y: videoY,
           }}
         >
           <div className="absolute inset-0">
-            <Image
-              src="/hero/bnw.png"
-              alt="Hero"
-              fill
-              priority
-              className="object-cover"
+            <video
+              src="/hero/freepik_create-a-detailed-scene-featuring-this-model-image_kling_1080p_16-9_24fps_5576.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover"
               style={{ objectPosition: 'center center' }}
-              sizes="100vw"
             />
             <div
               className="absolute inset-0 pointer-events-none"
