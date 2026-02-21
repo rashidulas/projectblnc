@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
-import { products, getProductBySlug } from '@/data/products';
+import { getProductBySlugFrom } from '@/data/products';
+import { getProducts } from '@/lib/products-store';
 import ImageGallery from '@/components/ImageGallery';
 import AddToCartButton from '@/components/AddToCartButton';
 import ProductGrid from '@/components/ProductGrid';
@@ -11,6 +12,7 @@ interface ProductPageProps {
 }
 
 export async function generateStaticParams() {
+  const products = await getProducts();
   return products.map((product) => ({
     slug: product.slug,
   }));
@@ -18,7 +20,8 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: ProductPageProps) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const products = await getProducts();
+  const product = getProductBySlugFrom(products, slug);
 
   if (!product) {
     return {
@@ -34,7 +37,8 @@ export async function generateMetadata({ params }: ProductPageProps) {
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const products = await getProducts();
+  const product = getProductBySlugFrom(products, slug);
 
   if (!product) {
     notFound();
@@ -68,7 +72,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold mb-4 sm:mb-6 tracking-tight">
                 {product.name}
               </h1>
-              <p className="text-xl sm:text-2xl font-normal mb-6 sm:mb-8">${product.price}</p>
+              <p className="text-xl sm:text-2xl font-normal mb-6 sm:mb-8">{product.price} BDT</p>
             </div>
 
             <div className="mb-8 sm:mb-10">
@@ -86,7 +90,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 <ul className="font-description text-sm text-neutral-500 space-y-2 leading-relaxed">
                   <li>Premium quality materials</li>
                   <li>Made to order</li>
-                  <li>Free shipping on orders over $200</li>
+                  <li>Free shipping on orders over 200 BDT</li>
                   <li>30-day return policy</li>
                 </ul>
               </div>

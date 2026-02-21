@@ -1,9 +1,8 @@
-'use client';
-
 import ProductGrid from '@/components/ProductGrid';
-import { products } from '@/data/products';
+import { getProducts } from '@/lib/products-store';
 
-export default function ProductsPage() {
+export default async function ProductsPage() {
+  const products = await getProducts();
   return (
     <div className="min-h-screen bg-white">
       {/* Hero section - left-aligned title and subtitle */}

@@ -72,7 +72,7 @@ export default function CartDrawer() {
                         <p className="font-description text-xs text-neutral-500 mb-2">
                           Size: {item.selectedSize}
                         </p>
-                        <p className="font-description text-sm font-semibold">${item.price}</p>
+                        <p className="font-description text-sm font-semibold">{item.price} BDT</p>
 
                         {/* Quantity Controls */}
                         <div className="flex items-center gap-3 mt-3">
@@ -119,7 +119,7 @@ export default function CartDrawer() {
               <div className="border-t border-neutral-200 p-4 sm:p-6 space-y-4">
                 <div className="flex items-center justify-between text-lg font-bold">
                   <span>Subtotal</span>
-                  <span>${cartTotal.toFixed(2)}</span>
+                  <span>{cartTotal.toFixed(2)} BDT</span>
                 </div>
                 <button className="w-full bg-black text-white py-4 min-h-[48px] rounded-md hover:opacity-90 active:opacity-95 transition-opacity font-medium">
                   Checkout

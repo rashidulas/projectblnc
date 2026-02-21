@@ -111,15 +111,15 @@ export default function ProductCard({ product, editorial = false, showcase = fal
             ))
           )}
         </div>
-        <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4 mb-1.5">
-          <h3 className="text-sm sm:text-base md:text-lg font-semibold text-neutral-900 tracking-tight">
+        <div className="flex flex-row items-baseline justify-between gap-4 mb-1.5">
+          <h3 className="text-base md:text-lg font-semibold text-neutral-900 tracking-tight">
             {product.name}
           </h3>
-          <span className="font-description text-xs sm:text-[13px] text-neutral-600 font-normal">
-            from ${product.price} USD
+          <span className="font-description text-[13px] text-neutral-600 font-normal">
+            from {product.price} BDT
           </span>
         </div>
-        <p className="font-description text-xs sm:text-[13px] text-neutral-600 font-normal leading-[1.5] line-clamp-2">
+        <p className="font-description text-[13px] text-neutral-600 font-normal leading-[1.5] line-clamp-2">
           {product.description}
         </p>
       </TransitionLink>
@@ -238,7 +238,7 @@ export default function ProductCard({ product, editorial = false, showcase = fal
         <h3 className="font-medium text-neutral-900 group-hover:text-neutral-600 transition-colors">
           {product.name}
         </h3>
-        <p className="font-description text-sm font-semibold">${product.price}</p>
+        <p className="font-description text-sm font-semibold">{product.price} BDT</p>
       </div>
     </TransitionLink>
   );

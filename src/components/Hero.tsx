@@ -11,8 +11,8 @@ export default function Hero() {
     offset: ['start start', 'end start'],
   });
 
-  // Video: smooth scale down and slight move up as user scrolls
-  const videoScale = useTransform(scrollYProgress, [0, 1], [1, 0.92]);
+  // Video: smooth scale down and slight move up as user scrolls (scale always > 1 to prevent seam)
+  const videoScale = useTransform(scrollYProgress, [0, 1], [1.08, 1.02]);
   const videoY = useTransform(scrollYProgress, [0, 1], [0, -30]);
 
   // Text: smooth fade out and slide up
@@ -20,17 +20,19 @@ export default function Hero() {
   const textY = useTransform(scrollYProgress, [0, 0.5], [0, -60]);
 
   return (
-    <div ref={containerRef} className="relative w-full bg-white" style={{ height: '150vh' }}>
-      <div className="sticky top-0 h-screen w-full overflow-hidden bg-white">
-        {/* Hero Video - transforms on scroll */}
+    <div ref={containerRef} className="relative w-full bg-white -mb-px" style={{ height: '150vh' }}>
+      <div className="sticky top-0 h-screen w-full overflow-hidden bg-white isolate">
+        {/* Hero Video - transforms on scroll (extends beyond edges to prevent seam) */}
         <motion.div
-          className="absolute inset-0"
+          className="absolute -inset-[3%] overflow-hidden"
           style={{
             scale: videoScale,
             y: videoY,
+            backfaceVisibility: 'hidden',
+            willChange: 'transform',
           }}
         >
-          <div className="absolute inset-0">
+          <div className="absolute inset-0 w-full h-full">
             <video
               src="/hero/freepik_create-a-detailed-scene-featuring-this-model-image_kling_1080p_16-9_24fps_5576.mp4"
               autoPlay
@@ -52,19 +54,19 @@ export default function Hero() {
 
         {/* Hero Text - fades and slides up on scroll */}
         <motion.div
-          className="absolute bottom-8 sm:bottom-14 md:bottom-20 lg:bottom-24 left-4 sm:left-8 md:left-14 lg:left-20 right-4 sm:right-auto max-w-2xl z-10"
+          className="absolute bottom-14 sm:bottom-14 md:bottom-20 lg:bottom-24 left-6 sm:left-8 md:left-14 lg:left-20 right-6 sm:right-auto max-w-2xl z-10"
           style={{
             opacity: textOpacity,
             y: textY,
           }}
         >
-          <h1 className="text-2xl sm:text-[2.5rem] md:text-5xl lg:text-6xl xl:text-[4rem] font-bold leading-[1.1] tracking-[-0.02em] text-neutral-900">
+          <h1 className="text-4xl sm:text-[2.5rem] md:text-5xl lg:text-6xl xl:text-[4rem] font-bold leading-[1.1] tracking-[-0.02em] text-neutral-900">
             Reshaping the Future.
           </h1>
-          <h1 className="text-2xl sm:text-[2.5rem] md:text-5xl lg:text-6xl xl:text-[4rem] font-bold leading-[1.1] tracking-[-0.02em] text-neutral-900 mt-1 sm:whitespace-nowrap break-words">
+          <h1 className="text-4xl sm:text-[2.5rem] md:text-5xl lg:text-6xl xl:text-[4rem] font-bold leading-[1.1] tracking-[-0.02em] text-neutral-900 mt-1 whitespace-nowrap break-words sm:break-normal">
             Innovating, Disrupting, Redefining.
           </h1>
-          <p className="font-description mt-4 sm:mt-6 text-sm sm:text-[15px] md:text-base text-neutral-600 leading-[1.6] max-w-lg font-normal">
+          <p className="font-description mt-4 sm:mt-6 text-base sm:text-[15px] md:text-base text-neutral-600 leading-[1.6] max-w-lg font-normal">
             Challenging conventions, breaking limits, and setting new standards through bold ideas and visionary design.
           </p>
         </motion.div>
