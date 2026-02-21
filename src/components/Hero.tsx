@@ -61,13 +61,13 @@ export default function Hero() {
           }}
         >
           <h1 className="text-4xl sm:text-[2.5rem] md:text-5xl lg:text-6xl xl:text-[4rem] font-bold leading-[1.1] tracking-[-0.02em] text-neutral-900">
-            Reshaping the Future.
+            Redefining the Essentials.
           </h1>
           <h1 className="text-4xl sm:text-[2.5rem] md:text-5xl lg:text-6xl xl:text-[4rem] font-bold leading-[1.1] tracking-[-0.02em] text-neutral-900 mt-1 whitespace-nowrap break-words sm:break-normal">
-            Innovating, Disrupting, Redefining.
+            Silhouettes Built for Movement
           </h1>
           <p className="font-description mt-4 sm:mt-6 text-base sm:text-[15px] md:text-base text-neutral-600 leading-[1.6] max-w-lg font-normal">
-            Challenging conventions, breaking limits, and setting new standards through bold ideas and visionary design.
+            Essentials Designed for the Everywhere.
           </p>
         </motion.div>
       </div>
