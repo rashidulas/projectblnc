@@ -55,7 +55,8 @@
     "price": 2000,
     "description": "The V1 Pants in Carbon deliver a clean, elevated look in deep carbon. Elastic waistband with drawcord, side seam pockets, and tapered leg in technical jersey for all-day comfort.",
     "images": ["/models/hoodies/hoodie-02/DSC02521.JPG", "/models/hoodies/hoodie-02/DSC02522.JPG", "/models/hoodies/hoodie-02/DSC02535.JPG"],
-    "modelImages": ["/models/hoodies/hoodie-01/DSC02491.JPG", "/models/hoodies/hoodie-01/DSC02488.JPG"],
+    "modelImages": ["/models/hoodies/hoodie-02/b1.png", "/models/hoodies/hoodie-02/b2.png"],
+    "previewImage": "/models/hoodies/hoodie-02/b1.png",
     "sizes": ["XS", "S", "M", "L", "XL"]
   },
   {
@@ -66,7 +67,8 @@
     "price": 2000,
     "description": "The V1 Sweats in Gunmetal Grey offer a relaxed, versatile staple in premium heavyweight cotton. Dropped shoulders and extended length in a soft grey that layers with everything.",
     "images": ["/models/tshirts/tshirt-01/DSC02494.JPG", "/models/tshirts/tshirt-01/DSC02498.JPG", "/products/hoodies/hoodie-01/DSC02575.JPG"],
-    "modelImages": ["/models/tshirts/tshirt-01/DSC02494.JPG", "/models/tshirts/tshirt-01/DSC02498.JPG"],
+    "modelImages": ["/models/tshirts/tshirt-01/g1.png", "/models/tshirts/tshirt-01/g2.png"],
+    "previewImage": "/models/tshirts/tshirt-01/g1.png",
     "sizes": ["XS", "S", "M", "L", "XL"]
   },
   {
@@ -77,7 +79,8 @@
     "price": 2000,
     "description": "The V1 Sweats in Rust bring warmth and character in a standout rust tone. Soft-hand cotton, contemporary fit, and reinforced details for a piece that stands out without trying too hard.",
     "images": ["/models/tshirts/tshirt-02/DSC02500.JPG", "/models/tshirts/tshirt-02/DSC02501.JPG", "/models/tshirts/tshirt-02/DSC02502.JPG"],
-    "modelImages": ["/models/tshirts/tshirt-02/DSC02503.JPG", "/models/tshirts/tshirt-02/DSC02500.JPG"],
+    "modelImages": ["/models/tshirts/tshirt-02/g1.png", "/models/tshirts/tshirt-02/g2.png"],
+    "previewImage": "/models/tshirts/tshirt-02/g1.png",
     "sizes": ["XS", "S", "M", "L", "XL"]
   }
 ]
