@@ -85,9 +85,10 @@ export const products: Product[] = [
       '/models/pants/pant-01/DSC02558.JPG',
     ],
     modelImages: [
-      '/models/pants/pant-01/DSC02559.JPG',
+      '/models/pants/pant-01/g1.png',
       '/models/pants/pant-01/g2.png',
     ],
+    previewImage: '/models/pants/pant-01/g1.png',
     sizes: ['XS', 'S', 'M', 'L', 'XL'],
   },
   {
