@@ -34,7 +34,7 @@ export default function Hero() {
         >
           <div className="absolute inset-0 w-full h-full">
             <video
-              src="/hero/freepik_create-a-detailed-scene-featuring-this-model-image_kling_1080p_16-9_24fps_5576.mp4"
+              src="/hero/g1.mp4"
               autoPlay
               loop
               muted
