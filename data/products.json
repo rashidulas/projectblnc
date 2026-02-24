@@ -80,7 +80,8 @@
     "description": "The V1 Sweats in Rust bring warmth and character in a standout rust tone. Soft-hand cotton, contemporary fit, and reinforced details for a piece that stands out without trying too hard.",
     "images": ["/models/tshirts/tshirt-02/DSC02500.JPG", "/models/tshirts/tshirt-02/DSC02501.JPG", "/models/tshirts/tshirt-02/DSC02502.JPG"],
     "modelImages": ["/models/tshirts/tshirt-02/g1.png", "/models/tshirts/tshirt-02/g2.png"],
-    "previewImage": "/models/tshirts/tshirt-02/v1.mp4",
+    "previewImage": "/models/tshirts/tshirt-02/g1.png",
+    "video": "/models/tshirts/tshirt-02/v1.mp4",
     "sizes": ["XS", "S", "M", "L", "XL"]
   }
 ]

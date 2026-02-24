@@ -5,16 +5,32 @@ import Image from 'next/image';
 
 interface ImageGalleryProps {
   images: string[];
-  modelImages: string[];
+  modelImages?: string[];
   productName: string;
 }
 
 export default function ImageGallery({ images, modelImages, productName }: ImageGalleryProps) {
-  const [activeTab, setActiveTab] = useState<'product' | 'model'>('product');
+  // Prefer model images when they exist so the detail page opens on body shots
+  const [activeTab, setActiveTab] = useState<'product' | 'model'>(() =>
+    Array.isArray(modelImages) && modelImages.length > 0 ? 'model' : 'product'
+  );
   const [selectedImage, setSelectedImage] = useState(0);
   const [isZoomed, setIsZoomed] = useState(false);
 
-  const currentImages = activeTab === 'product' ? images : modelImages;
+  // Normalize image arrays so we never read from an empty / undefined list
+  const baseImages = Array.isArray(images) ? images : [];
+  const baseModelImages = Array.isArray(modelImages) ? modelImages : [];
+
+  const hasModelImages = baseModelImages.length > 0;
+  const currentImages =
+    activeTab === 'product' || !hasModelImages ? baseImages : baseModelImages;
+
+  // If for some reason both are empty, bail out gracefully
+  const fallbackImage =
+    currentImages[0] ??
+    baseImages[0] ??
+    baseModelImages[0] ??
+    '/placeholder/product-placeholder.png';
 
   useEffect(() => {
     if (!isZoomed) return;
@@ -53,12 +69,11 @@ export default function ImageGallery({ images, modelImages, productName }: Image
         className="relative aspect-square bg-neutral-50 overflow-hidden cursor-zoom-in group w-full"
       >
         <Image
-          src={currentImages[selectedImage]}
+          src={currentImages[selectedImage] ?? fallbackImage}
           alt={`${productName} - ${activeTab} view ${selectedImage + 1}`}
           fill
           className="object-cover transition-transform duration-300 group-hover:scale-105"
           sizes="(max-width: 768px) 100vw, 50vw"
-          priority
         />
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300 flex items-center justify-center">
           <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -97,14 +112,13 @@ export default function ImageGallery({ images, modelImages, productName }: Image
           )}
 
           {/* Zoomed Image */}
-          <div className="relative w-[90vw] h-[90vh] flex items-center justify-center">
+          <div className="relative w-[90vw] h-[80vh] sm:h-[90vh] flex items-center justify-center">
             <Image
-              src={currentImages[selectedImage]}
+              src={currentImages[selectedImage] ?? fallbackImage}
               alt={`${productName} - ${activeTab} view ${selectedImage + 1}`}
               fill
               className="object-contain"
-              sizes="90vw"
-              priority
+              sizes="(max-width: 768px) 90vw, 60vw"
             />
           </div>
 
@@ -173,7 +187,7 @@ export default function ImageGallery({ images, modelImages, productName }: Image
               alt={`${productName} thumbnail ${index + 1}`}
               fill
               className="object-cover"
-              sizes="100px"
+              sizes="80px"
             />
           </button>
         ))}

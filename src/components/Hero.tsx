@@ -1,26 +1,63 @@
 'use client';
 
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Keep scroll effects lighter / more stable on small screens
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const updateIsMobile = () => {
+      if (typeof window !== 'undefined') {
+        setIsMobile(window.innerWidth < 768);
+      }
+    };
+
+    updateIsMobile();
+    window.addEventListener('resize', updateIsMobile);
+
+    return () => {
+      window.removeEventListener('resize', updateIsMobile);
+    };
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end start'],
   });
 
-  // Video: smooth scale down and slight move up as user scrolls (scale always > 1 to prevent seam)
-  const videoScale = useTransform(scrollYProgress, [0, 1], [1.08, 1.02]);
-  const videoY = useTransform(scrollYProgress, [0, 1], [0, -30]);
+  // Video: slightly softer transforms on mobile for smoother, less "jumpy" behavior
+  const videoScale = useTransform(
+    scrollYProgress,
+    [0, 1],
+    isMobile ? [1.03, 1.01] : [1.08, 1.02]
+  );
+  const videoY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    isMobile ? [0, -10] : [0, -30]
+  );
 
-  // Text: smooth fade out and slide up
-  const textOpacity = useTransform(scrollYProgress, [0, 0.4, 0.6], [1, 0.5, 0]);
-  const textY = useTransform(scrollYProgress, [0, 0.5], [0, -60]);
+  // Text: lighter motion on mobile so it stays legible and more stable
+  const textOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.4, 0.6],
+    isMobile ? [1, 0.7, 0.15] : [1, 0.5, 0]
+  );
+  const textY = useTransform(
+    scrollYProgress,
+    [0, 0.5],
+    isMobile ? [0, -24] : [0, -60]
+  );
 
   return (
-    <div ref={containerRef} className="relative w-full bg-white -mb-px" style={{ height: '150vh' }}>
+    <div
+      ref={containerRef}
+      className="relative w-full bg-white -mb-px min-h-[120vh] md:min-h-[150vh]"
+    >
       <div className="sticky top-0 h-screen w-full overflow-hidden bg-white isolate">
         {/* Hero Video - transforms on scroll (extends beyond edges to prevent seam) */}
         <motion.div
@@ -39,6 +76,7 @@ export default function Hero() {
               loop
               muted
               playsInline
+              preload="metadata"
               className="absolute inset-0 w-full h-full object-cover"
               style={{ objectPosition: 'center center' }}
             />

@@ -29,9 +29,20 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Load cart from localStorage on mount
   useEffect(() => {
-    const savedCart = localStorage.getItem('projectblnc-cart');
-    if (savedCart) {
-      setCart(JSON.parse(savedCart));
+    try {
+      const savedCart = typeof window !== 'undefined' ? localStorage.getItem('projectblnc-cart') : null;
+      if (!savedCart) return;
+
+      const parsed = JSON.parse(savedCart);
+      if (Array.isArray(parsed)) {
+        setCart(parsed);
+      }
+    } catch {
+      // If JSON is corrupted or not an array, reset cart storage
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('projectblnc-cart');
+      }
+      setCart([]);
     }
   }, []);
 

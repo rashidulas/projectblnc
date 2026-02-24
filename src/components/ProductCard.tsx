@@ -162,7 +162,7 @@ export default function ProductCard({ product, editorial = false, showcase = fal
             </>
           ) : (
             <Image
-              src={product.images[0]}
+              src={displayImage}
               alt={product.name}
               fill
               className="object-cover transition-all duration-700 group-hover:scale-105 grayscale-0 md:grayscale group-hover:grayscale-0"
@@ -225,7 +225,7 @@ export default function ProductCard({ product, editorial = false, showcase = fal
           </>
         ) : (
           <Image
-            src={product.images[0]}
+            src={displayImage}
             alt={product.name}
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-105"

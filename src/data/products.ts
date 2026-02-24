@@ -124,9 +124,11 @@ export const products: Product[] = [
       '/products/hoodies/hoodie-01/DSC02575.JPG',
     ],
     modelImages: [
-      '/models/tshirts/tshirt-01/DSC02494.JPG',
-      '/models/tshirts/tshirt-01/DSC02498.JPG',
+      '/models/tshirts/tshirt-01/g1.png',
+      '/models/tshirts/tshirt-01/g2.png',
     ],
+    // Use the first product image as the preview so the listing and detail page match
+    previewImage: '/models/tshirts/tshirt-01/g1.png',
     sizes: ['XS', 'S', 'M', 'L', 'XL'],
   },
   {
@@ -142,9 +144,12 @@ export const products: Product[] = [
       '/models/tshirts/tshirt-02/DSC02502.JPG',
     ],
     modelImages: [
-      '/models/tshirts/tshirt-02/DSC02503.JPG',
-      '/models/tshirts/tshirt-02/DSC02500.JPG',
+      '/models/tshirts/tshirt-02/g1.png',
+      '/models/tshirts/tshirt-02/g2.png',
     ],
+    // Ensure the grid uses a consistent still frame, while hover plays the video
+    previewImage: '/models/tshirts/tshirt-02/g1.png',
+    video: '/models/tshirts/tshirt-02/v1.mp4',
     sizes: ['XS', 'S', 'M', 'L', 'XL'],
   },
 ];
