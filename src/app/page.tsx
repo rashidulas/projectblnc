@@ -1,23 +1,31 @@
 import Hero from '@/components/Hero';
 import ProductGrid from '@/components/ProductGrid';
-import { getProductsByCategory } from '@/data/products';
 import { getProducts } from '@/lib/products-store';
 import Image from 'next/image';
 
 export default async function Home() {
   const all = await getProducts();
-  const hoodies = getProductsByCategory('Hoodies', all);
+
+  // Randomize the entire collection (hoodies, pants, tees) on the homepage
+  const shuffledProducts = [...all];
+  for (let i = shuffledProducts.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledProducts[i], shuffledProducts[j]] = [shuffledProducts[j], shuffledProducts[i]];
+  }
+
+  // Only show three random featured products in the hero collection
+  const featuredProducts = shuffledProducts.slice(0, 3);
 
   return (
     <main className="bg-white overflow-x-hidden">
       <Hero />
 
-      {/* HOODIES // DROP 001 - pull up so no gap after hero scroll */}
+      {/* COLLECTION // DROP 001 - pull up so no gap after hero scroll */}
       <section className="bg-white max-w-7xl mx-auto px-6 pt-16 md:pt-20 pb-20 sm:pb-24 -mt-[50vh]">
         <h2 className="text-left text-lg md:text-xl font-semibold tracking-tight text-neutral-900 mb-10 md:mb-12">
-          HOODIES // DROP 001
+          COLLECTION // DROP 001
         </h2>
-        <ProductGrid products={hoodies} showcase />
+        <ProductGrid products={featuredProducts} showcase />
       </section>
 
       {/* Beyond Fashion - heading, paragraph, large image */}
