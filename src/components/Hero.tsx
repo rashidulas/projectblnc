@@ -56,9 +56,9 @@ export default function Hero() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full bg-white -mb-px min-h-[120vh] md:min-h-[150vh]"
+      className="relative w-full bg-white -mb-px min-h-screen md:min-h-[150vh]"
     >
-      <div className="sticky top-0 h-screen w-full overflow-hidden bg-white isolate">
+      <div className="relative md:sticky top-0 h-screen w-full overflow-hidden bg-white isolate">
         {/* Hero Video - transforms on scroll (extends beyond edges to prevent seam) */}
         <motion.div
           className="absolute -inset-[3%] overflow-hidden"
@@ -92,16 +92,16 @@ export default function Hero() {
 
         {/* Hero Text - fades and slides up on scroll */}
         <motion.div
-          className="absolute bottom-14 sm:bottom-14 md:bottom-20 lg:bottom-24 left-6 sm:left-8 md:left-14 lg:left-20 right-6 sm:right-auto max-w-2xl z-10"
+          className="absolute bottom-12 sm:bottom-14 md:bottom-20 lg:bottom-24 left-4 sm:left-8 md:left-14 lg:left-20 right-4 sm:right-auto max-w-2xl z-10"
           style={{
             opacity: textOpacity,
             y: textY,
           }}
         >
-          <h1 className="text-4xl sm:text-[2.5rem] md:text-5xl lg:text-6xl xl:text-[4rem] font-bold leading-[1.1] tracking-[-0.02em] text-neutral-900">
+          <h1 className="text-4xl sm:text-[2.5rem] md:text-5xl lg:text-6xl xl:text-[4rem] font-bold leading-[1.05] tracking-[-0.02em] text-neutral-900">
             Redefining Essentials.
           </h1>
-          <h1 className="text-4xl sm:text-[2.5rem] md:text-5xl lg:text-6xl xl:text-[4rem] font-bold leading-[1.1] tracking-[-0.02em] text-neutral-900 mt-1 whitespace-nowrap break-words sm:break-normal">
+          <h1 className="text-4xl sm:text-[2.5rem] md:text-5xl lg:text-6xl xl:text-[4rem] font-bold leading-[1.05] tracking-[-0.02em] text-neutral-900 mt-1 break-words">
             Redefining Essentials.
           </h1>
           <p className="font-description mt-4 sm:mt-6 text-base sm:text-[15px] md:text-base text-neutral-600 leading-[1.6] max-w-lg font-normal">

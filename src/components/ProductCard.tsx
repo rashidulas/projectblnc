@@ -115,7 +115,7 @@ export default function ProductCard({ product, editorial = false, showcase = fal
           <h3 className="text-base md:text-lg font-semibold text-neutral-900 tracking-tight line-clamp-1">
             {product.name}
           </h3>
-          <p className="font-description text-[13px] text-neutral-600 whitespace-nowrap">
+          <p className="font-description text-[13px] text-neutral-600 shrink-0">
             {product.price} BDT
           </p>
         </div>

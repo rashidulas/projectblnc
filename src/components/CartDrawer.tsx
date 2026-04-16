@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useCart } from '@/context/CartContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
@@ -7,6 +8,24 @@ import { X, Plus, Minus, Trash2 } from 'lucide-react';
 
 export default function CartDrawer() {
   const { cart, isCartOpen, closeCart, updateQuantity, removeFromCart, cartTotal } = useCart();
+
+  useEffect(() => {
+    if (!isCartOpen) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeCart();
+      }
+    };
+
+    document.addEventListener('keydown', onKeyDown);
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [isCartOpen, closeCart]);
 
   return (
     <AnimatePresence>
@@ -18,7 +37,7 @@ export default function CartDrawer() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeCart}
-            className="fixed inset-0 bg-black/50 z-50"
+            className="fixed inset-0 bg-black/50 z-[200]"
           />
 
           {/* Drawer */}
@@ -27,7 +46,7 @@ export default function CartDrawer() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'tween', duration: 0.3 }}
-            className="fixed top-0 right-0 h-full w-full max-w-md bg-white z-50 shadow-2xl flex flex-col"
+            className="fixed top-0 right-0 h-full w-full max-w-md bg-white z-[210] shadow-2xl flex flex-col"
             style={{ paddingRight: 'max(env(safe-area-inset-right, 0px), 0px)' }}
           >
             {/* Header */}

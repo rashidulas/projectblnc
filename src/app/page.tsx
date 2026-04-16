@@ -20,8 +20,8 @@ export default async function Home() {
     <main className="bg-white overflow-x-hidden">
       <Hero />
 
-      {/* COLLECTION // DROP 001 - pull up so no gap after hero scroll */}
-      <section className="bg-white max-w-7xl mx-auto px-6 pt-16 md:pt-20 pb-20 sm:pb-24 -mt-[50vh]">
+      {/* COLLECTION // DROP 001 */}
+      <section className="bg-white max-w-7xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 md:pt-20 pb-16 sm:pb-20 md:pb-24 md:-mt-[50vh]">
         <h2 className="text-left text-lg md:text-xl font-semibold tracking-tight text-neutral-900 mb-10 md:mb-12">
           COLLECTION // DROP 001
         </h2>
@@ -29,7 +29,7 @@ export default async function Home() {
       </section>
 
       {/* Beyond Fashion - heading, paragraph, large image */}
-      <section className="bg-white max-w-7xl mx-auto px-6 pt-8 pb-20 sm:pb-24">
+      <section className="bg-white max-w-7xl mx-auto px-4 sm:px-6 pt-6 sm:pt-8 pb-16 sm:pb-20 md:pb-24">
         <h2 className="text-left text-lg md:text-xl font-semibold tracking-tight text-neutral-900 uppercase mb-6 md:mb-8">
           About Blanc
         </h2>
