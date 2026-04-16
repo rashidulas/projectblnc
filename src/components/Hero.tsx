@@ -102,10 +102,10 @@ export default function Hero() {
             Redefining Essentials.
           </h1>
           <h1 className="text-4xl sm:text-[2.5rem] md:text-5xl lg:text-6xl xl:text-[4rem] font-bold leading-[1.1] tracking-[-0.02em] text-neutral-900 mt-1 whitespace-nowrap break-words sm:break-normal">
-            Silhouettes Built for Movement
+            Redefining Essentials.
           </h1>
           <p className="font-description mt-4 sm:mt-6 text-base sm:text-[15px] md:text-base text-neutral-600 leading-[1.6] max-w-lg font-normal">
-            Essentials Designed for Everywhere.
+            Redefining Essentials.
           </p>
         </motion.div>
       </div>
