@@ -111,17 +111,11 @@ export default function ProductCard({ product, editorial = false, showcase = fal
             ))
           )}
         </div>
-        <div className="flex flex-row items-baseline justify-between gap-4 mb-1.5">
-          <h3 className="text-base md:text-lg font-semibold text-neutral-900 tracking-tight">
+        <div className="mt-1.5">
+          <h3 className="text-base md:text-lg font-semibold text-neutral-900 tracking-tight line-clamp-1">
             {product.name}
           </h3>
-          <span className="font-description text-[13px] text-neutral-600 font-normal">
-            from {product.price} BDT
-          </span>
         </div>
-        <p className="font-description text-[13px] text-neutral-600 font-normal leading-[1.5] line-clamp-2">
-          {product.description}
-        </p>
       </TransitionLink>
     );
   }

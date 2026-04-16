@@ -10,10 +10,6 @@ interface ImageGalleryProps {
 }
 
 export default function ImageGallery({ images, modelImages, productName }: ImageGalleryProps) {
-  // Prefer model images when they exist so the detail page opens on body shots
-  const [activeTab, setActiveTab] = useState<'product' | 'model'>(() =>
-    Array.isArray(modelImages) && modelImages.length > 0 ? 'model' : 'product'
-  );
   const [selectedImage, setSelectedImage] = useState(0);
   const [isZoomed, setIsZoomed] = useState(false);
 
@@ -22,8 +18,7 @@ export default function ImageGallery({ images, modelImages, productName }: Image
   const baseModelImages = Array.isArray(modelImages) ? modelImages : [];
 
   const hasModelImages = baseModelImages.length > 0;
-  const currentImages =
-    activeTab === 'product' || !hasModelImages ? baseImages : baseModelImages;
+  const currentImages = hasModelImages ? baseModelImages : baseImages;
 
   // If for some reason both are empty, bail out gracefully
   const fallbackImage =
@@ -70,7 +65,7 @@ export default function ImageGallery({ images, modelImages, productName }: Image
       >
         <Image
           src={currentImages[selectedImage] ?? fallbackImage}
-          alt={`${productName} - ${activeTab} view ${selectedImage + 1}`}
+          alt={`${productName} view ${selectedImage + 1}`}
           fill
           className="object-cover transition-transform duration-300 group-hover:scale-105"
           sizes="(max-width: 768px) 100vw, 50vw"
@@ -115,7 +110,7 @@ export default function ImageGallery({ images, modelImages, productName }: Image
           <div className="relative w-[90vw] h-[80vh] sm:h-[90vh] flex items-center justify-center">
             <Image
               src={currentImages[selectedImage] ?? fallbackImage}
-              alt={`${productName} - ${activeTab} view ${selectedImage + 1}`}
+              alt={`${productName} view ${selectedImage + 1}`}
               fill
               className="object-contain"
               sizes="(max-width: 768px) 90vw, 60vw"
@@ -141,36 +136,6 @@ export default function ImageGallery({ images, modelImages, productName }: Image
           </div>
         </div>
       )}
-
-      {/* Tab Buttons - Minimal Style */}
-      <div className="flex gap-2 sm:gap-3">
-        <button
-          onClick={() => {
-            setActiveTab('product');
-            setSelectedImage(0);
-          }}
-          className={`font-description min-h-[44px] px-4 sm:px-5 py-2.5 sm:py-2 text-xs font-medium tracking-wide transition-all border ${
-            activeTab === 'product'
-              ? 'bg-black text-white border-black'
-              : 'bg-white text-neutral-600 border-neutral-300 hover:border-neutral-900 active:bg-neutral-50'
-          }`}
-        >
-          PRODUCT
-        </button>
-        <button
-          onClick={() => {
-            setActiveTab('model');
-            setSelectedImage(0);
-          }}
-          className={`font-description min-h-[44px] px-4 sm:px-5 py-2.5 sm:py-2 text-xs font-medium tracking-wide transition-all border ${
-            activeTab === 'model'
-              ? 'bg-black text-white border-black'
-              : 'bg-white text-neutral-600 border-neutral-300 hover:border-neutral-900 active:bg-neutral-50'
-          }`}
-        >
-          MODEL
-        </button>
-      </div>
 
       {/* Thumbnails */}
       <div className="grid grid-cols-4 gap-2 sm:gap-3">
