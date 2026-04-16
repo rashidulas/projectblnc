@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminSession } from '@/lib/admin-auth';
 import { getProducts, writeProducts } from '@/lib/products-store';
-import type { Product } from '@/data/products';
+import { slugifyProductName, type Product } from '@/data/products';
 
 export async function PUT(
   request: NextRequest,
@@ -21,7 +21,7 @@ export async function PUT(
       ...body,
       id: existing.id,
       name: body.name ?? existing.name,
-      slug: body.slug ?? existing.slug,
+      slug: slugifyProductName(body.name ?? existing.name),
       category: (body.category as Product['category']) ?? existing.category,
       price: body.price != null ? Number(body.price) : existing.price,
       description: body.description ?? existing.description,

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminSession } from '@/lib/admin-auth';
 import { getProducts, writeProducts } from '@/lib/products-store';
-import type { Product } from '@/data/products';
+import { slugifyProductName, type Product } from '@/data/products';
 
 export async function GET() {
   const ok = await getAdminSession();
@@ -17,7 +17,6 @@ export async function POST(request: NextRequest) {
     const body = (await request.json()) as Partial<Product>;
     const {
       name,
-      slug,
       category,
       price,
       description,
@@ -27,12 +26,13 @@ export async function POST(request: NextRequest) {
       previewImage,
       video,
     } = body;
-    if (!name || !slug || !category || price == null || !description || !Array.isArray(images)) {
+    if (!name || !category || price == null || !description || !Array.isArray(images)) {
       return NextResponse.json(
-        { error: 'Missing required fields: name, slug, category, price, description, images' },
+        { error: 'Missing required fields: name, category, price, description, images' },
         { status: 400 }
       );
     }
+    const slug = slugifyProductName(name);
     const products = await getProducts();
     if (products.some((p) => p.slug === slug || p.id === body.id)) {
       return NextResponse.json({ error: 'Product with this slug or id already exists' }, { status: 400 });
