@@ -1,0 +1,33 @@
+[
+  {
+    "id": "1776440581168-277le77b",
+    "orderNumber": "BLNC-00001",
+    "createdAt": "2026-04-17T15:43:01.168Z",
+    "customer": {
+      "firstName": "Zawad",
+      "lastName": "YS",
+      "email": "zawadbracu@gmail.com",
+      "phone": "01626524432"
+    },
+    "shippingAddress": {
+      "addressLine1": "h16 lane 2 block b",
+      "addressLine2": "",
+      "city": "mirpur",
+      "postalCode": "1216"
+    },
+    "items": [
+      {
+        "id": "tshirt-02",
+        "name": "V1 Sweats in Rust",
+        "selectedSize": "M",
+        "quantity": 1,
+        "price": 2000,
+        "image": "/models/tshirts/tshirt-02/DSC02500.JPG"
+      }
+    ],
+    "subtotal": 2000,
+    "shippingFee": 120,
+    "total": 2120,
+    "status": "pending"
+  }
+]

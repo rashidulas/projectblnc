@@ -3,9 +3,12 @@ import { createHmac, timingSafeEqual } from 'crypto';
 
 const COOKIE_NAME = 'admin_session';
 const MAX_AGE = 60 * 60 * 24 * 7; // 7 days
-const SECRET = process.env.ADMIN_SECRET || process.env.ADMIN_PASSWORD || 'change-me-in-production';
+const SECRET = process.env.ADMIN_SECRET || process.env.ADMIN_PASSWORD || '';
 
 function sign(value: string): string {
+  if (!SECRET) {
+    throw new Error('Admin session secret is not configured. Set ADMIN_SECRET or ADMIN_PASSWORD.');
+  }
   return createHmac('sha256', SECRET).update(value).digest('hex');
 }
 
@@ -16,7 +19,7 @@ export function createSession(): { value: string; signature: string } {
 }
 
 export function verifySession(cookieValue: string | undefined): boolean {
-  if (!cookieValue || !SECRET || SECRET === 'change-me-in-production') return false;
+  if (!cookieValue || !SECRET) return false;
   const [value, signature] = cookieValue.split('.');
   if (!value || !signature) return false;
   try {

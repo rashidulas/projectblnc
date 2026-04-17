@@ -5,9 +5,16 @@ import { useCart } from '@/context/CartContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { X, Plus, Minus, Trash2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function CartDrawer() {
   const { cart, isCartOpen, closeCart, updateQuantity, removeFromCart, cartTotal } = useCart();
+  const router = useRouter();
+
+  const handleCheckout = () => {
+    closeCart();
+    router.push('/checkout');
+  };
 
   useEffect(() => {
     if (!isCartOpen) return;
@@ -140,7 +147,10 @@ export default function CartDrawer() {
                   <span>Subtotal</span>
                   <span>{cartTotal.toFixed(2)} BDT</span>
                 </div>
-                <button className="w-full bg-black text-white py-4 min-h-[48px] rounded-md hover:opacity-90 active:opacity-95 transition-opacity font-medium">
+                <button
+                  onClick={handleCheckout}
+                  className="w-full bg-black text-white py-4 min-h-[48px] rounded-md hover:opacity-90 active:opacity-95 transition-opacity font-medium"
+                >
                   Checkout
                 </button>
                 <p className="font-description text-xs text-neutral-500 text-center">

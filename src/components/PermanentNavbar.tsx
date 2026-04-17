@@ -151,6 +151,24 @@ export default function PermanentNavbar() {
                       About BLANC
                     </TransitionLink>
                   </li>
+                  <li>
+                    <TransitionLink
+                      href="/customer/login"
+                      onClick={() => setMenuOpen(false)}
+                      className="text-lg md:text-xl text-neutral-900 hover:text-neutral-600 active:opacity-80 transition-colors block font-medium tracking-tight py-4 sm:py-3 min-h-[48px] sm:min-h-0 flex items-center justify-center"
+                    >
+                      Customer Login
+                    </TransitionLink>
+                  </li>
+                  <li>
+                    <TransitionLink
+                      href="/admin"
+                      onClick={() => setMenuOpen(false)}
+                      className="text-lg md:text-xl text-neutral-900 hover:text-neutral-600 active:opacity-80 transition-colors block font-medium tracking-tight py-4 sm:py-3 min-h-[48px] sm:min-h-0 flex items-center justify-center"
+                    >
+                      Admin
+                    </TransitionLink>
+                  </li>
                 </ul>
               </nav>
             </motion.div>
