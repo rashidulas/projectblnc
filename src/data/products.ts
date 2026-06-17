@@ -119,10 +119,10 @@ const productSeed: ProductInput[] = [
       '/models/hoodies/hoodie-02/DSC02535.webp',
     ],
     modelImages: [
-      '/models/hoodies/hoodie-01/DSC02491.webp',
-      '/models/hoodies/hoodie-01/DSC02488.webp',
+      '/models/hoodies/hoodie-02/b1.webp',
+      '/models/hoodies/hoodie-02/b2.webp',
     ],
-    
+    previewImage: '/models/hoodies/hoodie-02/b1.webp',
     sizes: ['XS', 'S', 'M', 'L', 'XL'],
   },
   // T-Shirts
