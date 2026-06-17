@@ -1,17 +1,16 @@
 'use client';
 
 import { type ReactNode } from 'react';
-import { AnimatePresence } from 'framer-motion';
-import { PageTransitionProvider as Provider } from '@/context/PageTransitionContext';
-import PageTransitionOverlay from '@/components/PageTransitionOverlay';
+import { LoadingProvider } from '@/context/LoadingContext';
+import GlobalLoadingScreen from '@/components/GlobalLoadingScreen';
+import LoadingCoordinator from '@/components/LoadingCoordinator';
 
 export default function PageTransitionProvider({ children }: { children: ReactNode }) {
   return (
-    <Provider>
+    <LoadingProvider>
+      <LoadingCoordinator />
       {children}
-      <AnimatePresence mode="sync">
-        <PageTransitionOverlay />
-      </AnimatePresence>
-    </Provider>
+      <GlobalLoadingScreen />
+    </LoadingProvider>
   );
 }

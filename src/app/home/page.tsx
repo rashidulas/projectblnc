@@ -15,7 +15,9 @@ export default async function HomePage() {
   const featuredProducts = shuffledProducts.slice(0, 3);
 
   return (
-    <main className="bg-neutral-50 overflow-x-hidden">
+    <>
+      <link rel="preload" href="/hero/g1.mp4" as="video" type="video/mp4" />
+      <main className="bg-neutral-50 overflow-x-hidden">
       <HomeHero />
 
       <section className="bg-neutral-50 max-w-7xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 md:pt-20 pb-16 sm:pb-20 md:pb-24 md:-mt-[50vh]">
@@ -46,5 +48,6 @@ export default async function HomePage() {
 
       <div className="h-32 bg-neutral-50" />
     </main>
+    </>
   );
 }

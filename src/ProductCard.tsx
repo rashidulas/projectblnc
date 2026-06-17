@@ -67,7 +67,7 @@ export default function ProductCard({ product, editorial = false, showcase = fal
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <div className="relative aspect-[3/4] bg-[#e7e7e7] overflow-hidden mb-4 sm:mb-5">
+        <div className="relative aspect-[3/4] bg-neutral-100 overflow-hidden mb-4 sm:mb-5">
           {product.video ? (
             <>
               <video
@@ -88,7 +88,7 @@ export default function ProductCard({ product, editorial = false, showcase = fal
                   src={displayImage}
                   alt={product.name}
                   fill
-                  className="object-contain transition-all duration-500 ease-out grayscale-0 md:grayscale"
+                  className="object-cover transition-all duration-500 ease-out grayscale-0 md:grayscale"
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
@@ -104,7 +104,7 @@ export default function ProductCard({ product, editorial = false, showcase = fal
                   src={src}
                   alt={`${product.name} - ${i + 1}`}
                   fill
-                  className="object-contain transition-all duration-500 ease-out grayscale-0 md:grayscale group-hover:grayscale-0 group-hover:scale-105"
+                  className="object-cover transition-all duration-500 ease-out grayscale-0 md:grayscale group-hover:grayscale-0 group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
@@ -131,7 +131,7 @@ export default function ProductCard({ product, editorial = false, showcase = fal
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <div className="relative aspect-[3/4] bg-[#e7e7e7] overflow-hidden mb-6">
+        <div className="relative aspect-[3/4] bg-neutral-200 overflow-hidden mb-6">
           {product.video ? (
             <>
               <video
@@ -152,7 +152,7 @@ export default function ProductCard({ product, editorial = false, showcase = fal
                   src={displayImage}
                   alt={product.name}
                   fill
-                  className="object-contain transition-all duration-700 grayscale-0 md:grayscale"
+                  className="object-cover transition-all duration-700 grayscale-0 md:grayscale"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </div>
@@ -162,7 +162,7 @@ export default function ProductCard({ product, editorial = false, showcase = fal
               src={displayImage}
               alt={product.name}
               fill
-              className="object-contain transition-all duration-700 grayscale-0 md:grayscale group-hover:grayscale-0"
+              className="object-cover transition-all duration-700 group-hover:scale-105 grayscale-0 md:grayscale group-hover:grayscale-0"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           )}
@@ -186,7 +186,7 @@ export default function ProductCard({ product, editorial = false, showcase = fal
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="relative aspect-square bg-[#e7e7e7] overflow-hidden mb-4">
+      <div className="relative aspect-square bg-neutral-200 overflow-hidden mb-4">
         {product.video ? (
           <>
             <video
@@ -225,7 +225,7 @@ export default function ProductCard({ product, editorial = false, showcase = fal
             src={displayImage}
             alt={product.name}
             fill
-            className="object-contain transition-transform duration-700"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         )}

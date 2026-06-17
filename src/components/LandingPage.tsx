@@ -1,30 +1,12 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useRef } from 'react';
 import Hero from '@/components/Hero';
-
-const MIN_LOADER_MS = 1100;
-const FADE_OUT_MS = 1000;
+import { useLoading } from '@/context/LoadingContext';
 
 export default function LandingPage() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [loaderVisible, setLoaderVisible] = useState(true);
-  const [videoReady, setVideoReady] = useState(false);
-  const [minTimeElapsed, setMinTimeElapsed] = useState(false);
-
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const minMs = reduceMotion ? 350 : MIN_LOADER_MS;
-    const timer = setTimeout(() => setMinTimeElapsed(true), minMs);
-
-    return () => {
-      clearTimeout(timer);
-      document.body.style.overflow = '';
-    };
-  }, []);
+  const { reportPageReady } = useLoading();
 
   useEffect(() => {
     let cancelled = false;
@@ -42,16 +24,14 @@ export default function LandingPage() {
         video
           .play()
           .then(() => {
-            if (!cancelled) setVideoReady(true);
+            if (!cancelled) reportPageReady();
           })
           .catch(() => {
-            if (!cancelled) setVideoReady(true);
+            if (!cancelled) reportPageReady();
           });
       };
 
-      const onCanPlayThrough = () => markReady();
-
-      video.addEventListener('canplaythrough', onCanPlayThrough);
+      video.addEventListener('canplaythrough', markReady, { once: true });
       video.preload = 'auto';
       video.load();
 
@@ -60,13 +40,10 @@ export default function LandingPage() {
       }
 
       const fallback = setTimeout(() => {
-        if (!cancelled) setVideoReady(true);
+        if (!cancelled) reportPageReady();
       }, 10000);
 
-      cleanup = () => {
-        video.removeEventListener('canplaythrough', onCanPlayThrough);
-        clearTimeout(fallback);
-      };
+      cleanup = () => clearTimeout(fallback);
     };
 
     attach();
@@ -75,50 +52,11 @@ export default function LandingPage() {
       cancelled = true;
       cleanup?.();
     };
-  }, []);
-
-  useEffect(() => {
-    if (videoReady && minTimeElapsed) {
-      setLoaderVisible(false);
-    }
-  }, [videoReady, minTimeElapsed]);
-
-  const handleExitComplete = () => {
-    document.body.style.overflow = '';
-  };
+  }, [reportPageReady]);
 
   return (
     <main className="overflow-x-hidden">
       <Hero videoRef={videoRef} />
-
-      <AnimatePresence onExitComplete={handleExitComplete}>
-        {loaderVisible && (
-          <motion.div
-            key="landing-loader"
-            className="fixed inset-0 z-[200] flex items-center justify-center bg-[#F2F2F2] pointer-events-none"
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{
-              duration: FADE_OUT_MS / 1000,
-              ease: [0.25, 0.1, 0.25, 1],
-            }}
-            aria-hidden="true"
-          >
-            <motion.span
-              className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tighter text-neutral-900 select-none lowercase"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{
-                duration: 0.55,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-            >
-              blanc
-            </motion.span>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </main>
   );
 }

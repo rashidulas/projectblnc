@@ -2,21 +2,17 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { usePageTransition } from '@/context/PageTransitionContext';
+import { useLoading } from '@/context/LoadingContext';
 import type { ComponentProps } from 'react';
 
 type TransitionLinkProps = Omit<ComponentProps<typeof Link>, 'href'> & {
   href: string;
 };
 
-/**
- * A Link that triggers the page transition overlay. Navigates immediately on click
- * so the new page loads while the overlay animates, then overlay slides up to reveal.
- */
 export default function TransitionLink({ href, onClick, children, ...rest }: TransitionLinkProps) {
   const pathname = usePathname();
   const router = useRouter();
-  const { startTransition } = usePageTransition();
+  const { beginNavigation } = useLoading();
 
   const isCurrentPage = pathname === href;
 
@@ -28,8 +24,8 @@ export default function TransitionLink({ href, onClick, children, ...rest }: Tra
     onClick?.(e);
     if (e.defaultPrevented) return;
     e.preventDefault();
+    beginNavigation(href);
     router.push(href);
-    startTransition(href);
   };
 
   return (

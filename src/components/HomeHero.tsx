@@ -1,11 +1,16 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { useLoading } from '@/context/LoadingContext';
 
 export default function HomeHero() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const pathname = usePathname();
+  const { reportPageReady } = useLoading();
 
   useEffect(() => {
     const updateIsMobile = () => {
@@ -18,6 +23,54 @@ export default function HomeHero() {
     window.addEventListener('resize', updateIsMobile);
     return () => window.removeEventListener('resize', updateIsMobile);
   }, []);
+
+  useEffect(() => {
+    if (pathname !== '/home') return;
+
+    let cancelled = false;
+    let cleanup: (() => void) | undefined;
+
+    const attach = () => {
+      const video = videoRef.current;
+      if (!video) {
+        requestAnimationFrame(attach);
+        return;
+      }
+
+      const markReady = () => {
+        if (cancelled) return;
+        video
+          .play()
+          .then(() => {
+            if (!cancelled) reportPageReady();
+          })
+          .catch(() => {
+            if (!cancelled) reportPageReady();
+          });
+      };
+
+      video.addEventListener('canplaythrough', markReady, { once: true });
+      video.preload = 'auto';
+      video.load();
+
+      if (video.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA) {
+        markReady();
+      }
+
+      const fallback = setTimeout(() => {
+        if (!cancelled) reportPageReady();
+      }, 10000);
+
+      cleanup = () => clearTimeout(fallback);
+    };
+
+    attach();
+
+    return () => {
+      cancelled = true;
+      cleanup?.();
+    };
+  }, [pathname, reportPageReady]);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -62,12 +115,13 @@ export default function HomeHero() {
         >
           <div className="absolute inset-0 w-full h-full">
             <video
+              ref={videoRef}
               src="/hero/g1.mp4"
               autoPlay
               loop
               muted
               playsInline
-              preload="metadata"
+              preload="auto"
               className="absolute inset-0 w-full h-full object-cover"
               style={{ objectPosition: 'center center' }}
             />
