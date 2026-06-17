@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminSession } from '@/lib/admin-auth';
-import { getOrders, writeOrders, type OrderRecord } from '@/lib/orders-store';
+import { updateOrderStatus, type OrderRecord } from '@/lib/orders-store';
 
 const ALLOWED_STATUSES: OrderRecord['status'][] = [
   'pending',
@@ -25,19 +25,10 @@ export async function PUT(
       return NextResponse.json({ error: 'Invalid status' }, { status: 400 });
     }
 
-    const orders = await getOrders();
-    const index = orders.findIndex((order) => order.id === id);
-    if (index === -1) {
+    const updatedOrder = await updateOrderStatus(id, body.status);
+    if (!updatedOrder) {
       return NextResponse.json({ error: 'Order not found' }, { status: 404 });
     }
-
-    const updatedOrder: OrderRecord = {
-      ...orders[index],
-      status: body.status,
-    };
-
-    orders[index] = updatedOrder;
-    await writeOrders(orders);
 
     return NextResponse.json(updatedOrder);
   } catch (error) {

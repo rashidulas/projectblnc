@@ -25,7 +25,7 @@ export default function ImageGallery({ images, modelImages, productName }: Image
     currentImages[0] ??
     baseImages[0] ??
     baseModelImages[0] ??
-    '/placeholder/product-placeholder.png';
+    '/placeholder/product-placeholder.webp';
 
   useEffect(() => {
     if (!isZoomed) return;

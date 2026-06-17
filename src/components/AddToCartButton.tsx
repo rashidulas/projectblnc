@@ -17,8 +17,8 @@ export default function AddToCartButton({ product }: AddToCartButtonProps) {
   const { addToCart } = useCart();
 
   const categorySlug = product.category.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-  const categorySizeChartPath = `/size-charts/${categorySlug}.png`;
-  const defaultSizeChartPath = '/size-charts/default.png';
+  const categorySizeChartPath = `/size-charts/${categorySlug}.webp`;
+  const defaultSizeChartPath = '/size-charts/default.webp';
 
   const handleAddToCart = () => {
     if (!selectedSize) {

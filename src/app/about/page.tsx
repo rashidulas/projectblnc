@@ -32,7 +32,7 @@ export default function AboutPage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 md:py-12">
         <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] md:aspect-[21/9] overflow-hidden group">
           <Image
-            src="/about/1.jpg"
+            src="/about/1.webp"
             alt="BLANC"
             fill
             className="object-cover grayscale-0 md:grayscale transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:scale-105"
@@ -56,7 +56,7 @@ export default function AboutPage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 md:py-12">
         <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] md:aspect-[21/9] overflow-hidden group">
           <Image
-            src="/about/2.JPG"
+            src="/about/2.webp"
             alt="BLANC"
             fill
             className="object-cover grayscale-0 md:grayscale transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:scale-105"
@@ -79,7 +79,7 @@ export default function AboutPage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 md:py-12 pb-20 sm:pb-24 md:pb-32">
 <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] md:aspect-[21/9] overflow-hidden group">
             <Image
-            src="/about/3.JPG"
+            src="/about/3.webp"
             alt="BLANC"
             fill
             className="object-cover grayscale-0 md:grayscale transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:scale-105"

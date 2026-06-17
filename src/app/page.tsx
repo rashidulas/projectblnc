@@ -38,7 +38,7 @@ export default async function Home() {
         </p>
         <div className="relative w-full aspect-[16/10] max-h-[70vh] overflow-hidden">
           <Image
-            src="/hod.jpg"
+            src="/hod.webp"
             alt="Beyond Fashion"
             fill
             className="object-cover object-center"

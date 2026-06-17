@@ -16,181 +16,338 @@ interface SavedCustomer {
 
 const CUSTOMER_STORAGE_KEY = 'projectblnc-customer';
 
+type Mode = 'signin' | 'register';
+
+const inputClass =
+  'w-full border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-black/20 transition';
+
 export default function CustomerLoginPage() {
   const router = useRouter();
+  const [mode, setMode] = useState<Mode>('signin');
+
+  // Shared
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  // Register-only
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [addressLine1, setAddressLine1] = useState('');
   const [addressLine2, setAddressLine2] = useState('');
   const [city, setCity] = useState('');
   const [postalCode, setPostalCode] = useState('');
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [alreadyLoggedIn, setAlreadyLoggedIn] = useState<SavedCustomer | null>(null);
 
+  // If a customer is already saved locally, greet them.
   useEffect(() => {
     try {
       const savedRaw = localStorage.getItem(CUSTOMER_STORAGE_KEY);
       if (!savedRaw) return;
       const saved = JSON.parse(savedRaw) as SavedCustomer;
-      setFirstName(saved.firstName ?? '');
-      setLastName(saved.lastName ?? '');
-      setEmail(saved.email ?? '');
-      setPhone(saved.phone ?? '');
-      setAddressLine1(saved.addressLine1 ?? '');
-      setAddressLine2(saved.addressLine2 ?? '');
-      setCity(saved.city ?? '');
-      setPostalCode(saved.postalCode ?? '');
+      if (saved?.email) {
+        setAlreadyLoggedIn(saved);
+        setEmail(saved.email);
+      }
     } catch {
       localStorage.removeItem(CUSTOMER_STORAGE_KEY);
     }
   }, []);
 
-  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (isSubmitting) return;
-
+  const resetMessages = () => {
     setErrorMessage('');
     setSuccessMessage('');
+  };
+
+  const switchMode = (next: Mode) => {
+    setMode(next);
+    resetMessages();
+    setPassword('');
+  };
+
+  const handleSignIn = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (isSubmitting) return;
+    resetMessages();
+
+    if (!email || !password) {
+      setErrorMessage('Please enter your email and password.');
+      return;
+    }
+
     setIsSubmitting(true);
-
-    const payload = {
-      firstName,
-      lastName,
-      email,
-      phone,
-      addressLine1,
-      addressLine2,
-      city,
-      postalCode,
-    };
-
     try {
       const response = await fetch('/api/customers/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
       });
-
-      const data = (await response.json()) as {
-        error?: string;
-        customer?: SavedCustomer;
-      };
+      const data = (await response.json()) as { error?: string; customer?: SavedCustomer };
 
       if (!response.ok || !data.customer) {
-        throw new Error(data.error || 'Failed to save customer information');
+        throw new Error(data.error || 'Invalid email or password.');
       }
 
       localStorage.setItem(CUSTOMER_STORAGE_KEY, JSON.stringify(data.customer));
-      setSuccessMessage('Information saved. Redirecting to checkout...');
-      setTimeout(() => {
-        router.push('/checkout');
-      }, 600);
+      setSuccessMessage('Signed in. Redirecting...');
+      setTimeout(() => router.push('/checkout'), 600);
     } catch (error) {
-      setErrorMessage(
-        error instanceof Error ? error.message : 'Failed to save customer information'
-      );
+      setErrorMessage(error instanceof Error ? error.message : 'Could not sign in.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const handleRegister = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (isSubmitting) return;
+    resetMessages();
+
+    if (password.length < 8) {
+      setErrorMessage('Password must be at least 8 characters.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const response = await fetch('/api/customers/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          phone,
+          password,
+          addressLine1,
+          addressLine2,
+          city,
+          postalCode,
+        }),
+      });
+      const data = (await response.json()) as { error?: string; customer?: SavedCustomer };
+
+      if (!response.ok || !data.customer) {
+        throw new Error(data.error || 'Could not create your account.');
+      }
+
+      localStorage.setItem(CUSTOMER_STORAGE_KEY, JSON.stringify(data.customer));
+      setSuccessMessage('Account created. Redirecting...');
+      setTimeout(() => router.push('/checkout'), 600);
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : 'Could not create your account.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleSignOut = () => {
+    localStorage.removeItem(CUSTOMER_STORAGE_KEY);
+    setAlreadyLoggedIn(null);
+    setEmail('');
+    setPassword('');
+    resetMessages();
+  };
+
   return (
-    <section className="max-w-2xl mx-auto px-4 sm:px-8 py-8 sm:py-12">
-      <header className="mb-8">
-        <p className="text-xs tracking-[0.3em] text-neutral-500 uppercase">Customer access</p>
-        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mt-2">Customer Login</h1>
-        <p className="font-description text-neutral-600 mt-2">
-          Save your details once and use them during checkout.
+    <section className="max-w-md mx-auto px-4 sm:px-6 py-10 sm:py-16">
+      <header className="mb-8 text-center">
+        <p className="text-xs tracking-[0.3em] text-neutral-500 uppercase">Account</p>
+        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mt-2">
+          {mode === 'signin' ? 'Welcome back' : 'Create your account'}
+        </h1>
+        <p className="font-description text-neutral-600 mt-2 text-sm">
+          {mode === 'signin'
+            ? 'Sign in to check out faster.'
+            : 'Save your details for a quicker checkout next time.'}
         </p>
       </header>
 
-      <form onSubmit={onSubmit} className="border border-neutral-200 rounded-xl p-5 sm:p-6 space-y-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <input
-            type="text"
-            placeholder="First name"
-            value={firstName}
-            onChange={(event) => setFirstName(event.target.value)}
-            required
-            className="border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-black/20"
-          />
-          <input
-            type="text"
-            placeholder="Last name"
-            value={lastName}
-            onChange={(event) => setLastName(event.target.value)}
-            required
-            className="border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-black/20"
-          />
-          <input
-            type="email"
-            placeholder="Email address"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            required
-            className="sm:col-span-2 border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-black/20"
-          />
-          <input
-            type="tel"
-            placeholder="Phone number"
-            value={phone}
-            onChange={(event) => setPhone(event.target.value)}
-            required
-            className="sm:col-span-2 border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-black/20"
-          />
-          <input
-            type="text"
-            placeholder="Address line 1"
-            value={addressLine1}
-            onChange={(event) => setAddressLine1(event.target.value)}
-            required
-            className="sm:col-span-2 border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-black/20"
-          />
-          <input
-            type="text"
-            placeholder="Address line 2 (optional)"
-            value={addressLine2}
-            onChange={(event) => setAddressLine2(event.target.value)}
-            className="sm:col-span-2 border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-black/20"
-          />
-          <input
-            type="text"
-            placeholder="City"
-            value={city}
-            onChange={(event) => setCity(event.target.value)}
-            required
-            className="border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-black/20"
-          />
-          <input
-            type="text"
-            placeholder="Postal code"
-            value={postalCode}
-            onChange={(event) => setPostalCode(event.target.value)}
-            required
-            className="border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-black/20"
-          />
-        </div>
-
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full bg-black text-white py-3 rounded-md hover:opacity-90 disabled:opacity-60 transition-opacity"
-        >
-          {isSubmitting ? 'Saving...' : 'Save and continue'}
-        </button>
-
-        {errorMessage && (
-          <p className="text-sm text-red-600" role="alert">
-            {errorMessage}
+      {alreadyLoggedIn ? (
+        <div className="border border-neutral-200 rounded-xl p-6 text-center space-y-4">
+          <p className="text-neutral-700">
+            You&apos;re signed in as{' '}
+            <span className="font-semibold">{alreadyLoggedIn.email}</span>.
           </p>
-        )}
-        {successMessage && <p className="text-sm text-emerald-700">{successMessage}</p>}
-      </form>
+          <div className="flex gap-3">
+            <button
+              onClick={() => router.push('/checkout')}
+              className="flex-1 bg-black text-white py-3 rounded-md hover:opacity-90 transition-opacity"
+            >
+              Go to checkout
+            </button>
+            <button
+              onClick={handleSignOut}
+              className="flex-1 border border-neutral-300 py-3 rounded-md hover:bg-neutral-50 transition-colors"
+            >
+              Sign out
+            </button>
+          </div>
+        </div>
+      ) : (
+        <>
+          {/* Tabs */}
+          <div className="grid grid-cols-2 mb-6 border border-neutral-200 rounded-lg overflow-hidden">
+            <button
+              onClick={() => switchMode('signin')}
+              className={`py-3 text-sm font-medium transition-colors ${
+                mode === 'signin'
+                  ? 'bg-black text-white'
+                  : 'bg-white text-neutral-600 hover:bg-neutral-50'
+              }`}
+            >
+              Sign In
+            </button>
+            <button
+              onClick={() => switchMode('register')}
+              className={`py-3 text-sm font-medium transition-colors ${
+                mode === 'register'
+                  ? 'bg-black text-white'
+                  : 'bg-white text-neutral-600 hover:bg-neutral-50'
+              }`}
+            >
+              Create Account
+            </button>
+          </div>
+
+          {mode === 'signin' ? (
+            <form onSubmit={handleSignIn} className="space-y-4">
+              <input
+                type="email"
+                placeholder="Email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoComplete="email"
+                className={inputClass}
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="current-password"
+                className={inputClass}
+              />
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-black text-white py-3 rounded-md hover:opacity-90 disabled:opacity-60 transition-opacity"
+              >
+                {isSubmitting ? 'Signing in...' : 'Sign In'}
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={handleRegister} className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <input
+                  type="text"
+                  placeholder="First name"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  required
+                  autoComplete="given-name"
+                  className={inputClass}
+                />
+                <input
+                  type="text"
+                  placeholder="Last name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  required
+                  autoComplete="family-name"
+                  className={inputClass}
+                />
+              </div>
+              <input
+                type="email"
+                placeholder="Email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                autoComplete="email"
+                className={inputClass}
+              />
+              <input
+                type="password"
+                placeholder="Password (min. 8 characters)"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="new-password"
+                className={inputClass}
+              />
+              <input
+                type="tel"
+                placeholder="Phone number"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                required
+                autoComplete="tel"
+                className={inputClass}
+              />
+              <input
+                type="text"
+                placeholder="Address line 1"
+                value={addressLine1}
+                onChange={(e) => setAddressLine1(e.target.value)}
+                required
+                autoComplete="address-line1"
+                className={inputClass}
+              />
+              <input
+                type="text"
+                placeholder="Address line 2 (optional)"
+                value={addressLine2}
+                onChange={(e) => setAddressLine2(e.target.value)}
+                autoComplete="address-line2"
+                className={inputClass}
+              />
+              <div className="grid grid-cols-2 gap-4">
+                <input
+                  type="text"
+                  placeholder="City"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  required
+                  autoComplete="address-level2"
+                  className={inputClass}
+                />
+                <input
+                  type="text"
+                  placeholder="Postal code"
+                  value={postalCode}
+                  onChange={(e) => setPostalCode(e.target.value)}
+                  required
+                  autoComplete="postal-code"
+                  className={inputClass}
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-black text-white py-3 rounded-md hover:opacity-90 disabled:opacity-60 transition-opacity"
+              >
+                {isSubmitting ? 'Creating account...' : 'Create Account'}
+              </button>
+            </form>
+          )}
+
+          {errorMessage && (
+            <p className="text-sm text-red-600 mt-4 text-center" role="alert">
+              {errorMessage}
+            </p>
+          )}
+          {successMessage && (
+            <p className="text-sm text-emerald-700 mt-4 text-center">{successMessage}</p>
+          )}
+        </>
+      )}
     </section>
   );
 }

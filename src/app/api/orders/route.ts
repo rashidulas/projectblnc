@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getOrders, writeOrders, type OrderRecord } from '@/lib/orders-store';
+import { getNextOrderNumber, insertOrder, type OrderRecord } from '@/lib/orders-store';
 import { sendOrderNotificationEmail } from '@/lib/order-email';
 
 interface CreateOrderBody {
@@ -26,10 +26,6 @@ interface CreateOrderBody {
   subtotal?: number;
   shippingFee?: number;
   total?: number;
-}
-
-function makeOrderNumber(sequence: number) {
-  return `BLNC-${String(sequence).padStart(5, '0')}`;
 }
 
 export async function POST(request: NextRequest) {
@@ -98,8 +94,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid subtotal amount' }, { status: 400 });
     }
 
-    const orders = await getOrders();
-    const orderNumber = makeOrderNumber(orders.length + 1);
+    const orderNumber = await getNextOrderNumber();
     const order: OrderRecord = {
       id: `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`,
       orderNumber,
@@ -123,8 +118,7 @@ export async function POST(request: NextRequest) {
       status: 'pending',
     };
 
-    orders.unshift(order);
-    await writeOrders(orders);
+    await insertOrder(order);
     try {
       await sendOrderNotificationEmail(order);
     } catch (emailError) {

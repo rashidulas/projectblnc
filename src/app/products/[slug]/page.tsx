@@ -29,9 +29,28 @@ export async function generateMetadata({ params }: ProductPageProps) {
     };
   }
 
+  const primaryImage =
+    product.previewImage || product.images?.[0] || product.modelImages?.[0];
+
   return {
-    title: `${product.name} - Project BLNC`,
+    title: product.name,
     description: product.description,
+    alternates: {
+      canonical: `/products/${product.slug}`,
+    },
+    openGraph: {
+      type: 'website',
+      title: `${product.name} — Project BLNC`,
+      description: product.description,
+      url: `/products/${product.slug}`,
+      images: primaryImage ? [{ url: primaryImage }] : undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${product.name} — Project BLNC`,
+      description: product.description,
+      images: primaryImage ? [primaryImage] : undefined,
+    },
   };
 }
 
@@ -49,8 +68,42 @@ export default async function ProductPage({ params }: ProductPageProps) {
     .filter((p) => p.category === product.category && p.id !== product.id)
     .slice(0, 3);
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://projectblnc.com';
+  const productImages = [
+    product.previewImage,
+    ...(product.images || []),
+    ...(product.modelImages || []),
+  ]
+    .filter(Boolean)
+    .map((src) => (src!.startsWith('http') ? src! : `${siteUrl}${src}`));
+
+  // Structured data so Google can show price, availability, and product info.
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description: product.description,
+    image: productImages,
+    category: product.category,
+    brand: {
+      '@type': 'Brand',
+      name: 'Project BLNC',
+    },
+    offers: {
+      '@type': 'Offer',
+      url: `${siteUrl}/products/${product.slug}`,
+      priceCurrency: 'BDT',
+      price: product.price,
+      availability: 'https://schema.org/InStock',
+    },
+  };
+
   return (
     <div className="min-h-screen pt-20 sm:pt-24 md:pt-32 pb-16 sm:pb-24">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Product Detail */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 mb-20 sm:mb-32">
