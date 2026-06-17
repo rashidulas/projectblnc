@@ -21,7 +21,9 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   images: {
-    formats: ['image/avif', 'image/webp'],
+    // Images are already compressed to WebP; skip Next.js's optimizer
+    // (it was rendering them blank) and serve the files directly.
+    unoptimized: true,
   },
   async headers() {
     return [
