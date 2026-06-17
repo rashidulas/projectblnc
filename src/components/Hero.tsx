@@ -1,21 +1,27 @@
 'use client';
 
+import type { RefObject } from 'react';
 import TransitionLink from '@/components/TransitionLink';
 import { useNavMenu } from '@/context/NavMenuContext';
 
-export default function Hero() {
+interface HeroProps {
+  videoRef?: RefObject<HTMLVideoElement | null>;
+}
+
+export default function Hero({ videoRef }: HeroProps) {
   const { menuOpen } = useNavMenu();
 
   return (
     <section className="relative h-screen w-full overflow-hidden bg-neutral-900">
       <div className="absolute inset-0">
         <video
+          ref={videoRef}
           src="/hero/sea.mp4"
           autoPlay
           loop
           muted
           playsInline
-          preload="metadata"
+          preload="auto"
           className="absolute inset-0 w-full h-full object-cover"
         />
       </div>
@@ -25,7 +31,6 @@ export default function Hero() {
           menuOpen ? 'top-1/2 bottom-0' : 'inset-y-0'
         }`}
       >
-        {/* Header slot — reserved for future promo text */}
         <div className="min-h-[4rem] sm:min-h-[5rem]" aria-hidden="true" />
 
         <TransitionLink
