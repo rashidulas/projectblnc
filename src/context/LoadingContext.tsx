@@ -25,6 +25,13 @@ const LoadingContext = createContext<LoadingContextValue | null>(null);
 /** Routes that must preload hero video before the loader can dismiss. */
 export const ASSET_HEAVY_ROUTES = new Set(['/', '/home']);
 
+/**
+ * Hard cap on how long the loader can stay up for asset-heavy routes,
+ * even if the hero never reports ready. Guarantees the loader always
+ * dismisses instead of hanging forever.
+ */
+const MAX_HOLD_MS = 2500;
+
 export function LoadingProvider({ children }: { children: ReactNode }) {
   const [phase, setPhase] = useState<LoadingPhase>('hidden');
   const [pendingHref, setPendingHref] = useState<string | null>(null);
@@ -32,16 +39,21 @@ export function LoadingProvider({ children }: { children: ReactNode }) {
   const pageReadyRef = useRef(false);
   const minHoldDoneRef = useRef(false);
   const minHoldTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const maxHoldTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const setPhaseSafe = useCallback((next: LoadingPhase) => {
     phaseRef.current = next;
     setPhase(next);
   }, []);
 
-  const clearMinHoldTimer = () => {
+  const clearTimers = () => {
     if (minHoldTimerRef.current) {
       clearTimeout(minHoldTimerRef.current);
       minHoldTimerRef.current = null;
+    }
+    if (maxHoldTimerRef.current) {
+      clearTimeout(maxHoldTimerRef.current);
+      maxHoldTimerRef.current = null;
     }
   };
 
@@ -52,13 +64,23 @@ export function LoadingProvider({ children }: { children: ReactNode }) {
   }, [setPhaseSafe]);
 
   const startMinHold = useCallback(() => {
-    clearMinHoldTimer();
+    clearTimers();
     minHoldDoneRef.current = false;
     minHoldTimerRef.current = setTimeout(() => {
       minHoldDoneRef.current = true;
       tryExit();
     }, 550);
-  }, [tryExit]);
+
+    // Safety net: force the loader to dismiss after MAX_HOLD_MS no matter what,
+    // so a hero that never reports ready can't leave the page stuck.
+    maxHoldTimerRef.current = setTimeout(() => {
+      pageReadyRef.current = true;
+      minHoldDoneRef.current = true;
+      if (phaseRef.current === 'visible') {
+        setPhaseSafe('exiting');
+      }
+    }, MAX_HOLD_MS);
+  }, [tryExit, setPhaseSafe]);
 
   const beginNavigation = useCallback(
     (href: string) => {
@@ -90,7 +112,7 @@ export function LoadingProvider({ children }: { children: ReactNode }) {
     setPendingHref(null);
     pageReadyRef.current = false;
     minHoldDoneRef.current = false;
-    clearMinHoldTimer();
+    clearTimers();
     document.body.style.overflow = '';
   }, [setPhaseSafe]);
 

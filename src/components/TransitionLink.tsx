@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useLoading } from '@/context/LoadingContext';
+import { ASSET_HEAVY_ROUTES, useLoading } from '@/context/LoadingContext';
 import type { ComponentProps } from 'react';
 
 type TransitionLinkProps = Omit<ComponentProps<typeof Link>, 'href'> & {
@@ -24,7 +24,10 @@ export default function TransitionLink({ href, onClick, children, ...rest }: Tra
     onClick?.(e);
     if (e.defaultPrevented) return;
     e.preventDefault();
-    beginNavigation(href);
+    // Only show the loading screen for the landing and home routes.
+    if (ASSET_HEAVY_ROUTES.has(href)) {
+      beginNavigation(href);
+    }
     router.push(href);
   };
 

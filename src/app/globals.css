@@ -1,26 +1,23 @@
-@import '@fontsource-variable/host-grotesk';
-@import '@fontsource-variable/manrope';
+@import '@fontsource/ibm-plex-mono/300.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/500.css';
+@import '@fontsource/ibm-plex-mono/600.css';
+@import '@fontsource/ibm-plex-mono/700.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --blnc-canvas: #f4f4f2;
-    --blnc-surface: #e8e8e8;
-    --blnc-accent: #bbbfca;
-    --blnc-ink: #495464;
-    --blnc-ink-strong: #2e343f;
-  }
-
   html {
     @apply overflow-x-hidden;
     -webkit-text-size-adjust: 100%;
   }
 
   body {
-    @apply bg-neutral-50 text-neutral-800 antialiased overflow-x-hidden;
+    @apply text-neutral-900 antialiased overflow-x-hidden;
+    font-size: 16px;
+    background-color: #e7ebea;
     /* Safe area for notched devices */
     padding-left: env(safe-area-inset-left, 0);
     padding-right: env(safe-area-inset-right, 0);
@@ -30,9 +27,10 @@
     text-rendering: optimizeLegibility;
   }
 
+  /* Branded text selection — monochrome instead of default browser blue */
   ::selection {
-    background: var(--blnc-ink);
-    color: var(--blnc-canvas);
+    background: #111111;
+    color: #ffffff;
   }
 
   /* Larger touch targets on tap */
@@ -89,14 +87,14 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--blnc-surface);
+  background: #f5f5f5;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--blnc-accent);
+  background: #d4d4d4;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--blnc-ink);
+  background: #a3a3a3;
 }

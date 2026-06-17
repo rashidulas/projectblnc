@@ -5,8 +5,10 @@ import { usePathname } from 'next/navigation';
 import { ASSET_HEAVY_ROUTES, useLoading } from '@/context/LoadingContext';
 
 /**
- * Shows the loader before page content and auto-reports ready for
- * lightweight routes once navigation completes.
+ * Shows the loader before page content and reports ready once navigation
+ * completes. For asset-heavy routes we still report ready after paint (with
+ * a couple of animation frames so the hero has a moment to start), while the
+ * context's max-hold timer guarantees dismissal even if something stalls.
  */
 export default function LoadingCoordinator() {
   const pathname = usePathname();
@@ -30,13 +32,20 @@ export default function LoadingCoordinator() {
   useEffect(() => {
     if (phase !== 'visible' || !pendingHref) return;
     if (pathname !== pendingHref) return;
-    if (ASSET_HEAVY_ROUTES.has(pathname)) return;
 
-    const frame = requestAnimationFrame(() => {
-      requestAnimationFrame(() => reportPageReady());
-    });
+    // Report ready after the content has had a chance to paint. A short
+    // delay on asset-heavy routes lets the hero begin rendering; lightweight
+    // routes resolve almost immediately.
+    const heavy = ASSET_HEAVY_ROUTES.has(pathname);
+    const delay = heavy ? 400 : 0;
 
-    return () => cancelAnimationFrame(frame);
+    const timer = setTimeout(() => {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => reportPageReady());
+      });
+    }, delay);
+
+    return () => clearTimeout(timer);
   }, [phase, pendingHref, pathname, reportPageReady]);
 
   return null;

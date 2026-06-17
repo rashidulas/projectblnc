@@ -101,9 +101,9 @@ export default function HomeHero() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full bg-neutral-50 -mb-px min-h-screen md:min-h-[150vh]"
+      className="relative w-full bg-[#e7ebea] -mb-px min-h-screen md:min-h-[150vh]"
     >
-      <div className="relative md:sticky top-0 h-screen w-full overflow-hidden bg-neutral-50 isolate">
+      <div className="relative md:sticky top-0 h-screen w-full overflow-hidden bg-[#e7ebea] isolate">
         <motion.div
           className="absolute -inset-[3%] overflow-hidden"
           style={{
@@ -129,7 +129,7 @@ export default function HomeHero() {
               className="absolute inset-0 pointer-events-none"
               style={{
                 background:
-                  'linear-gradient(to bottom, transparent 0%, transparent 40%, rgba(244,244,242,0.25) 55%, rgba(244,244,242,0.6) 72%, rgba(244,244,242,0.92) 88%, #F4F4F2 100%)',
+                  'linear-gradient(to bottom, transparent 0%, transparent 40%, rgba(231,235,234,0.25) 55%, rgba(231,235,234,0.6) 72%, rgba(231,235,234,0.92) 88%, #e7ebea 100%)',
               }}
             />
           </div>

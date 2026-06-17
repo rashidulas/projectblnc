@@ -1,114 +1,129 @@
 'use client';
 
-import { useEffect } from 'react';
-import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import TransitionLink from '@/components/TransitionLink';
 import { useCart } from '@/context/CartContext';
-import { useNavMenu } from '@/context/NavMenuContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import CartDrawer from './CartDrawer';
 
-const NAV_TEXT =
-  'text-sm sm:text-base lowercase tracking-normal text-neutral-900 hover:opacity-60 transition-opacity';
-
-const MENU_LINKS = [
-  { label: 'Home', href: '/home' },
-  { label: 'Shop', href: '/products' },
-  { label: 'About BLANC', href: '/about' },
-  { label: 'Customer Login', href: '/customer/login' },
-  { label: 'Admin', href: '/admin' },
-] as const;
-
 export default function PermanentNavbar() {
-  const { menuOpen, setMenuOpen, toggleMenu } = useNavMenu();
+  const [menuOpen, setMenuOpen] = useState(false);
   const { openCart, cartItemsCount } = useCart();
-  const pathname = usePathname();
-  const isSaleLanding = pathname === '/';
 
   useEffect(() => {
-    setMenuOpen(false);
-  }, [pathname, setMenuOpen]);
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    if (!menuOpen) return;
 
-  useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false);
+    };
+    document.addEventListener('keydown', onKeyDown);
+
     return () => {
       document.body.style.overflow = '';
+      document.removeEventListener('keydown', onKeyDown);
     };
   }, [menuOpen]);
 
-  const closeMenu = () => setMenuOpen(false);
-
   return (
     <>
-      <header className="fixed top-0 left-0 w-full z-[100]">
-        <nav
-          className={`relative flex items-center justify-between px-5 sm:px-8 h-12 sm:h-14 bg-[#F2F2F2] ${
-            isSaleLanding && !menuOpen ? 'backdrop-blur-[2px]' : ''
-          }`}
-        >
-          <div className="min-w-[44px]" aria-hidden="true" />
-
-          {isSaleLanding ? (
-            <button
-              type="button"
-              onClick={toggleMenu}
-              className={`absolute left-1/2 -translate-x-1/2 ${NAV_TEXT}`}
-              aria-expanded={menuOpen}
-              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-            >
-              blanc
-            </button>
-          ) : (
-            <TransitionLink
-              href="/"
-              className={`absolute left-1/2 -translate-x-1/2 ${NAV_TEXT}`}
-            >
-              blanc
-            </TransitionLink>
-          )}
-
+      <nav className="fixed top-0 left-0 w-full z-[100] bg-[#e7ebea]" style={{ boxShadow: '0 1px 0 rgba(0,0,0,0.06)' }}>
+        {/* Top bar */}
+        <div className="relative flex items-center justify-center w-full px-6 h-12">
+          {/* Centre: blanc as menu toggle */}
           <button
-            type="button"
+            onClick={() => setMenuOpen((o) => !o)}
+            className="font-mono text-[16px] tracking-widest text-neutral-700 hover:opacity-60 transition-opacity lowercase"
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          >
+            blanc
+          </button>
+
+          {/* Right: bag */}
+          <button
             onClick={openCart}
-            className={`${NAV_TEXT} min-w-[44px] text-right`}
+            className="absolute right-6 font-mono text-[16px] tracking-widest text-neutral-700 hover:opacity-60 transition-opacity lowercase"
             aria-label="Open cart"
           >
-            bag ({cartItemsCount})
+            bag{cartItemsCount > 0 ? ` (${cartItemsCount})` : ''}
           </button>
-        </nav>
+        </div>
 
+        {/* Dropdown menu */}
         <AnimatePresence>
           {menuOpen && (
             <motion.div
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-              className="overflow-hidden bg-[#F2F2F2]"
+              transition={{ duration: 0.22, ease: [0.25, 0.1, 0.25, 1] }}
+              className="overflow-hidden bg-[#e7ebea]"
+              style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}
             >
-              <nav className="py-8 sm:py-12 md:py-16 flex flex-col items-center justify-center min-h-[50vh]">
-                <ul className="space-y-2 sm:space-y-4 md:space-y-6 text-center">
-                  {MENU_LINKS.map((item) => (
-                    <li key={item.label}>
-                      <TransitionLink
-                        href={item.href}
-                        onClick={closeMenu}
-                        className="text-lg md:text-xl text-neutral-900 hover:text-neutral-600 active:opacity-80 transition-colors block font-medium tracking-tight py-3 sm:py-2 min-h-[48px] sm:min-h-0 flex items-center justify-center"
-                      >
-                        {item.label}
-                      </TransitionLink>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
+              <ul className="py-10 flex flex-col items-center gap-6 text-center">
+                <li>
+                  <TransitionLink
+                    href="/home"
+                    onClick={() => setMenuOpen(false)}
+                    className="font-mono text-[16px] text-neutral-400 hover:text-neutral-900 transition-colors tracking-wide"
+                  >
+                    Home
+                  </TransitionLink>
+                </li>
+                <li>
+                  <TransitionLink
+                    href="/products"
+                    onClick={() => setMenuOpen(false)}
+                    className="font-mono text-[16px] text-neutral-700 hover:text-neutral-900 transition-colors tracking-wide"
+                  >
+                    Shop
+                  </TransitionLink>
+                </li>
+                <li>
+                  <TransitionLink
+                    href="/about"
+                    onClick={() => setMenuOpen(false)}
+                    className="font-mono text-[16px] text-neutral-700 hover:text-neutral-900 transition-colors tracking-wide"
+                  >
+                    About BLANC
+                  </TransitionLink>
+                </li>
+                <li>
+                  <TransitionLink
+                    href="/customer/login"
+                    onClick={() => setMenuOpen(false)}
+                    className="font-mono text-[16px] text-neutral-700 hover:text-neutral-900 transition-colors tracking-wide"
+                  >
+                    Customer Login
+                  </TransitionLink>
+                </li>
+                <li>
+                  <TransitionLink
+                    href="/admin"
+                    onClick={() => setMenuOpen(false)}
+                    className="font-mono text-[16px] text-neutral-700 hover:text-neutral-900 transition-colors tracking-wide"
+                  >
+                    Admin
+                  </TransitionLink>
+                </li>
+              </ul>
             </motion.div>
           )}
         </AnimatePresence>
-      </header>
+      </nav>
+
+      {/* Click-outside backdrop to dismiss the menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setMenuOpen(false)}
+            className="fixed inset-0 bg-black/10 z-[90]"
+          />
+        )}
+      </AnimatePresence>
 
       <CartDrawer />
     </>

@@ -31,8 +31,10 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ['Host Grotesk Variable', 'Host Grotesk', 'sans-serif'],
-        description: ['Manrope Variable', 'Manrope', 'sans-serif'],
+        // IBM Plex Mono everywhere — matches the landing/home aesthetic app-wide.
+        sans: ['IBM Plex Mono', 'Courier New', 'monospace'],
+        description: ['IBM Plex Mono', 'Courier New', 'monospace'],
+        mono: ['IBM Plex Mono', 'Courier New', 'monospace'],
       },
       animation: {
         'slide-in': 'slide-in 0.3s ease-out',
