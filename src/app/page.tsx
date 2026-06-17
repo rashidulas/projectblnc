@@ -2,6 +2,7 @@ import Hero from '@/components/Hero';
 import ProductGrid from '@/components/ProductGrid';
 import { getProducts } from '@/lib/products-store';
 import Image from 'next/image';
+import LoadingScreen from '@/components/LoadingScreen';
 
 export default async function Home() {
   const all = await getProducts();
@@ -18,6 +19,8 @@ export default async function Home() {
 
   return (
     <main className="bg-white overflow-x-hidden">
+      <LoadingScreen />
+
       <Hero />
 
       {/* COLLECTION // DROP 001 */}
