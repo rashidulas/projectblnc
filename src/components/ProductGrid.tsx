@@ -14,13 +14,16 @@ export default function ProductGrid({ products, editorial = false, showcase = fa
         showcase ? 'gap-8 sm:gap-10 md:gap-12' : editorial ? 'gap-8 sm:gap-10' : 'gap-6 sm:gap-8'
       }`}
     >
-      {products.map((product) => (
-        <ProductCard
+      {products.map((product, index) => (
+        <div
           key={product.id}
-          product={product}
-          editorial={editorial}
-          showcase={showcase}
-        />
+          className="animate-fade-up"
+          // Stagger each card slightly so they cascade in (capped so long
+          // grids don't feel slow). Purely visual; reduced-motion disables it.
+          style={{ animationDelay: `${Math.min(index, 8) * 60}ms` }}
+        >
+          <ProductCard product={product} editorial={editorial} showcase={showcase} />
+        </div>
       ))}
     </div>
   );
