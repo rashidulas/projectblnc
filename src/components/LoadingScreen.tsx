@@ -38,7 +38,7 @@ export default function LoadingScreen() {
       {visible && (
         <motion.div
           key="loader"
-          className="fixed inset-0 z-[200] flex items-center justify-center bg-white"
+          className="fixed inset-0 z-[200] flex items-center justify-center bg-[#F2F2F2]"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
@@ -46,12 +46,12 @@ export default function LoadingScreen() {
           aria-hidden="true"
         >
           <motion.span
-            className="text-4xl sm:text-5xl font-bold tracking-tighter text-neutral-900 select-none"
+            className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tighter text-neutral-900 select-none lowercase"
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
-            BLANC
+            blanc
           </motion.span>
         </motion.div>
       )}

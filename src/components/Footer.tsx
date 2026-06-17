@@ -1,11 +1,15 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import TransitionLink from '@/components/TransitionLink';
 
 export default function Footer() {
+  const pathname = usePathname();
+  if (pathname === '/') return null;
+
   return (
     <footer
-      className="bg-white text-neutral-900"
+      className="bg-neutral-50 text-neutral-800"
       style={{ boxShadow: '0 -2px 10px rgba(0,0,0,0.04)' }}
     >
       {/* Top line with shade */}
@@ -36,7 +40,7 @@ export default function Footer() {
 
               <button
                 type="submit"
-                className="mt-4 sm:mt-6 w-full max-w-2xl bg-neutral-900 py-3.5 sm:py-3 text-center text-base font-medium text-white rounded-md hover:bg-neutral-800 active:bg-neutral-950 min-h-[48px] sm:min-h-0"
+                className="mt-4 sm:mt-6 w-full max-w-2xl bg-neutral-800 py-3.5 sm:py-3 text-center text-base font-medium text-neutral-50 rounded-md hover:bg-neutral-700 active:bg-neutral-900 min-h-[48px] sm:min-h-0"
               >
                 Join
               </button>

@@ -181,7 +181,7 @@ export default function AdminPage() {
   if (!isAuthenticated) {
     return (
       <section className="max-w-md mx-auto px-4 py-12">
-        <div className="bg-white border border-neutral-200 rounded-xl p-6">
+        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-6">
           <h1 className="text-2xl font-bold">Admin Login</h1>
           <p className="text-sm text-neutral-600 mt-1">
             Enter admin password to access customer and order data.
@@ -193,12 +193,12 @@ export default function AdminPage() {
               onChange={(event) => setPassword(event.target.value)}
               placeholder="Admin password"
               required
-              className="w-full border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-black/20"
+              className="w-full border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-neutral-700/30"
             />
             <button
               type="submit"
               disabled={isLoggingIn}
-              className="w-full bg-black text-white py-3 rounded-md hover:opacity-90 disabled:opacity-60 transition-opacity"
+              className="w-full bg-neutral-800 text-neutral-50 py-3 rounded-md hover:opacity-90 disabled:opacity-60 transition-opacity"
             >
               {isLoggingIn ? 'Logging in...' : 'Login'}
             </button>
@@ -229,7 +229,7 @@ export default function AdminPage() {
           </button>
           <button
             onClick={handleLogout}
-            className="bg-black text-white px-4 py-2 rounded-md hover:opacity-90 transition-opacity"
+            className="bg-neutral-800 text-neutral-50 px-4 py-2 rounded-md hover:opacity-90 transition-opacity"
           >
             Logout
           </button>
@@ -237,11 +237,11 @@ export default function AdminPage() {
       </header>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-        <div className="bg-white border border-neutral-200 rounded-xl p-5">
+        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-5">
           <p className="text-sm text-neutral-500">Saved customers</p>
           <p className="text-3xl font-bold mt-1">{customers.length}</p>
         </div>
-        <div className="bg-white border border-neutral-200 rounded-xl p-5">
+        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-5">
           <p className="text-sm text-neutral-500">Placed orders</p>
           <p className="text-3xl font-bold mt-1">{orders.length}</p>
         </div>
@@ -255,7 +255,7 @@ export default function AdminPage() {
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="bg-white border border-neutral-200 rounded-xl p-5">
+        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-5">
           <h2 className="text-xl font-semibold mb-4">Customers</h2>
           {customers.length === 0 ? (
             <p className="text-sm text-neutral-500">No customers saved yet.</p>
@@ -279,7 +279,7 @@ export default function AdminPage() {
           )}
         </div>
 
-        <div className="bg-white border border-neutral-200 rounded-xl p-5">
+        <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-5">
           <h2 className="text-xl font-semibold mb-4">Orders</h2>
           {orders.length === 0 ? (
             <p className="text-sm text-neutral-500">No orders placed yet.</p>
@@ -291,7 +291,7 @@ export default function AdminPage() {
                   onClick={() => setSelectedOrderId(order.id)}
                   className={`w-full text-left border rounded-lg p-4 transition-colors ${
                     selectedOrderId === order.id
-                      ? 'border-black bg-neutral-50'
+                      ? 'border-neutral-800 bg-neutral-100'
                       : 'border-neutral-200 hover:bg-neutral-50'
                   }`}
                 >
@@ -317,7 +317,7 @@ export default function AdminPage() {
       </div>
 
       {selectedOrder && (
-        <div className="mt-8 bg-white border border-neutral-200 rounded-xl p-5 sm:p-6">
+        <div className="mt-8 bg-neutral-50 border border-neutral-200 rounded-xl p-5 sm:p-6">
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div>
               <h2 className="text-xl font-semibold">Order Details</h2>

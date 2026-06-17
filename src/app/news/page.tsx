@@ -27,7 +27,7 @@ export default function NewsPage() {
   ];
 
   return (
-    <div className="min-h-screen pt-24 pb-16">
+    <div className="min-h-screen pt-20 sm:pt-24 pb-16">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-16">
@@ -66,7 +66,7 @@ export default function NewsPage() {
         </div>
 
         {/* Newsletter Signup */}
-        <div className="mt-16 p-8 bg-neutral-50 rounded-lg text-center">
+        <div className="mt-16 p-8 bg-neutral-100 rounded-lg text-center border border-neutral-200">
           <h3 className="text-2xl font-bold mb-3">Stay in the Loop</h3>
           <p className="text-neutral-600 mb-6">
             Subscribe to our newsletter for exclusive updates and early access to
@@ -76,9 +76,9 @@ export default function NewsPage() {
             <input
               type="email"
               placeholder="Enter your email"
-              className="flex-1 px-4 py-3 rounded-md border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-black"
+              className="flex-1 px-4 py-3 rounded-md border border-neutral-300 bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-neutral-700"
             />
-            <button className="px-6 py-3 bg-black text-white rounded-md hover:opacity-90 transition-opacity font-medium">
+            <button className="px-6 py-3 bg-neutral-800 text-neutral-50 rounded-md hover:opacity-90 transition-opacity font-medium">
               Subscribe
             </button>
           </div>

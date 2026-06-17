@@ -41,7 +41,7 @@ export default function PageTransitionOverlay() {
 
   return (
     <motion.div
-      className="fixed inset-0 z-[9999] bg-white"
+      className="fixed inset-0 z-[9999] bg-neutral-50"
       initial={{ y: '-100%' }}
       animate={{ y: isCovering ? '0%' : '-100%' }}
       transition={{ duration, ease: EASE_OUT }}

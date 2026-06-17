@@ -19,7 +19,7 @@ const CUSTOMER_STORAGE_KEY = 'projectblnc-customer';
 type Mode = 'signin' | 'register';
 
 const inputClass =
-  'w-full border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-black/20 transition';
+  'w-full border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-neutral-700/30 transition';
 
 export default function CustomerLoginPage() {
   const router = useRouter();
@@ -154,7 +154,7 @@ export default function CustomerLoginPage() {
   };
 
   return (
-    <section className="max-w-md mx-auto px-4 sm:px-6 py-10 sm:py-16">
+    <section className="max-w-md mx-auto px-4 sm:px-6 py-10 sm:py-16 pt-14 sm:pt-16">
       <header className="mb-8 text-center">
         <p className="text-xs tracking-[0.3em] text-neutral-500 uppercase">Account</p>
         <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mt-2">
@@ -176,7 +176,7 @@ export default function CustomerLoginPage() {
           <div className="flex gap-3">
             <button
               onClick={() => router.push('/checkout')}
-              className="flex-1 bg-black text-white py-3 rounded-md hover:opacity-90 transition-opacity"
+              className="flex-1 bg-neutral-800 text-neutral-50 py-3 rounded-md hover:opacity-90 transition-opacity"
             >
               Go to checkout
             </button>
@@ -196,8 +196,8 @@ export default function CustomerLoginPage() {
               onClick={() => switchMode('signin')}
               className={`py-3 text-sm font-medium transition-colors ${
                 mode === 'signin'
-                  ? 'bg-black text-white'
-                  : 'bg-white text-neutral-600 hover:bg-neutral-50'
+                  ? 'bg-neutral-800 text-neutral-50'
+                  : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
               }`}
             >
               Sign In
@@ -206,8 +206,8 @@ export default function CustomerLoginPage() {
               onClick={() => switchMode('register')}
               className={`py-3 text-sm font-medium transition-colors ${
                 mode === 'register'
-                  ? 'bg-black text-white'
-                  : 'bg-white text-neutral-600 hover:bg-neutral-50'
+                  ? 'bg-neutral-800 text-neutral-50'
+                  : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
               }`}
             >
               Create Account
@@ -237,7 +237,7 @@ export default function CustomerLoginPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-black text-white py-3 rounded-md hover:opacity-90 disabled:opacity-60 transition-opacity"
+                className="w-full bg-neutral-800 text-neutral-50 py-3 rounded-md hover:opacity-90 disabled:opacity-60 transition-opacity"
               >
                 {isSubmitting ? 'Signing in...' : 'Sign In'}
               </button>
@@ -331,7 +331,7 @@ export default function CustomerLoginPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-black text-white py-3 rounded-md hover:opacity-90 disabled:opacity-60 transition-opacity"
+                className="w-full bg-neutral-800 text-neutral-50 py-3 rounded-md hover:opacity-90 disabled:opacity-60 transition-opacity"
               >
                 {isSubmitting ? 'Creating account...' : 'Create Account'}
               </button>

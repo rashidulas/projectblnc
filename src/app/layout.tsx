@@ -3,6 +3,7 @@ import './globals.css';
 import PermanentNavbar from '@/components/PermanentNavbar';
 import Footer from '@/components/Footer';
 import { CartProvider } from '@/context/CartContext';
+import { NavMenuProvider } from '@/context/NavMenuContext';
 import PageTransitionProvider from '@/components/PageTransitionProvider';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://projectblnc.com';
@@ -60,11 +61,13 @@ export default function RootLayout({
     <html lang="en">
       <body className="font-sans antialiased" suppressHydrationWarning>
         <CartProvider>
-          <PageTransitionProvider>
-            <PermanentNavbar />
-            <main className="pt-16 sm:pt-20">{children}</main>
-            <Footer />
-          </PageTransitionProvider>
+          <NavMenuProvider>
+            <PageTransitionProvider>
+              <PermanentNavbar />
+              <main>{children}</main>
+              <Footer />
+            </PageTransitionProvider>
+          </NavMenuProvider>
         </CartProvider>
       </body>
     </html>

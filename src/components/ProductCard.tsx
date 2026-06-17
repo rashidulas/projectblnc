@@ -131,7 +131,7 @@ export default function ProductCard({ product, editorial = false, showcase = fal
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <div className="relative aspect-[3/4] bg-neutral-50 overflow-hidden mb-6">
+        <div className="relative aspect-[3/4] bg-neutral-200 overflow-hidden mb-6">
           {product.video ? (
             <>
               <video
@@ -186,7 +186,7 @@ export default function ProductCard({ product, editorial = false, showcase = fal
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="relative aspect-square bg-neutral-50 overflow-hidden mb-4">
+      <div className="relative aspect-square bg-neutral-200 overflow-hidden mb-4">
         {product.video ? (
           <>
             <video

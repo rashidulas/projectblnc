@@ -61,7 +61,7 @@ export default function ImageGallery({ images, modelImages, productName }: Image
     <div className="space-y-6">
       <button
         onClick={() => setIsZoomed(true)}
-        className="relative aspect-square bg-neutral-50 overflow-hidden cursor-zoom-in group w-full"
+        className="relative aspect-square bg-neutral-200 overflow-hidden cursor-zoom-in group w-full"
       >
         <Image
           src={currentImages[selectedImage] ?? fallbackImage}
@@ -144,7 +144,7 @@ export default function ImageGallery({ images, modelImages, productName }: Image
             key={index}
             onClick={() => setSelectedImage(index)}
             className={`relative aspect-square bg-neutral-50 overflow-hidden transition-all min-h-0 ${
-              selectedImage === index ? 'ring-2 ring-black ring-offset-2' : 'hover:opacity-80 active:opacity-90'
+              selectedImage === index ? 'ring-2 ring-neutral-800 ring-offset-2 ring-offset-neutral-50' : 'hover:opacity-80 active:opacity-90'
             }`}
           >
             <Image

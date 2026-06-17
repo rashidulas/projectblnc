@@ -11,9 +11,9 @@ export default async function ProductsPage() {
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-neutral-50 pt-11 sm:pt-12">
       {/* Hero section - left-aligned title and subtitle */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-16 sm:pt-24 md:pt-32 pb-6 sm:pb-8 md:pb-10">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 md:pt-20 pb-6 sm:pb-8 md:pb-10">
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-neutral-900 mb-4 sm:mb-6">
           Essentials Designed for Everyone.
         </h1>

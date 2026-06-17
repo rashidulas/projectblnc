@@ -19,8 +19,8 @@ export default function CategoryTabs({
           onClick={() => onCategoryChange(category)}
           className={`px-5 py-2 text-xs font-medium tracking-wide transition-all whitespace-nowrap border ${
             activeCategory === category
-              ? 'bg-black text-white border-black'
-              : 'bg-white text-neutral-600 border-neutral-300 hover:border-neutral-900'
+              ? 'bg-neutral-800 text-neutral-50 border-neutral-800'
+              : 'bg-neutral-100 text-neutral-700 border-neutral-300 hover:border-neutral-800'
           }`}
         >
           {category.toUpperCase()}

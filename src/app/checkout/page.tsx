@@ -127,7 +127,7 @@ export default function CheckoutPage() {
   };
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-8 md:px-12 lg:px-16 py-8 sm:py-12">
+    <section className="max-w-7xl mx-auto px-4 sm:px-8 md:px-12 lg:px-16 py-8 sm:py-12 pt-14 sm:pt-16">
       <header className="mb-8">
         <p className="text-xs tracking-[0.3em] text-neutral-500 uppercase">Secure checkout</p>
         <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mt-2">Checkout</h1>
@@ -150,7 +150,7 @@ export default function CheckoutPage() {
           </p>
           <Link
             href="/products"
-            className="inline-flex items-center justify-center bg-black text-white px-5 py-3 rounded-md hover:opacity-90 transition-opacity"
+            className="inline-flex items-center justify-center bg-neutral-800 text-neutral-50 px-5 py-3 rounded-md hover:opacity-90 transition-opacity"
           >
             Continue shopping
           </Link>
@@ -167,7 +167,7 @@ export default function CheckoutPage() {
                   value={firstName}
                   onChange={(event) => setFirstName(event.target.value)}
                   required
-                  className="border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-black/20"
+                  className="border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-neutral-700/30"
                 />
                 <input
                   type="text"
@@ -175,7 +175,7 @@ export default function CheckoutPage() {
                   value={lastName}
                   onChange={(event) => setLastName(event.target.value)}
                   required
-                  className="border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-black/20"
+                  className="border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-neutral-700/30"
                 />
                 <input
                   type="email"
@@ -183,7 +183,7 @@ export default function CheckoutPage() {
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
                   required
-                  className="sm:col-span-2 border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-black/20"
+                  className="sm:col-span-2 border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-neutral-700/30"
                 />
                 <input
                   type="tel"
@@ -191,7 +191,7 @@ export default function CheckoutPage() {
                   value={phone}
                   onChange={(event) => setPhone(event.target.value)}
                   required
-                  className="sm:col-span-2 border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-black/20"
+                  className="sm:col-span-2 border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-neutral-700/30"
                 />
               </div>
             </div>
@@ -205,14 +205,14 @@ export default function CheckoutPage() {
                   value={addressLine1}
                   onChange={(event) => setAddressLine1(event.target.value)}
                   required
-                  className="sm:col-span-2 border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-black/20"
+                  className="sm:col-span-2 border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-neutral-700/30"
                 />
                 <input
                   type="text"
                   placeholder="Address line 2 (optional)"
                   value={addressLine2}
                   onChange={(event) => setAddressLine2(event.target.value)}
-                  className="sm:col-span-2 border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-black/20"
+                  className="sm:col-span-2 border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-neutral-700/30"
                 />
                 <input
                   type="text"
@@ -220,7 +220,7 @@ export default function CheckoutPage() {
                   value={city}
                   onChange={(event) => setCity(event.target.value)}
                   required
-                  className="border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-black/20"
+                  className="border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-neutral-700/30"
                 />
                 <input
                   type="text"
@@ -228,7 +228,7 @@ export default function CheckoutPage() {
                   value={postalCode}
                   onChange={(event) => setPostalCode(event.target.value)}
                   required
-                  className="border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-black/20"
+                  className="border border-neutral-300 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-neutral-700/30"
                 />
               </div>
             </div>
@@ -275,7 +275,7 @@ export default function CheckoutPage() {
               </div>
             </div>
 
-            <button className="w-full mt-6 bg-black text-white py-3 rounded-md hover:opacity-90 transition-opacity">
+            <button className="w-full mt-6 bg-neutral-800 text-neutral-50 py-3 rounded-md hover:opacity-90 transition-opacity">
               {isSubmitting ? 'Placing order...' : 'Place order'}
             </button>
             {errorMessage && (

@@ -24,7 +24,7 @@ export default function Navbar() {
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
-            ? 'bg-white/95 backdrop-blur-sm border-b border-neutral-200'
+            ? 'bg-neutral-50/95 backdrop-blur-sm border-b border-neutral-200'
             : 'bg-transparent'
         }`}
       >
@@ -78,7 +78,7 @@ export default function Navbar() {
             >
               <ShoppingBag className="w-5 h-5" />
               {cartItemsCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-black text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                <span className="absolute -top-1 -right-1 bg-neutral-800 text-neutral-50 text-xs w-5 h-5 flex items-center justify-center rounded-full">
                   {cartItemsCount}
                 </span>
               )}
