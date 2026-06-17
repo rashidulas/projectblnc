@@ -25,6 +25,7 @@ export async function POST(request: NextRequest) {
       sizes = [],
       previewImage,
       video,
+      stock,
     } = body;
     if (!name || !category || price == null || !description || !Array.isArray(images)) {
       return NextResponse.json(
@@ -38,6 +39,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Product with this slug or id already exists' }, { status: 400 });
     }
     const id = body.id || slug.replace(/\s+/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, '');
+    const finalSizes = Array.isArray(sizes) && sizes.length ? sizes : ['XS', 'S', 'M', 'L', 'XL'];
+    // Default every size to 10 pcs unless an explicit stock map is provided.
+    const finalStock =
+      stock && typeof stock === 'object'
+        ? stock
+        : Object.fromEntries(finalSizes.map((s) => [s, 10]));
     const newProduct: Product = {
       id: products.some((p) => p.id === id) ? `${id}-${Date.now()}` : id,
       name,
@@ -47,7 +54,8 @@ export async function POST(request: NextRequest) {
       description,
       images: Array.isArray(images) ? images : [images],
       modelImages: Array.isArray(modelImages) ? modelImages : (modelImages ? [modelImages] : []),
-      sizes: Array.isArray(sizes) ? sizes : ['XS', 'S', 'M', 'L', 'XL'],
+      sizes: finalSizes,
+      stock: finalStock,
       previewImage,
       video,
     };

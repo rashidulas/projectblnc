@@ -10,6 +10,8 @@ export interface Product {
   previewImage?: string;
   video?: string;
   sizes: string[];
+  /** Per-size inventory, e.g. { XS: 10, S: 10, ... }. Defaults to 10 per size. */
+  stock?: Record<string, number>;
 }
 
 export type ProductInput = Omit<Product, 'slug'> & {
@@ -26,9 +28,15 @@ export function slugifyProductName(name: string): string {
 }
 
 export function withProductSlug(product: ProductInput): Product {
+  const sizes = Array.isArray(product.sizes) ? product.sizes : [];
+  const stock =
+    product.stock && typeof product.stock === 'object'
+      ? product.stock
+      : Object.fromEntries(sizes.map((s) => [s, 10]));
   return {
     ...product,
     slug: slugifyProductName(product.name),
+    stock,
   };
 }
 

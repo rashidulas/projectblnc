@@ -1,6 +1,7 @@
 'use client';
 
 import { FormEvent, useEffect, useState } from 'react';
+import AdminProducts from '@/components/AdminProducts';
 
 interface AdminCustomer {
   id: string;
@@ -406,6 +407,8 @@ export default function AdminPage() {
           </div>
         </div>
       )}
+
+      <AdminProducts />
     </section>
   );
 }
