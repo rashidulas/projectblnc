@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminSession } from '@/lib/admin-auth';
-import { getProducts, writeProducts } from '@/lib/products-store';
+import { getProducts, insertProduct } from '@/lib/products-store';
 import { slugifyProductName, type Product } from '@/data/products';
 
 export async function GET() {
@@ -35,12 +35,16 @@ export async function POST(request: NextRequest) {
     }
     const slug = slugifyProductName(name);
     const products = await getProducts();
-    if (products.some((p) => p.slug === slug || p.id === body.id)) {
-      return NextResponse.json({ error: 'Product with this slug or id already exists' }, { status: 400 });
+    if (products.some((p) => p.slug === slug || (body.id && p.id === body.id))) {
+      return NextResponse.json(
+        { error: 'Product with this slug or id already exists' },
+        { status: 400 }
+      );
     }
-    const id = body.id || slug.replace(/\s+/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, '');
+    const id =
+      body.id ||
+      slug.replace(/\s+/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, '');
     const finalSizes = Array.isArray(sizes) && sizes.length ? sizes : ['XS', 'S', 'M', 'L', 'XL'];
-    // Default every size to 10 pcs unless an explicit stock map is provided.
     const finalStock =
       stock && typeof stock === 'object'
         ? stock
@@ -53,14 +57,13 @@ export async function POST(request: NextRequest) {
       price: Number(price),
       description,
       images: Array.isArray(images) ? images : [images],
-      modelImages: Array.isArray(modelImages) ? modelImages : (modelImages ? [modelImages] : []),
+      modelImages: Array.isArray(modelImages) ? modelImages : modelImages ? [modelImages] : [],
       sizes: finalSizes,
       stock: finalStock,
       previewImage,
       video,
     };
-    products.push(newProduct);
-    await writeProducts(products);
+    await insertProduct(newProduct);
     return NextResponse.json(newProduct);
   } catch (e) {
     console.error(e);

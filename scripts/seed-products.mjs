@@ -1,86 +1,100 @@
 /**
- * One-time seed: loads products from data/products.json into MongoDB.
- * Usage:  node scripts/seed-products.mjs
+ * One-time seed: loads products from data/products.json into Supabase.
+ * Run:  node scripts/seed-products.mjs
  *
- * Reads MONGODB_URI and MONGODB_DB from your .env.local automatically.
- * Safe to re-run: it clears the products collection and re-inserts.
+ * Reads NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY
+ * from your .env.local automatically.
  */
-import { MongoClient } from 'mongodb';
 import { readFileSync, existsSync } from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+import { createClient } from '@supabase/supabase-js';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
-// --- Load .env.local manually (so we don't need an extra package) ---
-function loadEnvLocal() {
-  const envPath = join(__dirname, '..', '.env.local');
-  if (!existsSync(envPath)) return;
-  const content = readFileSync(envPath, 'utf-8');
-  for (const line of content.split('\n')) {
+// ── Load .env.local ──────────────────────────────────────────────────────────
+const envPath = new URL('../.env.local', import.meta.url).pathname.replace(/^\/([A-Z]:)/, '$1');
+if (existsSync(envPath)) {
+  const envContent = readFileSync(envPath, 'utf-8');
+  for (const line of envContent.split('\n')) {
     const trimmed = line.trim();
     if (!trimmed || trimmed.startsWith('#')) continue;
-    const eq = trimmed.indexOf('=');
-    if (eq === -1) continue;
-    const key = trimmed.slice(0, eq).trim();
-    let value = trimmed.slice(eq + 1).trim();
-    // Strip surrounding quotes if present.
-    if (
-      (value.startsWith('"') && value.endsWith('"')) ||
-      (value.startsWith("'") && value.endsWith("'"))
-    ) {
+    const eqIdx = trimmed.indexOf('=');
+    if (eqIdx === -1) continue;
+    const key = trimmed.slice(0, eqIdx).trim();
+    let value = trimmed.slice(eqIdx + 1).trim();
+    if ((value.startsWith('"') && value.endsWith('"')) ||
+        (value.startsWith("'") && value.endsWith("'"))) {
       value = value.slice(1, -1);
     }
-    if (!(key in process.env)) {
-      process.env[key] = value;
-    }
+    if (!process.env[key]) process.env[key] = value;
   }
 }
 
-loadEnvLocal();
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-const uri = process.env.MONGODB_URI;
-const dbName = process.env.MONGODB_DB || 'projectblnc';
-
-if (!uri) {
-  console.error('Could not find MONGODB_URI.');
-  console.error('Make sure a .env.local file exists in your project root with a MONGODB_URI line.');
+if (!supabaseUrl || !serviceKey) {
+  console.error('NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set in .env.local');
   process.exit(1);
 }
 
-const productsPath = join(__dirname, '..', 'data', 'products.json');
-const raw = readFileSync(productsPath, 'utf-8');
-const products = JSON.parse(raw);
+// ── Load products ────────────────────────────────────────────────────────────
+let products;
+const jsonPath = new URL('../data/products.json', import.meta.url).pathname.replace(/^\/([A-Z]:)/, '$1');
+if (existsSync(jsonPath)) {
+  products = JSON.parse(readFileSync(jsonPath, 'utf-8'));
+  console.log(`Loaded ${products.length} products from data/products.json`);
+} else {
+  // Fall back to the built-in seed from src/data/products.ts (as JSON)
+  const seedPath = new URL('../src/data/products-seed.json', import.meta.url).pathname.replace(/^\/([A-Z]:)/, '$1');
+  if (existsSync(seedPath)) {
+    products = JSON.parse(readFileSync(seedPath, 'utf-8'));
+    console.log(`Loaded ${products.length} products from products-seed.json`);
+  } else {
+    console.error(
+      'No product data found. Create data/products.json or src/data/products-seed.json'
+    );
+    process.exit(1);
+  }
+}
 
 function slugify(name) {
-  return name.trim().toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-');
+  return name.trim().toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
 }
 
-const withSlugs = products.map((p) => ({ ...p, slug: slugify(p.name) }));
+// ── Seed ─────────────────────────────────────────────────────────────────────
+const supabase = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false } });
 
-const client = new MongoClient(uri);
 try {
-  await client.connect();
-  const db = client.db(dbName);
-  const col = db.collection('products');
-  await col.deleteMany({});
-  const result = await col.insertMany(withSlugs);
-  console.log(`Seeded ${result.insertedCount} products into "${dbName}".`);
+  const rows = products.map((p) => ({
+    id: p.id,
+    name: p.name,
+    slug: p.slug ?? slugify(p.name),
+    category: p.category,
+    price: Number(p.price),
+    description: p.description ?? '',
+    images: p.images ?? [],
+    model_images: p.modelImages ?? p.model_images ?? [],
+    preview_image: p.previewImage ?? p.preview_image ?? null,
+    video: p.video ?? null,
+    sizes: p.sizes ?? ['XS', 'S', 'M', 'L', 'XL'],
+    stock: p.stock ?? Object.fromEntries((p.sizes ?? ['XS', 'S', 'M', 'L', 'XL']).map((s) => [s, 10])),
+  }));
 
-  const orders = db.collection('orders');
-  const orderCount = await orders.countDocuments();
-  await db.collection('counters').updateOne(
-    { _id: 'orderNumber' },
-    { $setOnInsert: { seq: orderCount } },
-    { upsert: true }
-  );
-  console.log(`Order counter initialized (current orders: ${orderCount}).`);
+  // Clear existing products
+  const { error: deleteError } = await supabase.from('products').delete().neq('id', '');
+  if (deleteError) throw deleteError;
+
+  const { error: insertError } = await supabase.from('products').insert(rows);
+  if (insertError) throw insertError;
+
+  console.log(`✓ Seeded ${rows.length} products into Supabase`);
+
+  // Ensure counter exists
+  const { error: counterError } = await supabase
+    .from('counters')
+    .upsert({ id: 'orderNumber', seq: 0 }, { onConflict: 'id', ignoreDuplicates: true });
+  if (counterError) throw counterError;
+  console.log('✓ Order counter initialized');
+
 } catch (err) {
-  console.error('Seed failed:', err);
+  console.error('Seed failed:', err.message ?? err);
   process.exit(1);
-} finally {
-  await client.close();
 }

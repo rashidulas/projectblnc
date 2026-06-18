@@ -1,7 +1,6 @@
 'use server';
 
-import { getDb } from '@/lib/mongodb';
-import bcrypt from 'bcryptjs';
+import { getSupabaseAdmin } from '@/lib/supabase';
 
 export interface CustomerRecord {
   id: string;
@@ -17,42 +16,50 @@ export interface CustomerRecord {
   updatedAt: string;
 }
 
-/** Internal shape stored in DB — includes the password hash. */
-interface CustomerDoc extends CustomerRecord {
-  passwordHash: string;
-}
-
-const COLLECTION = 'customers';
-const SALT_ROUNDS = 12;
-
-/** Strip the password hash before returning to callers. */
-function toPublic(doc: CustomerDoc): CustomerRecord {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { passwordHash, ...rest } = doc;
-  return rest;
+/** Converts a joined auth.users + customer_profiles row to CustomerRecord. */
+function rowToCustomer(
+  profile: Record<string, unknown>,
+  email: string
+): CustomerRecord {
+  return {
+    id: profile.id as string,
+    firstName: profile.first_name as string,
+    lastName: profile.last_name as string,
+    email,
+    phone: profile.phone as string,
+    addressLine1: profile.address_line1 as string,
+    addressLine2: (profile.address_line2 as string) || undefined,
+    city: profile.city as string,
+    postalCode: profile.postal_code as string,
+    createdAt: profile.created_at as string,
+    updatedAt: profile.updated_at as string,
+  };
 }
 
 export async function getCustomers(): Promise<CustomerRecord[]> {
   try {
-    const db = await getDb();
-    const docs = await db
-      .collection<CustomerDoc>(COLLECTION)
-      .find({}, { projection: { _id: 0, passwordHash: 0 } })
-      .sort({ createdAt: -1 })
-      .toArray();
-    return docs as CustomerRecord[];
+    const supabase = getSupabaseAdmin();
+
+    // Fetch all user emails from auth.users via admin API
+    const { data: usersData, error: usersError } =
+      await supabase.auth.admin.listUsers({ perPage: 1000 });
+    if (usersError) throw usersError;
+
+    const emailMap = new Map(usersData.users.map((u) => [u.id, u.email ?? '']));
+
+    const { data: profiles, error: profilesError } = await supabase
+      .from('customer_profiles')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (profilesError) throw profilesError;
+    return (profiles ?? []).map((p) =>
+      rowToCustomer(p as Record<string, unknown>, emailMap.get(p.id as string) ?? '')
+    );
   } catch (error) {
     console.error('getCustomers failed:', error);
     return [];
   }
-}
-
-export async function findCustomerByEmail(email: string): Promise<CustomerDoc | null> {
-  const db = await getDb();
-  const doc = await db
-    .collection<CustomerDoc>(COLLECTION)
-    .findOne({ email: email.trim().toLowerCase() }, { projection: { _id: 0 } });
-  return doc ?? null;
 }
 
 export interface RegisterInput {
@@ -68,88 +75,143 @@ export interface RegisterInput {
 }
 
 /**
- * Create a new customer account with a hashed password.
+ * Create a new customer account using Supabase Auth.
  * Returns { customer } on success, or { error } if the email is taken.
  */
 export async function registerCustomer(
   input: RegisterInput
 ): Promise<{ customer?: CustomerRecord; error?: string }> {
-  const db = await getDb();
-  const collection = db.collection<CustomerDoc>(COLLECTION);
+  const supabase = getSupabaseAdmin();
   const email = input.email.trim().toLowerCase();
 
-  const existing = await collection.findOne({ email });
-  if (existing) {
-    return { error: 'An account with this email already exists.' };
+  // Create the auth user (bypasses email confirmation — remove email_confirm if needed)
+  const { data: authData, error: authError } = await supabase.auth.admin.createUser({
+    email,
+    password: input.password,
+    email_confirm: true,
+  });
+
+  if (authError) {
+    if (
+      authError.message?.toLowerCase().includes('already') ||
+      authError.message?.toLowerCase().includes('exists')
+    ) {
+      return { error: 'An account with this email already exists.' };
+    }
+    return { error: authError.message };
   }
 
+  const userId = authData.user.id;
   const now = new Date().toISOString();
-  const passwordHash = await bcrypt.hash(input.password, SALT_ROUNDS);
 
-  const doc: CustomerDoc = {
-    id: `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`,
-    firstName: input.firstName.trim(),
-    lastName: input.lastName.trim(),
-    email,
+  const { error: profileError } = await supabase.from('customer_profiles').insert({
+    id: userId,
+    first_name: input.firstName.trim(),
+    last_name: input.lastName.trim(),
     phone: input.phone.trim(),
-    addressLine1: input.addressLine1.trim(),
-    addressLine2: input.addressLine2?.trim() ?? '',
+    address_line1: input.addressLine1.trim(),
+    address_line2: input.addressLine2?.trim() ?? '',
     city: input.city.trim(),
-    postalCode: input.postalCode.trim(),
-    passwordHash,
-    createdAt: now,
-    updatedAt: now,
-  };
+    postal_code: input.postalCode.trim(),
+    created_at: now,
+    updated_at: now,
+  });
 
-  await collection.insertOne({ ...doc });
-  return { customer: toPublic(doc) };
+  if (profileError) {
+    // Roll back the auth user if profile insert fails
+    await supabase.auth.admin.deleteUser(userId);
+    return { error: 'Failed to create profile. Please try again.' };
+  }
+
+  return {
+    customer: {
+      id: userId,
+      firstName: input.firstName.trim(),
+      lastName: input.lastName.trim(),
+      email,
+      phone: input.phone.trim(),
+      addressLine1: input.addressLine1.trim(),
+      addressLine2: input.addressLine2?.trim() || undefined,
+      city: input.city.trim(),
+      postalCode: input.postalCode.trim(),
+      createdAt: now,
+      updatedAt: now,
+    },
+  };
 }
 
 /**
- * Verify email + password. Returns the public customer record on success.
+ * Verify email + password via Supabase Auth.
+ * Returns the public customer record on success, null on failure.
  */
 export async function authenticateCustomer(
   email: string,
   password: string
 ): Promise<CustomerRecord | null> {
-  const doc = await findCustomerByEmail(email);
-  if (!doc) {
-    // Hash a dummy value to keep timing roughly constant against enumeration.
-    await bcrypt.compare(password, '$2a$12$invalidinvalidinvalidinvalidinvalidinvalidinvalidinv');
-    return null;
-  }
-  const valid = await bcrypt.compare(password, doc.passwordHash);
-  if (!valid) return null;
-  return toPublic(doc);
+  const supabase = getSupabaseAdmin();
+
+  // Use the anon client to sign in — service role cannot call signInWithPassword
+  const { createClient } = await import('@supabase/supabase-js');
+  const anonClient = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { auth: { persistSession: false } }
+  );
+
+  const { data: signInData, error: signInError } = await anonClient.auth.signInWithPassword({
+    email: email.trim().toLowerCase(),
+    password,
+  });
+
+  if (signInError || !signInData.user) return null;
+
+  const userId = signInData.user.id;
+
+  const { data: profile, error: profileError } = await supabase
+    .from('customer_profiles')
+    .select('*')
+    .eq('id', userId)
+    .single();
+
+  if (profileError || !profile) return null;
+
+  return rowToCustomer(profile as Record<string, unknown>, signInData.user.email ?? email);
 }
 
-/**
- * Update an existing customer's profile (not password) by email.
- */
+/** Update an existing customer's profile by email. */
 export async function updateCustomerProfile(
   email: string,
   updates: Partial<Omit<CustomerRecord, 'id' | 'email' | 'createdAt'>>
 ): Promise<CustomerRecord | null> {
-  const db = await getDb();
-  const result = await db
-    .collection<CustomerDoc>(COLLECTION)
-    .findOneAndUpdate(
-      { email: email.trim().toLowerCase() },
-      { $set: { ...updates, updatedAt: new Date().toISOString() } },
-      { returnDocument: 'after', projection: { _id: 0, passwordHash: 0 } }
-    );
-  return (result as CustomerRecord) ?? null;
-}
+  const supabase = getSupabaseAdmin();
 
-/**
- * Replace the entire customers collection. Kept for API compatibility,
- * but note it expects full docs including passwordHash.
- */
-export async function writeCustomers(customers: CustomerRecord[]): Promise<void> {
-  const db = await getDb();
-  const collection = db.collection<CustomerRecord>(COLLECTION);
-  await collection.deleteMany({});
-  if (customers.length) {
-    await collection.insertMany(customers.map((c) => ({ ...c })));
-  }
+  // Find the user by email
+  const { data: usersData, error: usersError } = await supabase.auth.admin.listUsers({
+    perPage: 1000,
+  });
+  if (usersError) return null;
+
+  const user = usersData.users.find(
+    (u) => u.email?.toLowerCase() === email.trim().toLowerCase()
+  );
+  if (!user) return null;
+
+  const row: Record<string, unknown> = { updated_at: new Date().toISOString() };
+  if (updates.firstName !== undefined) row.first_name = updates.firstName;
+  if (updates.lastName !== undefined) row.last_name = updates.lastName;
+  if (updates.phone !== undefined) row.phone = updates.phone;
+  if (updates.addressLine1 !== undefined) row.address_line1 = updates.addressLine1;
+  if (updates.addressLine2 !== undefined) row.address_line2 = updates.addressLine2;
+  if (updates.city !== undefined) row.city = updates.city;
+  if (updates.postalCode !== undefined) row.postal_code = updates.postalCode;
+
+  const { data, error } = await supabase
+    .from('customer_profiles')
+    .update(row)
+    .eq('id', user.id)
+    .select()
+    .single();
+
+  if (error || !data) return null;
+  return rowToCustomer(data as Record<string, unknown>, email);
 }

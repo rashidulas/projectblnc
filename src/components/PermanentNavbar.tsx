@@ -6,9 +6,29 @@ import { useCart } from '@/context/CartContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import CartDrawer from './CartDrawer';
 
+const CUSTOMER_KEY = 'projectblnc-customer';
+
 export default function PermanentNavbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [customerName, setCustomerName] = useState<string | null>(null);
   const { openCart, cartItemsCount } = useCart();
+
+  // Read login state from localStorage (updated whenever login page changes it)
+  useEffect(() => {
+    const read = () => {
+      try {
+        const raw = localStorage.getItem(CUSTOMER_KEY);
+        if (!raw) { setCustomerName(null); return; }
+        const c = JSON.parse(raw) as { firstName?: string };
+        setCustomerName(c.firstName ?? null);
+      } catch {
+        setCustomerName(null);
+      }
+    };
+    read();
+    window.addEventListener('storage', read);
+    return () => window.removeEventListener('storage', read);
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
@@ -30,6 +50,15 @@ export default function PermanentNavbar() {
       <nav className="fixed top-0 left-0 w-full z-[100] bg-[#e7ebea]" style={{ boxShadow: '0 1px 0 rgba(0,0,0,0.06)' }}>
         {/* Top bar */}
         <div className="relative flex items-center justify-center w-full px-6 h-12">
+          {/* Left: account / login */}
+          <TransitionLink
+            href="/customer/login"
+            className="absolute left-6 font-mono text-[16px] tracking-widest text-neutral-700 hover:opacity-60 transition-opacity lowercase"
+            aria-label={customerName ? 'Your account' : 'Sign in or create account'}
+          >
+            {customerName ? customerName.toLowerCase() : 'login'}
+          </TransitionLink>
+
           {/* Centre: blanc as menu toggle */}
           <button
             onClick={() => setMenuOpen((o) => !o)}
@@ -86,15 +115,6 @@ export default function PermanentNavbar() {
                     className="font-mono text-[16px] text-neutral-700 hover:text-neutral-900 transition-colors tracking-wide"
                   >
                     About BLANC
-                  </TransitionLink>
-                </li>
-                <li>
-                  <TransitionLink
-                    href="/customer/login"
-                    onClick={() => setMenuOpen(false)}
-                    className="font-mono text-[16px] text-neutral-700 hover:text-neutral-900 transition-colors tracking-wide"
-                  >
-                    Customer Login
                   </TransitionLink>
                 </li>
                 <li>

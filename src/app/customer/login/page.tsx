@@ -93,6 +93,7 @@ export default function CustomerLoginPage() {
       }
 
       localStorage.setItem(CUSTOMER_STORAGE_KEY, JSON.stringify(data.customer));
+      window.dispatchEvent(new Event('storage'));
       setSuccessMessage('Signed in. Redirecting...');
       setTimeout(() => router.push('/checkout'), 600);
     } catch (error) {
@@ -136,6 +137,7 @@ export default function CustomerLoginPage() {
       }
 
       localStorage.setItem(CUSTOMER_STORAGE_KEY, JSON.stringify(data.customer));
+      window.dispatchEvent(new Event('storage'));
       setSuccessMessage('Account created. Redirecting...');
       setTimeout(() => router.push('/checkout'), 600);
     } catch (error) {
@@ -147,6 +149,7 @@ export default function CustomerLoginPage() {
 
   const handleSignOut = () => {
     localStorage.removeItem(CUSTOMER_STORAGE_KEY);
+    window.dispatchEvent(new Event('storage'));
     setAlreadyLoggedIn(null);
     setEmail('');
     setPassword('');
