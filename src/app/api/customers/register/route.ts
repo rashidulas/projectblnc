@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { customer, error } = await registerCustomer({
+    const { customer, error, requiresVerification } = await registerCustomer({
       firstName, lastName, email, phone, password,
       addressLine1, addressLine2, city, postalCode,
     });
@@ -46,7 +46,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error }, { status: 409 });
     }
 
-    return NextResponse.json({ ok: true, customer }, { status: 201 });
+    return NextResponse.json(
+      { ok: true, customer, requiresVerification: requiresVerification ?? false },
+      { status: 201 }
+    );
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: 'Failed to create account.' }, { status: 500 });

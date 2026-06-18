@@ -76,34 +76,55 @@ export interface RegisterInput {
 
 /**
  * Create a new customer account using Supabase Auth.
- * Returns { customer } on success, or { error } if the email is taken.
+ *
+ * Uses `signUp` (anon client) so Supabase automatically sends a 6-digit OTP
+ * confirmation email. Returns `requiresVerification: true` when the user must
+ * enter that OTP before the account is active.
  */
 export async function registerCustomer(
   input: RegisterInput
-): Promise<{ customer?: CustomerRecord; error?: string }> {
+): Promise<{ customer?: CustomerRecord; error?: string; requiresVerification?: boolean }> {
   const supabase = getSupabaseAdmin();
+  const { createClient } = await import('@supabase/supabase-js');
+
+  // Use the anon client for signUp — this triggers the OTP confirmation email
+  const anonClient = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { auth: { persistSession: false } }
+  );
+
   const email = input.email.trim().toLowerCase();
 
-  // Create the auth user (bypasses email confirmation — remove email_confirm if needed)
-  const { data: authData, error: authError } = await supabase.auth.admin.createUser({
+  const { data: signUpData, error: signUpError } = await anonClient.auth.signUp({
     email,
     password: input.password,
-    email_confirm: true,
   });
 
-  if (authError) {
+  if (signUpError) {
     if (
-      authError.message?.toLowerCase().includes('already') ||
-      authError.message?.toLowerCase().includes('exists')
+      signUpError.message?.toLowerCase().includes('already') ||
+      signUpError.message?.toLowerCase().includes('registered')
     ) {
       return { error: 'An account with this email already exists.' };
     }
-    return { error: authError.message };
+    return { error: signUpError.message };
   }
 
-  const userId = authData.user.id;
+  if (!signUpData.user) {
+    return { error: 'Registration failed. Please try again.' };
+  }
+
+  // Supabase returns identities=[] when the email is already registered
+  // (it fakes success to prevent email enumeration)
+  if ((signUpData.user.identities ?? []).length === 0) {
+    return { error: 'An account with this email already exists.' };
+  }
+
+  const userId = signUpData.user.id;
   const now = new Date().toISOString();
 
+  // Insert profile immediately — service role bypasses RLS for unconfirmed users
   const { error: profileError } = await supabase.from('customer_profiles').insert({
     id: userId,
     first_name: input.firstName.trim(),
@@ -118,12 +139,15 @@ export async function registerCustomer(
   });
 
   if (profileError) {
-    // Roll back the auth user if profile insert fails
     await supabase.auth.admin.deleteUser(userId);
     return { error: 'Failed to create profile. Please try again.' };
   }
 
+  // If email confirmation is disabled in the project, session is returned immediately
+  const requiresVerification = signUpData.session === null;
+
   return {
+    requiresVerification,
     customer: {
       id: userId,
       firstName: input.firstName.trim(),
