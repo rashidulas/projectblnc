@@ -85,11 +85,10 @@ export default function CartDrawer() {
                       {/* Image */}
                       <div className="relative w-20 h-20 sm:w-24 sm:h-24 bg-neutral-100 rounded-md overflow-hidden flex-shrink-0">
                         <Image
-                          src={item.previewImage || item.images?.[0] || item.modelImages?.[0] || '/placeholder/product-placeholder.webp'}
+                          src={item.images[0]}
                           alt={item.name}
                           fill
-                          sizes="96px"
-                          className="object-contain"
+                          className="object-cover"
                         />
                       </div>
 

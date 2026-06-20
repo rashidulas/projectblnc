@@ -244,11 +244,10 @@ export default function CheckoutPage() {
                 >
                   <div className="relative w-16 h-16 rounded-md overflow-hidden bg-neutral-100 shrink-0">
                     <Image
-                      src={item.previewImage || item.images?.[0] || item.modelImages?.[0] || '/placeholder/product-placeholder.webp'}
+                      src={item.images[0]}
                       alt={item.name}
                       fill
-                      sizes="64px"
-                      className="object-contain"
+                      className="object-cover"
                     />
                   </div>
                   <div className="flex-1 min-w-0">

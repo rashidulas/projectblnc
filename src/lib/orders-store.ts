@@ -32,6 +32,13 @@ export interface OrderRecord {
   shippingFee: number;
   total: number;
   status: 'pending' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled';
+  /** Steadfast courier fields — populated when a parcel is booked. */
+  courier?: {
+    consignmentId: string | null;
+    trackingCode: string | null;
+    status: string | null;
+    bookedAt: string | null;
+  };
 }
 
 /** Converts a DB row (snake_case) to the OrderRecord shape used by the app. */
@@ -57,6 +64,12 @@ function rowToOrder(row: Record<string, unknown>): OrderRecord {
     shippingFee: Number(row.shipping_fee),
     total: Number(row.total),
     status: row.status as OrderRecord['status'],
+    courier: {
+      consignmentId: (row.courier_consignment_id as string | null) ?? null,
+      trackingCode: (row.courier_tracking_code as string | null) ?? null,
+      status: (row.courier_status as string | null) ?? null,
+      bookedAt: (row.courier_booked_at as string | null) ?? null,
+    },
   };
 }
 
@@ -129,7 +142,65 @@ export async function updateOrderStatus(
   return data ? rowToOrder(data as Record<string, unknown>) : null;
 }
 
-/** Replace the entire orders table. Kept for API compatibility. */
+/** Fetch a single order by its id. Returns null if not found. */
+export async function getOrderById(id: string): Promise<OrderRecord | null> {
+  const supabase = getSupabaseAdmin();
+  const { data, error } = await supabase
+    .from('orders')
+    .select('*')
+    .eq('id', id)
+    .maybeSingle();
+
+  if (error) throw error;
+  return data ? rowToOrder(data as Record<string, unknown>) : null;
+}
+
+/**
+ * Save Steadfast consignment details onto an order after a successful booking.
+ * Also flips order status to 'shipped'. Returns the updated order or null.
+ */
+export async function attachCourierInfo(
+  id: string,
+  courier: {
+    consignmentId: string;
+    trackingCode: string;
+    status: string;
+  }
+): Promise<OrderRecord | null> {
+  const supabase = getSupabaseAdmin();
+  const { data, error } = await supabase
+    .from('orders')
+    .update({
+      courier_consignment_id: courier.consignmentId,
+      courier_tracking_code: courier.trackingCode,
+      courier_status: courier.status,
+      courier_booked_at: new Date().toISOString(),
+      status: 'shipped',
+    })
+    .eq('id', id)
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data ? rowToOrder(data as Record<string, unknown>) : null;
+}
+
+/** Update just the cached courier delivery status (e.g. from a status poll). */
+export async function updateCourierStatus(
+  id: string,
+  courierStatus: string
+): Promise<OrderRecord | null> {
+  const supabase = getSupabaseAdmin();
+  const { data, error } = await supabase
+    .from('orders')
+    .update({ courier_status: courierStatus })
+    .eq('id', id)
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data ? rowToOrder(data as Record<string, unknown>) : null;
+}
 export async function writeOrders(orders: OrderRecord[]): Promise<void> {
   const supabase = getSupabaseAdmin();
   await supabase.from('orders').delete().neq('id', '');
