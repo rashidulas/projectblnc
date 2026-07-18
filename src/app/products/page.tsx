@@ -1,5 +1,22 @@
+import type { Metadata } from 'next';
 import ProductGrid from '@/components/ProductGrid';
 import { getProducts } from '@/lib/products-store';
+
+export const metadata: Metadata = {
+  title: 'Shop All — Hoodies, Pants & Tees',
+  description:
+    'Browse the full Project BLNC (BLANC) collection: premium hoodies, pants, and tees designed with a refined monochrome aesthetic.',
+  alternates: {
+    canonical: '/products',
+  },
+  openGraph: {
+    type: 'website',
+    title: 'Shop All — Project BLNC',
+    description:
+      'Browse the full Project BLNC collection: premium hoodies, pants, and tees.',
+    url: '/products',
+  },
+};
 
 export default async function ProductsPage() {
   const products = await getProducts();

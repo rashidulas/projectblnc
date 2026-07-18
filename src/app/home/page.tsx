@@ -1,6 +1,23 @@
+import type { Metadata } from 'next';
 import HomeHero from '@/components/HomeHero';
 import HomeCollection from '@/components/HomeCollection';
 import { getProducts } from '@/lib/products-store';
+
+export const metadata: Metadata = {
+  title: 'Shop Luxury Streetwear Essentials',
+  description:
+    'Shop Project BLNC — premium hoodies, pants, and tees in a refined monochrome aesthetic. Luxury streetwear essentials, redefined.',
+  alternates: {
+    canonical: '/home',
+  },
+  openGraph: {
+    type: 'website',
+    title: 'Shop Luxury Streetwear Essentials — Project BLNC',
+    description:
+      'Premium hoodies, pants, and tees in a refined monochrome aesthetic.',
+    url: '/home',
+  },
+};
 
 export default async function HomePage() {
   const all = await getProducts();

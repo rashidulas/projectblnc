@@ -1,3 +1,21 @@
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'News & Updates',
+  description:
+    'The latest from Project BLNC: new drops, collaborations, and stories from behind the brand.',
+  alternates: {
+    canonical: '/news',
+  },
+  openGraph: {
+    type: 'website',
+    title: 'News & Updates — Project BLNC',
+    description:
+      'The latest from Project BLNC: new drops, collaborations, and stories from behind the brand.',
+    url: '/news',
+  },
+};
+
 export default function NewsPage() {
   const newsItems = [
     {

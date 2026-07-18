@@ -52,6 +52,25 @@ export const viewport = {
   maximumScale: 5,
 };
 
+// Ties the "Project BLNC" / "BLNC" / "BLANC" name variants used across the
+// site to a single entity so Google resolves brand-name searches correctly.
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Project BLNC',
+  alternateName: ['BLNC', 'BLANC', 'Project BLANC', 'blanc'],
+  url: SITE_URL,
+  logo: `${SITE_URL}/icon.png`,
+};
+
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Project BLNC',
+  alternateName: ['BLNC', 'BLANC'],
+  url: SITE_URL,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -60,6 +79,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="font-sans antialiased" suppressHydrationWarning>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
         <CartProvider>
           <NavMenuProvider>
             <PageTransitionProvider>

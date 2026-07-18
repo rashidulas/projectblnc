@@ -1,4 +1,21 @@
+import type { Metadata } from 'next';
 import Image from 'next/image';
+
+export const metadata: Metadata = {
+  title: 'About BLANC — Our Story',
+  description:
+    'The story behind Project BLNC (BLANC): a luxury streetwear label merging form and function to craft timeless pieces built for movement and expression.',
+  alternates: {
+    canonical: '/about',
+  },
+  openGraph: {
+    type: 'website',
+    title: 'About BLANC — Our Story',
+    description:
+      'The story behind Project BLNC: merging form and function to craft timeless pieces built for movement and expression.',
+    url: '/about',
+  },
+};
 
 export default function AboutPage() {
   return (
@@ -33,7 +50,7 @@ export default function AboutPage() {
         <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] md:aspect-[21/9] overflow-hidden group">
           <Image
             src="/about/1.webp"
-            alt="BLANC"
+            alt="Project BLNC campaign photography — the rhythm of movement"
             fill
             className="object-cover grayscale-0 md:grayscale transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, 1280px"
@@ -57,7 +74,7 @@ export default function AboutPage() {
         <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] md:aspect-[21/9] overflow-hidden group">
           <Image
             src="/about/2.webp"
-            alt="BLANC"
+            alt="Project BLNC campaign photography — the essence of presence"
             fill
             className="object-cover grayscale-0 md:grayscale transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, 1280px"
@@ -80,7 +97,7 @@ export default function AboutPage() {
 <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] md:aspect-[21/9] overflow-hidden group">
             <Image
             src="/about/3.webp"
-            alt="BLANC"
+            alt="Project BLNC campaign photography — the liberation of expression"
             fill
             className="object-cover grayscale-0 md:grayscale transition-all duration-500 ease-out group-hover:grayscale-0 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, 1280px"

@@ -8,8 +8,8 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        // Keep admin and API endpoints out of search indexes.
-        disallow: ['/admin', '/api/'],
+        // Keep admin, API, auth, and checkout flows out of search indexes.
+        disallow: ['/admin', '/api/', '/checkout', '/customer/login'],
       },
     ],
     sitemap: `${SITE_URL}/sitemap.xml`,
